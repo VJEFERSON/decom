@@ -7,7 +7,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>SISA DECOM | Dashboard</title>
+    <title>SISA DECOM | Férias</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
@@ -18,6 +18,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="../bower_components/Ionicons/css/ionicons.min.css">
     <!-- DataTables -->
     <link rel="stylesheet" href="../bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+    <!-- daterange picker -->
+    <link rel="stylesheet" href="../bower_components/bootstrap-daterangepicker/daterangepicker.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -79,7 +81,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
+                  <a href="profile.html" class="btn btn-default btn-flat">Profile</a>
                 </div>
                 <div class="pull-right">
                   <a href="#" class="btn btn-default btn-flat">Sign out</a>
@@ -114,6 +116,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <li class="header">MAIN NAVIGATION</li>
         <!-- Optionally, you can add icons to the links -->
         <li><a href="../index.html"><i class="fa  fa-dashboard"></i> <span>Dashboard</span></a></li>
+        <li><a href="agendamento.html"><i class="fa  fa-clock-o"></i> <span>Agendamentos</span></a></li>
         <li class="treeview">
           <a href="#"><i class="fa fa-files-o"></i> <span>Documentos</span>
             <span class="pull-right-container">
@@ -127,8 +130,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <li><a href="documentos/oficios.html">Oficios</a></li>
           </ul>
         </li>
+        <li class="active"><a href="ferias.html"><i class="fa  fa-calendar"></i> <span>Férias</span></a></li>
+        <li><a href="horarios.html"><i class="fa  fa-hourglass-start"></i> <span>Horários</span></a></li>
+        <li><a href="objetos.html"><i class="fa  fa-object-ungroup"></i> <span>Objetos</span></a></li>
         <li><a href="patrimonio.html"><i class="fa fa-cart-plus"></i> <span>Patrimônio</span></a></li>
-        <li class="active"><a href="usuarios.html"><i class="fa fa-users"></i> <span>Usuários</span></a></li>
+        <li><a href="usuarios.html"><i class="fa fa-users"></i> <span>Usuários</span></a></li>
       </ul>
       <!-- /.sidebar-menu -->
     </section>
@@ -140,11 +146,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Usuários
+        Férias
         <small>Listagem</small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="usuarios.html"><i class="fa fa-users"></i>Usuários</a></li>
+        <li><a href="usuarios.html"><i class="fa fa-calendar"></i>Férias</a></li>
       </ol>
     </section>
 
@@ -155,30 +161,32 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <!-- /.box -->
           <div class="box">
             <div class="box-header">
-              <button type="button" class="btn btn-block bg-olive btn-sm" data-toggle="modal" data-target="#modal-adicionar-usuario">Adicionar</button>
+              <h3 class="box-title">Férias Agendadas</h3>
+            </div>
+            <div class="box-header">
+              <button type="button" class="btn btn-block bg-olive btn-sm" data-toggle="modal" data-target="#modal-adicionar-ferias">Cadastrar Férias</button>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-              <table id="example1" class="table table-bordered table-striped">
+              <table id="ferias" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                    <th>Código</th>
-                    <th>Nome</th>
-                    <th>Login/Email</th>
-                    <th>Tipo de Usuário</th>
+                    <th>Servidor</th>
+                    <th>Período 1</th>
+                    <th>Período 2</th>
+                    <th>Período 3</th>
+                    <th>Exercício</th>
                     <th>Ações</th>
                 </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>01</td>
                     <td>Valdeci</td>
-                    <td>valdeci@gmail.com</td>
-                    <td>Administrador</td>
+                    <td>03/01/19 - 11/01/19</td>
+                    <td>03/02/19 - 11/03/19</td>
+                    <td>-</td>
+                    <td>2019</td>
                     <td>
-                      <button type="button" class="btn btn-primary btn-xs">
-                        <i class="glyphicon glyphicon-eye-open"></i> View
-                      </button>
                       <button type="button" class="btn btn-warning btn-xs">
                         <i class="fa fa-edit"></i> Edit
                       </button>
@@ -186,31 +194,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <i class="fa fa-remove"></i> Remove
                       </button>
                     </td>
-                    
-                  </tr>
-                  <tr>
-                      <td>02</td>
-                      <td>Oscar</td>
-                      <td>oscar.com</td>
-                      <td>Comum</td>
-                      <td>x</td>
-                      
-                    </tr>
-                    <tr>
-                        <td>03</td>
-                        <td>Alan</td>
-                        <td>alan@gmail.com</td>
-                        <td>Administrador</td>
-                        <td>x</td>
-                      </tr>
                 </tbody>
                 <tfoot>
                 <tr>
-                    <th>Código</th>
-                    <th>Nome</th>
-                    <th>Login/Email</th>
-                    <th>Tipo de Usuário</th>
-                    <th>Ações</th>
+                  <th>Servidor</th>
+                  <th>Período 1</th>
+                  <th>Período 2</th>
+                  <th>Período 3</th>
+                  <th>Exercício</th>
+                  <th>Ações</th>
                 </tr>
                 </tfoot>
               </table>
@@ -223,50 +215,167 @@ scratch. This page gets rid of all links and provides the needed markup only.
       </div>
       <!-- /.row -->
     </section>
+    <section class="content container-fluid">
+        <div class="row">
+          <div class="col-xs-12">
+            <!-- /.box -->
+            <div class="box">
+              <div class="box-header">
+                <h3 class="box-title">Exercícios</h3>
+              </div>
+              <div class="box-header">
+                <button type="button" class="btn btn-block bg-navy btn-sm" data-toggle="modal" data-target="#modal-adicionar-exercicio">Inserir Exercício</button>
+              </div>
+              <!-- /.box-header -->
+              <div class="box-body">
+                <table id="exercicio" class="table table-bordered table-striped">
+                  <thead>
+                  <tr>
+                    <th>Exercicio</th>
+                    <th>Ações</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>2019</td>
+                      <td>
+                        <button type="button" class="btn btn-danger btn-xs">
+                          <i class="fa fa-remove"></i> Remove
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>2020</td>
+                      <td>
+                        <button type="button" class="btn btn-danger btn-xs">
+                          <i class="fa fa-remove"></i> Remove
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tfoot>
+                  <tr>
+                    <th>Exercicio</th>
+                    <th>Ações</th>
+                  </tr>
+                  </tfoot>
+                </table>
+              </div>
+              <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
   <!-- Modal -->
-  <div class="modal fade" id="modal-adicionar-usuario">
+  <div class="modal fade" id="modal-adicionar-exercicio">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title">Adicionar Usuário</h4>
+          <h4 class="modal-title">Inserir Exercicio</h4>
+        </div>
+        <div class="modal-body">
+          <form role="form">
+            <div class="form-group">                
+              <label>Ano</label>
+              <select class="form-control select2" style="width: 100%;">
+                <option selected="selected">2019</option>
+                <option>2020</option>
+                <option>2021</option>
+                <option>2022</option>
+                <option>2023</option>
+                <option>2024</option>
+                <option>2025</option>
+                <option>2026</option>
+                <option>2027</option>
+                <option>2028</option>
+                <option>2029</option>
+                <option>2030</option>
+                <option>2031</option>
+                <option>2032</option>
+                <option>2033</option>
+                <option>2034</option>
+                <option>2035</option>
+                <option>2036</option>
+                <option>2037</option>
+                <option>2038</option>
+                <option>2039</option>
+                <option>2040</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-success pull-right">Adicionar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+  <!-- Modal -->
+  <div class="modal fade" id="modal-adicionar-ferias">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Cadastrar Usuário</h4>
         </div>
         <div class="modal-body">
           <form role="form">
             <div class="form-group">
-              <label>Nome</label>
-              <input type="text" class="form-control">
+              <label>Servidor</label>
+              <input type="text" class="form-control" placeholder="Valdeci" disabled>
             </div>
+            <!-- Date range -->
             <div class="form-group">
-              <label for="exampleInputEmail1">Email address</label>
-              <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+              <label>Parcela 1</label>
+              <div class="input-group">
+                <div class="input-group-addon">
+                  <i class="fa fa-calendar"></i>
+                </div>
+                <input type="text" class="form-control pull-right" id="parcela1">
+              </div>
+              <!-- /.input group -->
             </div>
+            <!-- Date range -->
             <div class="form-group">
-              <label for="exampleInputPassword1">Senha</label>
-              <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+              <label>Parcela 2</label>
+              <div class="input-group">
+                <div class="input-group-addon">
+                  <i class="fa fa-calendar"></i>
+                </div>
+                <input type="text" class="form-control pull-right" id="parcela2">
+              </div>
+              <!-- /.input group -->
             </div>
+            <!-- Date range -->
             <div class="form-group">
-              <label for="exampleInputPassword1">Confirmar Senha</label>
-              <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+              <label>Parcela 3</label>
+              <div class="input-group">
+                <div class="input-group-addon">
+                  <i class="fa fa-calendar"></i>
+                </div>
+                <input type="text" class="form-control pull-right" id="parcela3">
+              </div>
+              <!-- /.input group -->
             </div>
-            
+            <!-- /.form group -->
             <div class="form-group">                
-              <label>Função</label>
+              <label>Exercicio</label>
               <select class="form-control select2" style="width: 100%;">
-                <option selected="selected">Docente</option>
-                <option>Técnico</option>
-                <option>Estagiário</option>
-              </select>
-            </div>
-            <div class="form-group">                
-              <label>Tipo de Usuário</label>
-              <select class="form-control select2" style="width: 100%;">
-                <option selected="selected">Administrador</option>
-                <option>Comum</option>
+                <option selected="selected">2019</option>
+                <option>2020</option>
               </select>
             </div>
             <div class="form-group">
@@ -391,21 +500,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="../plugins/input-mask/jquery.inputmask.js"></script>
 <script src="../plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
 <script src="../plugins/input-mask/jquery.inputmask.extensions.js"></script>
+<!-- date-range-picker -->
+<script src="../../bower_components/moment/min/moment.min.js"></script>
+<script src="../../bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
 <!-- page script -->
 <script>
   $(function () {
     //Tables filters
-    $('#example1').DataTable()
-    $('#example2').DataTable({
-      'paging'      : true,
-      'lengthChange': false,
-      'searching'   : false,
-      'ordering'    : true,
-      'info'        : true,
-      'autoWidth'   : false
-    })
+    $('#ferias').DataTable()
+    $('#exercicio').DataTable()
     //Money Euro
     $('[data-mask]').inputmask()
+    //Date range picker
+    $('#parcela1').daterangepicker()
+    //Date range picker
+    $('#parcela2').daterangepicker()
+    //Date range picker
+    $('#parcela3').daterangepicker()
   })
   
 </script>

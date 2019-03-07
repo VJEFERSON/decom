@@ -79,7 +79,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
+                  <a href="../profile.html" class="btn btn-default btn-flat">Profile</a>
                 </div>
                 <div class="pull-right">
                   <a href="#" class="btn btn-default btn-flat">Sign out</a>
@@ -114,6 +114,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <li class="header">MAIN NAVIGATION</li>
         <!-- Optionally, you can add icons to the links -->
         <li ><a href="../../index.html"><i class="fa  fa-dashboard"></i> <span>Dashboard</span></a></li>
+        <li><a href="../agendamento.html"><i class="fa  fa-clock-o"></i> <span>Agendamentos</span></a></li>
         <li class="active treeview">
           <a href="#"><i class="fa fa-files-o"></i> <span>Documentos</span>
             <span class="pull-right-container">
@@ -126,7 +127,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <li class="active"><a href="memorandos.html">Memorandos</a></li>
             <li><a href="oficios.html">Oficios</a></li>
           </ul>
-        </li><li><a href="../patrimonio.html"><i class="fa fa-list"></i> <span>Patrimônio Danificado</span></a></li>
+        </li>
+        <li><a href="../ferias.html"><i class="fa  fa-calendar"></i> <span>Férias</span></a></li>
+        <li><a href="../horarios.html"><i class="fa  fa-hourglass-start"></i> <span>Horários</span></a></li>
+        <li><a href="../objetos.html"><i class="fa  fa-object-ungroup"></i> <span>Objetos</span></a></li>
+        <li><a href="../patrimonio.html"><i class="fa fa-cart-plus"></i> <span>Patrimônio</span></a></li>
         <li ><a href="../usuarios.html"><i class="fa fa-users"></i> <span>Usuários</span></a></li>
       </ul>
       <!-- /.sidebar-menu -->
@@ -155,7 +160,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <!-- /.box -->
           <div class="box">
             <div class="box-header">
-              <button type="button" class="btn btn-block btn-success btn-sm" data-toggle="modal" data-target="#modal-adicionar-memorando">Adicionar</button>
+              <button type="button" class="btn btn-block bg-olive btn-sm" data-toggle="modal" data-target="#modal-adicionar-memorando">Adicionar</button>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -635,9 +640,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <input type="file" id="exampleInputFile">
               <p class="help-block">Insira o Arquivo (PDF) referente a Ata.</p>
             </div>
-
-            <button type="submit" class="btn btn-primary">Submit</button>
-            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+            <div class="form-group">
+              <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-success pull-right">Adicionar</button>
+            </div>
           </form>
         </div>
       </div>
@@ -752,9 +758,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="../../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
+<!-- InputMask -->
+<script src="../../plugins/input-mask/jquery.inputmask.js"></script>
+<script src="../../plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+<script src="../../plugins/input-mask/jquery.inputmask.extensions.js"></script>
 <!-- page script -->
 <script>
   $(function () {
+    //Tables filters
     $('#example1').DataTable()
     $('#example2').DataTable({
       'paging'      : true,
@@ -764,7 +775,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
       'info'        : true,
       'autoWidth'   : false
     })
+    //Money Euro
+    $('[data-mask]').inputmask()
   })
+  
 </script>
 
 <!-- Optionally, you can add Slimscroll and FastClick plugins.

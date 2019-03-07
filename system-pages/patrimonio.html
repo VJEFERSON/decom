@@ -16,21 +16,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="../bower_components/font-awesome/css/font-awesome.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="../bower_components/Ionicons/css/ionicons.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="../bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
-         folder instead of downloading all of them to reduce the load. -->
+        folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="../dist/css/skins/_all-skins.min.css">
-    <!-- Morris chart -->
-    <link rel="stylesheet" href="../bower_components/morris.js/morris.css">
-    <!-- jvectormap -->
-    <link rel="stylesheet" href="../bower_components/jvectormap/jquery-jvectormap.css">
-    <!-- Date Picker -->
-    <link rel="stylesheet" href="../bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
-    <!-- Daterange picker -->
-    <link rel="stylesheet" href="../bower_components/bootstrap-daterangepicker/daterangepicker.css">
-    <!-- bootstrap wysihtml5 - text editor -->
-    <link rel="stylesheet" href="../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
   
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -135,8 +127,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <li><a href="documentos/oficios.html">Oficios</a></li>
           </ul>
         </li>
-        <li class="active"><a href="patrimonio.html"><i class="fa fa-list"></i> <span>Patrimônio Danificado</span></a></li>
-        <li ><a href="usuarios.html"><i class="fa fa-users"></i> <span>Usuários</span></a></li>
+        <li class="active"><a href="patrimonio.html"><i class="fa fa-cart-plus"></i> <span>Patrimônio</span></a></li>
+        <li><a href="usuarios.html"><i class="fa fa-users"></i> <span>Usuários</span></a></li>
       </ul>
       <!-- /.sidebar-menu -->
     </section>
@@ -148,26 +140,109 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Patrimônio Danificado
+        Patrimônio
         <small>Listagem</small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-list"></i>Patrimônio Danificado</a></li>
+        <li><a href="usuarios.html"><i class="fa fa-cart-plus"></i>Patrimônio</a></li>
       </ol>
     </section>
 
     <!-- Main content -->
     <section class="content container-fluid">
-
-      <!--------------------------
-        | Your Page Content Here |
-        -------------------------->
-
+      <div class="row">
+        <div class="col-xs-12">
+          <!-- /.box -->
+          <div class="box">
+            <div class="box-header">
+              <button type="button" class="btn btn-block bg-olive btn-sm" data-toggle="modal" data-target="#modal-adicionar-usuario">Adicionar</button>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Nome</th>
+                    <th>Situação</th>
+                    <th>Ações</th>
+                </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>012019</td>
+                    <td>Cadeira</td>
+                    <td>Ativo</td>
+                    <td>
+                      <button type="button" class="btn btn-warning btn-xs">
+                        <i class="fa fa-edit"></i> Edit
+                      </button>
+                      <button type="button" class="btn btn-danger btn-xs">
+                        <i class="fa fa-remove"></i> Remove
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <th>Código</th>
+                    <th>Nome</th>
+                    <th>Situação</th>
+                    <th>Ações</th>
+                  </tr> 
+                </tfoot>
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
     </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-
+  <!-- Modal -->
+  <div class="modal fade" id="modal-adicionar-usuario">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Adicionar Patrimônio</h4>
+        </div>
+        <div class="modal-body">
+          <form role="form">
+            <div class="form-group">
+              <label>Nome</label>
+              <input type="text" class="form-control">
+            </div>
+            <div class="form-group">                
+              <label>Situação</label>
+              <select class="form-control select2" style="width: 100%;">
+                <option selected="selected">Ativo</option>
+                <option>Conserto</option>
+                <option>Baixa</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Data de Compra</label>
+              <input type="text" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
+            </div>
+            <div class="form-group">
+              <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-success pull-right">Adicionar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
   <!-- Main Footer -->
   <footer class="main-footer">
     <!-- To the right -->
@@ -263,8 +338,39 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="../bower_components/jquery/dist/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- DataTables -->
+<script src="../bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="../bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<!-- SlimScroll -->
+<script src="../bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<!-- FastClick -->
+<script src="../bower_components/fastclick/lib/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="../dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../dist/js/demo.js"></script>
+<!-- InputMask -->
+<script src="../plugins/input-mask/jquery.inputmask.js"></script>
+<script src="../plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+<script src="../plugins/input-mask/jquery.inputmask.extensions.js"></script>
+<!-- page script -->
+<script>
+  $(function () {
+    //Tables filters
+    $('#example1').DataTable()
+    $('#example2').DataTable({
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : false,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : false
+    })
+    //Money Euro
+    $('[data-mask]').inputmask()
+  })
+  
+</script>
 
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
