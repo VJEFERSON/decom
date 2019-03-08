@@ -7,7 +7,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>SISA DECOM | Dashboard</title>
+    <title>SISA DECOM | Patrimônio</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
@@ -79,7 +79,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
+                  <a href="profile.html" class="btn btn-default btn-flat">Profile</a>
                 </div>
                 <div class="pull-right">
                   <a href="#" class="btn btn-default btn-flat">Sign out</a>
@@ -114,6 +114,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <li class="header">MAIN NAVIGATION</li>
         <!-- Optionally, you can add icons to the links -->
         <li><a href="../index.html"><i class="fa  fa-dashboard"></i> <span>Dashboard</span></a></li>
+        <li><a href="agendamento.html"><i class="fa  fa-clock-o"></i> <span>Agendamentos</span></a></li>
         <li class="treeview">
           <a href="#"><i class="fa fa-files-o"></i> <span>Documentos</span>
             <span class="pull-right-container">
@@ -127,7 +128,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <li><a href="documentos/oficios.html">Oficios</a></li>
           </ul>
         </li>
-        <li class="active"><a href="patrimonio.html"><i class="fa fa-cart-plus"></i> <span>Patrimônio</span></a></li>
+        <li><a href="ferias.html"><i class="fa  fa-calendar"></i> <span>Férias</span></a></li>
+        <li><a href="horarios.html"><i class="fa  fa-hourglass-start"></i> <span>Horários</span></a></li>
+        <li><a href="objetos.html"><i class="fa  fa-object-ungroup"></i> <span>Objetos</span></a></li>
+        <li><a href="patrimonio.html"><i class="fa fa-cart-plus"></i> <span>Patrimônio</span></a></li>
         <li><a href="usuarios.html"><i class="fa fa-users"></i> <span>Usuários</span></a></li>
       </ul>
       <!-- /.sidebar-menu -->
@@ -155,7 +159,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <!-- /.box -->
           <div class="box">
             <div class="box-header">
-              <button type="button" class="btn btn-block bg-olive btn-sm" data-toggle="modal" data-target="#modal-adicionar-usuario">Adicionar</button>
+              <button type="button" class="btn btn-block bg-olive btn-sm" data-toggle="modal" data-target="#modal-adicionar-patrimonio">Adicionar</button>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -205,7 +209,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   </div>
   <!-- /.content-wrapper -->
   <!-- Modal -->
-  <div class="modal fade" id="modal-adicionar-usuario">
+  <div class="modal fade" id="modal-adicionar-patrimonio">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -223,8 +227,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <label>Situação</label>
               <select class="form-control select2" style="width: 100%;">
                 <option selected="selected">Ativo</option>
-                <option>Conserto</option>
                 <option>Baixa</option>
+                <option>Conserto</option>
+                <option>Danificado</option>
               </select>
             </div>
             <div class="form-group">

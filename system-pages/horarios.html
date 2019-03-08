@@ -7,7 +7,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>SISA DECOM | Dashboard</title>
+    <title>SISA DECOM | Horários</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
@@ -79,7 +79,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
+                  <a href="profile.html" class="btn btn-default btn-flat">Profile</a>
                 </div>
                 <div class="pull-right">
                   <a href="#" class="btn btn-default btn-flat">Sign out</a>
@@ -114,6 +114,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <li class="header">MAIN NAVIGATION</li>
         <!-- Optionally, you can add icons to the links -->
         <li><a href="../index.html"><i class="fa  fa-dashboard"></i> <span>Dashboard</span></a></li>
+        <li><a href="agendamento.html"><i class="fa  fa-clock-o"></i> <span>Agendamentos</span></a></li>
         <li class="treeview">
           <a href="#"><i class="fa fa-files-o"></i> <span>Documentos</span>
             <span class="pull-right-container">
@@ -127,8 +128,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <li><a href="documentos/oficios.html">Oficios</a></li>
           </ul>
         </li>
-        <li><a href="patrimonio.html"><i class="fa fa-list"></i> <span>Patrimônio Danificado</span></a></li>
-        <li class="active"><a href="usuarios.html"><i class="fa fa-users"></i> <span>Usuários</span></a></li>
+        <li><a href="ferias.html"><i class="fa  fa-calendar"></i> <span>Férias</span></a></li>
+        <li  class="active"><a href="horarios.html"><i class="fa  fa-hourglass-start"></i> <span>Horários</span></a></li>
+        <li><a href="objetos.html"><i class="fa  fa-object-ungroup"></i> <span>Objetos</span></a></li>
+        <li><a href="patrimonio.html"><i class="fa fa-cart-plus"></i> <span>Patrimônio</span></a></li>
+        <li><a href="usuarios.html"><i class="fa fa-users"></i> <span>Usuários</span></a></li>
       </ul>
       <!-- /.sidebar-menu -->
     </section>
@@ -140,11 +144,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Usuários
+        Horários
         <small>Listagem</small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="usuarios.html"><i class="fa fa-users"></i>Usuários</a></li>
+        <li><a href="usuarios.html"><i class="fa fa-hourglass-start"></i>Horários</a></li>
       </ol>
     </section>
 
@@ -155,30 +159,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <!-- /.box -->
           <div class="box">
             <div class="box-header">
-              <button type="button" class="btn btn-block btn-success btn-sm" data-toggle="modal" data-target="#modal-adicionar-usuario">Adicionar</button>
+              <button type="button" class="btn btn-block bg-olive btn-sm" data-toggle="modal" data-target="#modal-adicionar-horario">Adicionar</button>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
-                <tr>
+                  <tr>
                     <th>Código</th>
-                    <th>Nome</th>
-                    <th>Login/Email</th>
-                    <th>Tipo de Usuário</th>
+                    <th>Horário</th>
+                    <th>Descrição</th>
                     <th>Ações</th>
-                </tr>
+                  </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <td>01</td>
-                    <td>Valdeci</td>
-                    <td>valdeci@gmail.com</td>
-                    <td>Administrador</td>
+                    <td>15:00 ás 16:00</td>
+                    <td>Horário das 15 horas</td>
                     <td>
-                      <button type="button" class="btn btn-primary btn-xs">
-                        <i class="glyphicon glyphicon-eye-open"></i> View
-                      </button>
                       <button type="button" class="btn btn-warning btn-xs">
                         <i class="fa fa-edit"></i> Edit
                       </button>
@@ -186,32 +185,28 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <i class="fa fa-remove"></i> Remove
                       </button>
                     </td>
-                    
                   </tr>
                   <tr>
-                      <td>02</td>
-                      <td>Oscar</td>
-                      <td>oscar.com</td>
-                      <td>Comum</td>
-                      <td>x</td>
-                      
-                    </tr>
-                    <tr>
-                        <td>03</td>
-                        <td>Alan</td>
-                        <td>alan@gmail.com</td>
-                        <td>Administrador</td>
-                        <td>x</td>
-                      </tr>
+                    <td>02</td>
+                    <td>16:00 ás 17:00</td>
+                    <td>Horário das 16 horas</td>
+                    <td>
+                      <button type="button" class="btn btn-warning btn-xs">
+                        <i class="fa fa-edit"></i> Edit
+                      </button>
+                      <button type="button" class="btn btn-danger btn-xs">
+                        <i class="fa fa-remove"></i> Remove
+                      </button>
+                    </td>
+                  </tr>
                 </tbody>
                 <tfoot>
-                <tr>
+                  <tr>
                     <th>Código</th>
-                    <th>Nome</th>
-                    <th>Login/Email</th>
-                    <th>Tipo de Usuário</th>
+                    <th>Horário</th>
+                    <th>Descrição</th>
                     <th>Ações</th>
-                </tr>
+                  </tr>
                 </tfoot>
               </table>
             </div>
@@ -227,47 +222,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
   </div>
   <!-- /.content-wrapper -->
   <!-- Modal -->
-  <div class="modal fade" id="modal-adicionar-usuario">
+  <div class="modal fade" id="modal-adicionar-horario">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title">Adicionar Usuário</h4>
+          <h4 class="modal-title">Adicionar Horário</h4>
         </div>
         <div class="modal-body">
           <form role="form">
             <div class="form-group">
-              <label>Nome</label>
-              <input type="text" class="form-control">
+              <label>Horário</label>
+              <input type="text" class="form-control" placeholder="Ex: 15:00 ás 16:00 ...">
             </div>
             <div class="form-group">
-              <label for="exampleInputEmail1">Email address</label>
-              <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-            </div>
-            <div class="form-group">
-              <label for="exampleInputPassword1">Senha</label>
-              <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-            </div>
-            <div class="form-group">
-              <label for="exampleInputPassword1">Confirmar Senha</label>
-              <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-            </div>
-            
-            <div class="form-group">                
-              <label>Função</label>
-              <select class="form-control select2" style="width: 100%;">
-                <option selected="selected">Docente</option>
-                <option>Técnico</option>
-                <option>Estagiário</option>
-              </select>
-            </div>
-            <div class="form-group">                
-              <label>Tipo de Usuário</label>
-              <select class="form-control select2" style="width: 100%;">
-                <option selected="selected">Administrador</option>
-                <option>Comum</option>
-              </select>
+              <label>Descrição</label>
+              <input type="text" class="form-control" placeholder="Ex: Horário das 15 horas ...">
             </div>
             <div class="form-group">
               <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
