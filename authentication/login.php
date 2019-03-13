@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminLTE 2 | Log in</title>
+  <title>SISA DECOM | UFVJM</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -68,7 +68,9 @@
   </div>
   <!-- /.login-box-body -->
   <br/>
-  <p class="login-box-msg"><b>SISA - Todos os direitos reservados - DECOM</b></p>
+  <p class="login-box-msg">
+    <strong>SISA 2019 <a href="http://decom.ufvjm.edu.br/">Departamento de Computação - DECOM</a>.</strong> Todos os direitos reservados.
+  </p>
 </div>
 <!-- /.login-box -->
 
@@ -84,6 +86,60 @@
       checkboxClass: 'icheckbox_square-blue',
       radioClass: 'iradio_square-blue',
       increaseArea: '20%' /* optional */
+    });
+  });
+  $(document).ready(function(e) {
+    $('#logar').click(function(e) {
+      var email = $('#email').val();
+      var senha = $('#senha').val();
+
+      if( !email || !senha ) {
+        swal("Atenção!", "Todos os campos devem ser preenchidos!", "info");
+      } else {
+
+        $.ajax({
+          url: '../motor/controller/login.php',
+          data: {
+          email : email,
+          senha : senha
+          },
+          success: function(data) {
+            obj = JSON.parse(data);
+            console.log(obj.res);
+
+            if(obj.res=='true') {
+
+              if (obj.tipo=='admin') {
+                toastr.info('Redirecionando...<br>&nbsp', 'Login efetuado com sucesso!', {positionClass: 'toast-top-full-width',
+                  progressBar: true,
+                  timeOut: "2500",});
+
+                setTimeout(function() {
+                  document.location.href = '../Admin';
+                }, 2600);
+
+              }else if(obj.tipo=='cli'){
+
+                toastr.info('Redirecionando...<br>&nbsp', 'Login efetuado com sucesso!', {positionClass: 'toast-top-full-width',
+                  progressBar: true,
+                  timeOut: "2500",});
+
+                setTimeout(function() {
+                  document.location.href = '../Cliente';
+                }, 2600);
+              }
+
+            } else if(obj.res == 'wrong_user_found') {
+              swal("Atenção!", "Usuário não encontrado!", "error");
+            } else if(obj.res == 'wrong_password') {
+              swal("Atenção!", "Senha incorreta", "error");
+            }else {
+              swal("Atenção!", "Erro ao conectar com banco de dados. Aguarde e tente novamente em alguns instantes!", "error");
+            }
+          },
+          type: 'POST'
+        });     
+      }
     });
   });
 </script>
