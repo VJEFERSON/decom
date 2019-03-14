@@ -1,3 +1,16 @@
+<?php
+  $showerros = true;
+  if($showerros) {
+    ini_set("display_errors", $showerros);
+    error_reporting(E_ALL ^ E_NOTICE ^ E_STRICT);
+  }
+  session_start();
+  if(empty($_SESSION)){?>
+    <script>
+      document.location.href = '../authentication/login.php';
+    </script>
+  <?php }
+?>
 <!DOCTYPE html>
 <!--
 This is a starter template page. Use this page to start your new project from
@@ -33,8 +46,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
   
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <!-- Requerimentos para PHP funcionar na Página -->
+    <?php  require "../motor/requested.php" ?>
   </head>
-<body class="hold-transition skin-black sidebar-mini">
+<body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 
   <!-- Main Header -->
@@ -67,24 +82,24 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <span class="hidden-xs">Alexander Pierce</span>
             </a>
             <ul class="dropdown-menu">
-              <!-- The user image in the menu -->
-              <li class="user-header">
-                <img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                <!-- The user image in the menu -->
+                <li class="user-header">
+                  <img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
-                <p>
-                  Alexander Pierce
-                  <small>Docente</small>
-                </p>
-              </li>
-              <!-- Menu Footer-->
-              <li class="user-footer">
-                <div class="pull-left">
-                  <a href="profile.html" class="btn btn-default btn-flat">Profile</a>
-                </div>
-                <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">Sign out</a>
-                </div>
-              </li>
+                  <p>
+                    <?php echo $_SESSION['nome'];?>
+                    <small><?php echo $_SESSION['funcao'];?></small>
+                  </p>
+                </li>
+                <!-- Menu Footer-->
+                <li class="user-footer">
+                  <div class="pull-left">
+                    <a href="profile.php" class="btn btn-default btn-flat">Profile</a>
+                  </div>
+                  <div class="pull-right">
+                    <a href="../motor/control/encerrarSessao.php" class="btn btn-default btn-flat">Sign out</a>
+                  </div>
+                </li>
             </ul>
           </li>
         </ul>

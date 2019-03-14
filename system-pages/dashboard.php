@@ -1,3 +1,16 @@
+<?php
+  $showerros = true;
+  if($showerros) {
+    ini_set("display_errors", $showerros);
+    error_reporting(E_ALL ^ E_NOTICE ^ E_STRICT);
+  }
+  session_start();
+  if(empty($_SESSION)){?>
+    <script>
+      document.location.href = '../authentication/login.php';
+    </script>
+  <?php }
+?>
 <!DOCTYPE html>
 <!--
 This is a starter template page. Use this page to start your new project from
@@ -41,15 +54,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
   
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <!-- Requerimentos para PHP funcionar na Página -->
+    <?php  require "../motor/requested.php" ?>
   </head>
-<body class="hold-transition skin-black sidebar-mini">
+<body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 
   <!-- Main Header -->
   <header class="main-header">
 
     <!-- Logo -->
-    <a href="dashboard.html" class="logo">
+    <a href="dashboard.php" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>SDM</b></span>
       <!-- logo for regular state and mobile devices -->
@@ -72,25 +87,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <!-- The user image in the navbar-->
               <img src="../dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
               <!-- hidden-xs hides the username on small devices so only the image appears. -->
-              <span class="hidden-xs">Alexander Pierce</span>
+              <span class="hidden-xs"><?php echo $_SESSION['nome'];?></span>
             </a>
             <ul class="dropdown-menu">
               <!-- The user image in the menu -->
               <li class="user-header">
-                <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                <img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
                 <p>
-                  Alexander Pierce
-                  <small>Docente</small>
+                  <?php echo $_SESSION['nome'];?>
+                  <small><?php echo $_SESSION['funcao'];?></small>
                 </p>
               </li>
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="profile.html" class="btn btn-default btn-flat">Profile</a>
+                  <a href="profile.php" class="btn btn-default btn-flat">Profile</a>
                 </div>
                 <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                  <a href="../motor/control/encerrarSessao.php" class="btn btn-default btn-flat">Sign out</a>
                 </div>
               </li>
             </ul>
@@ -111,7 +126,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>Alexander Pierce</p>
+          <p><?php echo $_SESSION['nome'];?></p>
           <!-- Status -->
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
@@ -121,8 +136,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
         <!-- Optionally, you can add icons to the links -->
-        <li class="active"><a href="dashboard.html"><i class="fa  fa-dashboard"></i> <span>Dashboard</span></a></li>
-        <li><a href="agendamento.html"><i class="fa  fa-clock-o"></i> <span>Agendamentos</span></a></li>
+        <li class="active"><a href="dashboard.php"><i class="fa  fa-dashboard"></i> <span>Dashboard</span></a></li>
+        <li><a href="agendamento.php"><i class="fa  fa-clock-o"></i> <span>Agendamentos</span></a></li>
         <li class="treeview">
           <a href="#"><i class="fa fa-files-o"></i> <span>Documentos</span>
             <span class="pull-right-container">
@@ -130,17 +145,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="documentos/atas.html">Atas</a></li>
-            <li><a href="documentos/declaracoes.html">Declarações</a></li>
-            <li><a href="documentos/memorandos.html">Memorandos</a></li>
-            <li><a href="documentos/oficios.html">Oficios</a></li>
+            <li><a href="documentos/atas.php">Atas</a></li>
+            <li><a href="documentos/declaracoes.php">Declarações</a></li>
+            <li><a href="documentos/memorandos.php">Memorandos</a></li>
+            <li><a href="documentos/oficios.php">Oficios</a></li>
           </ul>
         </li>
-        <li><a href="ferias.html"><i class="fa  fa-calendar"></i> <span>Férias</span></a></li>
-        <li><a href="horarios.html"><i class="fa  fa-hourglass-start"></i> <span>Horários</span></a></li>
-        <li><a href="objetos.html"><i class="fa  fa-object-ungroup"></i> <span>Objetos</span></a></li>
-        <li><a href="patrimonio.html"><i class="fa fa-cart-plus"></i> <span>Patrimônio</span></a></li>
-        <li ><a href="usuarios.html"><i class="fa fa-users"></i> <span>Usuários</span></a></li>
+        <li><a href="ferias.php"><i class="fa  fa-calendar"></i> <span>Férias</span></a></li>
+        <li><a href="horarios.php"><i class="fa  fa-hourglass-start"></i> <span>Horários</span></a></li>
+        <li><a href="objetos.php"><i class="fa  fa-object-ungroup"></i> <span>Objetos</span></a></li>
+        <li><a href="patrimonio.php"><i class="fa fa-cart-plus"></i> <span>Patrimônio</span></a></li>
+        <li ><a href="usuarios.php"><i class="fa fa-users"></i> <span>Usuários</span></a></li>
       </ul>
       <!-- /.sidebar-menu -->
     </section>
@@ -156,7 +171,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <small>Geral</small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="dashboard.html"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+        <li><a href="dashboard.php"><i class="fa fa-dashboard"></i>Dashboard</a></li>
       </ol>
     </section>
 

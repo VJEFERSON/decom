@@ -1,3 +1,16 @@
+<?php
+  $showerros = true;
+  if($showerros) {
+    ini_set("display_errors", $showerros);
+    error_reporting(E_ALL ^ E_NOTICE ^ E_STRICT);
+  }
+  session_start();
+  if(empty($_SESSION)){?>
+    <script>
+      document.location.href = '../authentication/login.php';
+    </script>
+  <?php }
+?>
 <!DOCTYPE html>
 <!--
 This is a starter template page. Use this page to start your new project from
@@ -33,8 +46,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
   
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <!-- Requerimentos para PHP funcionar na Página -->
+    <?php  require "../motor/requested.php" ?>
   </head>
-<body class="hold-transition skin-black sidebar-mini">
+<body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 
   <!-- Main Header -->
@@ -72,17 +87,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
                 <p>
-                  Alexander Pierce
-                  <small>Docente</small>
+                  <?php echo $_SESSION['nome'];?>
+                  <small><?php echo $_SESSION['funcao'];?></small>
                 </p>
               </li>
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="../profile.html" class="btn btn-default btn-flat">Profile</a>
+                  <a href="../profile.php" class="btn btn-default btn-flat">Profile</a>
                 </div>
                 <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                <a href="../../motor/control/encerrarSessao.php" class="btn btn-default btn-flat">Sign out</a>
                 </div>
               </li>
             </ul>
@@ -123,8 +138,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </a>
           <ul class="treeview-menu">
             <li><a href="atas.html">Atas</a></li>
-            <li><a href="declaracoes.html">Declarações</a></li>
-            <li class="active"><a href="memorandos.html">Memorandos</a></li>
+            <li class="active"><a href="declaracoes.html">Declarações</a></li>
+            <li><a href="memorandos.html">Memorandos</a></li>
             <li><a href="oficios.html">Oficios</a></li>
           </ul>
         </li>
@@ -145,22 +160,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <section class="content-header">
       <h1>
         Documentos
-        <small>Listagem de Memorandos</small>
+        <small>Listagem de Declarações</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-files-o"></i> Documentos</a></li>
-        <li class="active">Memorandos</li>
+        <li class="active">Declarações</li>
       </ol>
     </section>
 
     <!-- Main content -->
     <section class="content container-fluid">
-    <div class="row">
+      <div class="row">
         <div class="col-xs-12">
           <!-- /.box -->
           <div class="box">
             <div class="box-header">
-              <button type="button" class="btn btn-block bg-olive btn-sm" data-toggle="modal" data-target="#modal-adicionar-memorando">Adicionar</button>
+              <button type="button" class="btn btn-block bg-olive btn-sm" data-toggle="modal" data-target="#modal-adicionar-declaracao">Adicionar</button>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -606,13 +621,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
   </div>
   <!-- /.content-wrapper -->
   <!-- Modal -->
-  <div class="modal fade" id="modal-adicionar-memorando">
+  <div class="modal fade" id="modal-adicionar-declaracao">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title">Adicionar Memorando</h4>
+          <h4 class="modal-title">Adicionar Declaração</h4>
         </div>
         <div class="modal-body">
           <form role="form">
@@ -780,7 +795,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
   })
   
 </script>
-
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
      user experience. -->

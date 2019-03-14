@@ -6,7 +6,6 @@
 		//Nome das variaveis devem ser de acordo com as colunas da tabela respectiva no bd
 		private $id_usuario;
 		private $nome;
-		private $usuario;
 		private $email;
 		private $senha;
 		private $funcao;
@@ -16,17 +15,14 @@
 		function __construct() { 
 			$this->$id_usuario;
 			$this->$nome;
-			$this->$usuario;
 			$this->$email;
 			$this->$senha;
 			$this->$funcao;
 			$this->$tipo_usuario;
 		}
 		
-		public function setarValoresDaInstancia($id_usuario,$nome,$usuario,$email,$senha,$funcao,$tipo_usuario){
-			$this->$id_usuario=$id_usuario;
+		public function setarValoresDaInstancia($nome,$email,$senha,$funcao,$tipo_usuario){
 			$this->$nome=$nome;
-			$this->$usuario=$usuario;
 			$this->$email=$email;
 			$this->$senha=$senha;
 			$this->$funcao=$funcao;
@@ -36,69 +32,58 @@
 		public function inserirUsuarioNoBanco() {
 			$sql = "
 				INSERT INTO usuario(
-					nome,usuario,email,senha,funcao,tipo_usuario)  
+					nome,email,senha,funcao,tipo_usuario)  
 				VALUES(
 					'$this->$nome',
-					'$this->$usuario',
 					'$this->$email',
 					'$this->$senha',
 					'$this->$funcao',
 					'$this->$tipo_usuario'
 				);
 			";
-			$DB = new DB();
-			$DB->open();
-			$result = $DB->query($sql);
-			$DB->close();
-			return $result;
+			$DB = new DataBaseConnection();
+			$DB->estabelerConexaoDataBase();
+			$resultadoConsulta = $DB->query($sql);
+			$DB->encerrarConexaoDataBase();
+			return $resultadoConsulta;
 		}
 		
 		public function buscarUsuarioCadastradoPeloId($id_para_busca) {
 			$sql = "
 				SELECT
-					t1.id_usuario,
-					t1.nome,
-					t1.usuario,
-					t1.email,
-					t1.senha,
-					t1.funcao,
-					t1.tipo_usuario
+					id_usuario,
+					nome,
+					email,
+					senha,
+					funcao,
+					tipo_usuario
 				FROM
-					usuario AS t1
+					usuario
 				WHERE
-					t1.id_usuario  = '$id_para_busca'
+					id_usuario  = '$id_para_busca'
 			";
 
-			$DB = new DB();
-			$DB->open();
-			$Data = $DB->fetchData($sql);
-			$DB->close();
-			return $Data[0]; 
+			$DB = new DataBaseConnection();
+			$DB->estabelerConexaoDataBase();
+			$resultadoConsulta = $DB->fetchData($sql);
+			$DB->encerrarConexaoDataBase();
+			return $resultadoConsulta[0]; 
 		}
 
 		public function buscarUsuariosRetornandoComVetor() {
 			$sql = "
-				SELECT
-					t1.id_usuario,
-					t1.nome,
-					t1.usuario,
-					t1.email,
-					t1.senha,
-					t1.funcao,
-					t1.tipo_usuario
-				FROM
-					usuario;
+				SELECT *
+				FROM usuario;
 			";
 			
-			$DB = new DB();
-			$DB->open();
+			$DB = new DataBaseConnection();
+			$DB->estabelerConexaoDataBase();
 			$Data = $DB->fetchData($sql);
 			$realData;
 			if($Data ==NULL){
 				$realData = $Data;
 			}
 			else{
-				
 				foreach($Data as $itemData){
 					if(is_bool($itemData)) continue;
 					else{
@@ -106,63 +91,61 @@
 					}
 				}
 			}
-			$DB->close();
+			$DB->encerrarConexaoDataBase();
 			return $realData; 
 		}
 		
-		public function buscarUsuarioCadastradoPeloUsuario($usuario_para_busca){
+		public function buscarUsuarioCadastradoPeloEmail($email_para_busca){
 			$sql = "
 				SELECT *
 				FROM
-					usuario AS t1
+					usuario
 				WHERE
-					t1.usuario = '$usuario_para_busca'
+					email = '$email_para_busca'
 			";
 	
-			$DB = new DB();
-			$DB->open();
+			$DB = new DataBaseConnection();
+			$DB->estabelerConexaoDataBase();
 			$Data = $DB->fetchData($sql);
-			$DB->close();
+			$DB->encerrarConexaoDataBase();
 			return $Data[0]; 
 		}
 		
-		public function alterarInformacoesDoUsuario() {
+		public function alterarInformacoesDoUsuario($id_usuario_para_alterar) {
 			$sql = "
 				UPDATE usuario SET
 				   nome='$this->$nome',
-				   usuario='$this->$usuario',
 				   email='$this->$email',
 				   senha='$this->$senha',
 				   funcao='$this->$funcao',
 				   tipo_usuario='$this->$tipo_usuario'
 
-				WHERE id_usuario = '$this->id_usuario';	
+				WHERE id_usuario = '$id_usuario_para_alterar';	
 			";
 		
-			$DB = new DB();
-			$DB->open();
-			$result =$DB->query($sql);
-			$DB->close();
-			return $result;
+			$DB = new DataBaseConnection();
+			$DB->estabelerConexaoDataBase();
+			$resultadoConsulta =$DB->query($sql);
+			$DB->encerrarConexaoDataBase();
+			return $resultadoConsulta;
 		}
 
-		public function deletarUsuario() {
+		public function deletarUsuario($id_usuario_para_deletar) {
 			$sql = "
 				DELETE FROM usuario
-				WHERE id_usuario = '$this->id_usuario';
+				WHERE id_usuario = '$id_usuario_para_deletar';
 			";
 
-			$DB = new DB();
-			$DB->open();
-			$result =$DB->query($sql);
-			$DB->close();
-			return $result;
+			$DB = new DataBaseConnection();
+			$DB->estabelerConexaoDataBase();
+			$resultadoConsulta =$DB->query($sql);
+			$DB->encerrarConexaoDataBase();
+			return $resultadoConsulta;
 		}
 
 		function __destruct() {
 			$this->$id_usuario;
 			$this->$nome;
-			$this->$usuario;
 			$this->$email;
 			$this->$senha;
 			$this->$funcao;

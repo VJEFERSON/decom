@@ -1,3 +1,16 @@
+<?php
+  $showerros = true;
+  if($showerros) {
+    ini_set("display_errors", $showerros);
+    error_reporting(E_ALL ^ E_NOTICE ^ E_STRICT);
+  }
+  session_start();
+  if(empty($_SESSION)){?>
+    <script>
+      document.location.href = '../authentication/login.php';
+    </script>
+  <?php }
+?>
 <!DOCTYPE html>
 <!--
 This is a starter template page. Use this page to start your new project from
@@ -7,7 +20,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>SISA DECOM | Objetos</title>
+    <title>SISA DECOM | Profile</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
@@ -33,8 +46,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
   
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <!-- Requerimentos para PHP funcionar na Página -->
+    <?php  require "../motor/requested.php" ?>
   </head>
-<body class="hold-transition skin-black sidebar-mini">
+<body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 
   <!-- Main Header -->
@@ -67,24 +82,24 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <span class="hidden-xs">Alexander Pierce</span>
             </a>
             <ul class="dropdown-menu">
-              <!-- The user image in the menu -->
-              <li class="user-header">
-                <img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                <!-- The user image in the menu -->
+                <li class="user-header">
+                  <img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
-                <p>
-                  Alexander Pierce
-                  <small>Docente</small>
-                </p>
-              </li>
-              <!-- Menu Footer-->
-              <li class="user-footer">
-                <div class="pull-left">
-                  <a href="profile.html" class="btn btn-default btn-flat">Profile</a>
-                </div>
-                <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">Sign out</a>
-                </div>
-              </li>
+                  <p>
+                    <?php echo $_SESSION['nome'];?>
+                    <small><?php echo $_SESSION['funcao'];?></small>
+                  </p>
+                </li>
+                <!-- Menu Footer-->
+                <li class="user-footer">
+                  <div class="pull-left">
+                    <a href="profile.php" class="btn btn-default btn-flat">Profile</a>
+                  </div>
+                  <div class="pull-right">
+                    <a href="../motor/control/encerrarSessao.php" class="btn btn-default btn-flat">Sign out</a>
+                  </div>
+                </li>
             </ul>
           </li>
         </ul>
@@ -130,7 +145,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </li>
         <li><a href="ferias.html"><i class="fa  fa-calendar"></i> <span>Férias</span></a></li>
         <li><a href="horarios.html"><i class="fa  fa-hourglass-start"></i> <span>Horários</span></a></li>
-        <li  class="active"><a href="objetos.html"><i class="fa fa-object-ungroup"></i> <span>Objetos</span></a></li>
+        <li><a href="objetos.html"><i class="fa  fa-object-ungroup"></i> <span>Objetos</span></a></li>
         <li><a href="patrimonio.html"><i class="fa fa-cart-plus"></i> <span>Patrimônio</span></a></li>
         <li><a href="usuarios.html"><i class="fa fa-users"></i> <span>Usuários</span></a></li>
       </ul>
@@ -144,11 +159,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Objetos
-        <small>Listagem</small>
+        Informações Pessoais
       </h1>
       <ol class="breadcrumb">
-        <li><a href="usuarios.html"><i class="fa fa-object-ungroup"></i>Objetos</a></li>
+        <li><a href="profile.html"><i class="fa fa-user"></i>Profile</a></li>
       </ol>
     </section>
 
@@ -156,67 +170,75 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <section class="content container-fluid">
       <div class="row">
         <div class="col-xs-12">
-          <!-- /.box -->
-          <div class="box">
-            <div class="box-header">
-              <button type="button" class="btn btn-block bg-olive btn-sm" data-toggle="modal" data-target="#modal-adicionar-objetos">Adicionar</button>
+          <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+              <li class="active"><a href="#informacoes" data-toggle="tab">Informações</a></li>
+              <li><a href="#configuracoes" data-toggle="tab">Configurações</a></li>
+            </ul>
+            <div class="tab-content">
+              <div class="active tab-pane" id="informacoes">
+                <!-- Profile Image -->
+                <div class="box box-primary">
+                  <div class="box-body box-profile">
+                    <img class="profile-user-img img-responsive img-circle" src="../../dist/img/user4-128x128.jpg" alt="User profile picture">
+
+                    <h3 class="profile-username text-center">Nina Mcintire</h3>
+
+                    <p class="text-muted text-center">Docente</p>
+
+                    <ul class="list-group list-group-unbordered">
+                      <li class="list-group-item">
+                        <b>Email</b> <a class="pull-right">nina@gmail.com</a>
+                      </li>
+                      <li class="list-group-item">
+                        <b>Usuário</b> <a class="pull-right">Administrador</a>
+                      </li>
+                    </ul>
+
+                    <a href="#" class="btn bg-maroon btn-block" data-toggle="modal" data-target="#modal-alterar-senha"><b>Alterar Senha</b></a>
+                  </div>
+                  <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+              </div>
+              <!-- /.tab-pane -->
+              <div class="tab-pane" id="configuracoes">
+                <form class="form-horizontal">
+                  <div class="form-group">
+                    <label for="inputName" class="col-sm-2 control-label">Nome</label>
+                    <div class="col-sm-10">
+                      <input type="email" class="form-control" id="inputName" placeholder="Name">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+                    <div class="col-sm-10">
+                      <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputName" class="col-sm-2 control-label">Função</label>
+                    <div class="col-sm-10">
+                      <select class="form-control select2" style="width: 100%;">
+                        <option selected="selected">Docente</option>
+                        <option>Técnico</option>
+                        <option>Estagiário</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                      <button type="submit" class="btn bg-maroon">Submit</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <!-- /.tab-pane -->
             </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <table id="example1" class="table table-bordered table-striped">
-                <thead>
-                  <tr>
-                    <th>Código</th>
-                    <th>Nome do Objeto</th>
-                    <th>Departamento</th>
-                    <th>Campus</th>
-                    <th>Ações</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>01</td>
-                    <td>Sala 37 - Sala de Aula</td>
-                    <td>DECOM</td>
-                    <td>Diamantina Campus JK</td>
-                    <td>
-                      <button type="button" class="btn btn-warning btn-xs">
-                        <i class="fa fa-edit"></i> Edit
-                      </button>
-                      <button type="button" class="btn btn-danger btn-xs">
-                        <i class="fa fa-remove"></i> Remove
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>02</td>
-                    <td>Projetor Multimídia Epson</td>
-                    <td>DECOM</td>
-                    <td>Diamantina Campus JK</td>
-                    <td>
-                      <button type="button" class="btn btn-warning btn-xs">
-                        <i class="fa fa-edit"></i> Edit
-                      </button>
-                      <button type="button" class="btn btn-danger btn-xs">
-                        <i class="fa fa-remove"></i> Remove
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <th>Código</th>
-                    <th>Nome do Objeto</th>
-                    <th>Departamento</th>
-                    <th>Campus</th>
-                    <th>Ações</th>
-                  </tr>
-                </tfoot>
-              </table>
-            </div>
-            <!-- /.box-body -->
+            <!-- /.tab-content -->
           </div>
-          <!-- /.box -->
+          <!-- /.nav-tabs-custom -->
         </div>
         <!-- /.col -->
       </div>
@@ -226,38 +248,28 @@ scratch. This page gets rid of all links and provides the needed markup only.
   </div>
   <!-- /.content-wrapper -->
   <!-- Modal -->
-  <div class="modal fade" id="modal-adicionar-objetos">
+  <div class="modal fade" id="modal-alterar-senha">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title">Adicionar Objetos</h4>
+          <h4 class="modal-title">Alterar Senha</h4>
         </div>
         <div class="modal-body">
           <form role="form">
             <div class="form-group">
-              <label>Nome</label>
-              <input type="text" class="form-control">
-            </div>
-            <div class="form-group">                
-              <label>Departamento</label>
-              <select class="form-control select2" style="width: 100%;">
-                <option selected="selected">DECOM</option>
-                <option>FACET</option>
-              </select>
-            </div>
-            <div class="form-group">                
-              <label>Campus</label>
-              <select class="form-control select2" style="width: 100%;">
-                <option selected="selected">Diamantina Campus JK</option>
-                <option>Diamantina Campus 1</option>
-                <option>Teófilo Otoni</option>
-              </select>
+              <label for="exampleInputPassword1">Senha</label>
+              <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
             </div>
             <div class="form-group">
+              <label for="exampleInputPassword1">Confirmar Senha</label>
+              <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+            </div>
+            
+            <div class="form-group">
               <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-success pull-right">Adicionar</button>
+              <button type="submit" class="btn btn-success pull-right">Alterar</button>
             </div>
           </form>
         </div>
