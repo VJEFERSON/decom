@@ -4,7 +4,7 @@
     define("DB_USERNAMEI","root");
     define("DB_PASSWORDI","sublime");
     // Definição da Base de Dados
-    define("DB_DATABASEI","sisaDatabase");
+    define("DB_DATABASEI","decomsisa");
 
     class DataBaseConnection {
         private $dbi;

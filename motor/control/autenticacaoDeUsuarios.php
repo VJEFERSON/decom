@@ -14,13 +14,13 @@
 		$res['res']= 'no_user_found';
 		session_destroy();
 	} else {
-		$verificaIgualdadeDasSenhas = strcmp($senha,$User['senha']);
+		$verificaIgualdadeDasSenhas = strcmp($senha,$User['senusu']);
 		//$verificaIgualdadeDasSenhas = password_verify($senha,$User['senha']);
 		if ($verificaIgualdadeDasSenhas == 0) {
-			$_SESSION['id_usuario'] = $User['id_usuario'];
-			$_SESSION['nome'] = $User['nome'];
-			$_SESSION['funcao'] = $User['funcao'];
-			$_SESSION['tipo_usuario'] = $User['tipo_usuario'];
+			$_SESSION['id_usuario'] = $User['codusu'];
+			$_SESSION['nome'] = $User['nomusu'];
+			$_SESSION['funcao'] = $User['funusu'];
+			$_SESSION['tipo_usuario'] = $User['nivusu'];
 			$res['res']= 'true';
 		} else {
 			$res['res']= 'wrong_password';

@@ -103,10 +103,10 @@
 
         if( !email || !senha ) {
           Swal.fire({
-            type: 'error',
-            title: 'Oops...',
-            text: 'Something went wrong!',
-            timer: 3000
+            type: 'info',
+            title: 'Atenção',
+            text: 'Todos os campos devem ser preenchidos!',
+            timer: 10000
           });
           
         } else {

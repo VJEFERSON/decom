@@ -1,49 +1,53 @@
 <?php
-	//Declaracao da classe
-	//Nome da classe devera ser o nome da tabela respectiva no banco de dados
 	class Usuario {
 		//Variaveis da classe
-		//Nome das variaveis devem ser de acordo com as colunas da tabela respectiva no bd
-		private $id_usuario;
-		private $nome;
-		private $email;
-		private $senha;
-		private $funcao;
-		private $tipo_usuario;
-
+		//nome das variaveis devem ser de acordo com as colunas da tabela respectiva no bd
+		private $codusu;
+		private $coddep_tdep;
+		private $nomusu;
+		private $logusu;
+		private $senusu;
+		private $funusu;
+		private $nivusu;
+		private $stausu;
 
 		function __construct() { 
-			$this->$id_usuario;
-			$this->$nome;
-			$this->$email;
-			$this->$senha;
-			$this->$funcao;
-			$this->$tipo_usuario;
+			$this->codusu;
+			$this->coddep_tdep;
+			$this->nomusu;
+			$this->logusu;
+			$this->senusu;
+			$this->funusu;
+			$this->nivusu;
+			$this->stausu;
 		}
 		
-		public function setarValoresDaInstancia($nome,$email,$senha,$funcao,$tipo_usuario){
-			$this->$nome=$nome;
-			$this->$email=$email;
-			$this->$senha=$senha;
-			$this->$funcao=$funcao;
-			$this->$tipo_usuario=$tipo_usuario;			
+		public function setarValoresDaInstancia($coddep_tdep,$nomusu,$logusu,$senusu,$funusu,$nivusu,$stausu){
+			$this->coddep_tdep=$coddep_tdep;
+			$this->nomusu=$nomusu;
+			$this->logusu=$logusu;
+			$this->senusu=$senusu;
+			$this->funusu=$funusu;
+			$this->nivusu=$nivusu;
+			$this->stausu=$stausu;			
 		}
 
 		public function inserirUsuarioNoBanco() {
 			$sql = "
-				INSERT INTO usuario(
-					nome,email,senha,funcao,tipo_usuario)  
-				VALUES(
-					'$this->$nome',
-					'$this->$email',
-					'$this->$senha',
-					'$this->$funcao',
-					'$this->$tipo_usuario'
+				INSERT INTO tusuario ( coddep_tdep,nomusu,logusu,senusu,funusu,nivusu,stausu )  
+				VALUES (
+					'$this->coddep_tdep',
+					'$this->nomusu',
+					'$this->logusu',
+					'$this->senusu',
+					'$this->funusu',
+					'$this->nivusu',
+					'$this->stausu'
 				);
 			";
 			$DB = new DataBaseConnection();
 			$DB->estabelerConexaoDataBase();
-			$resultadoConsulta = $DB->query($sql);
+			$resultadoConsulta = $DB->fetchData($sql);
 			$DB->encerrarConexaoDataBase();
 			return $resultadoConsulta;
 		}
@@ -51,16 +55,11 @@
 		public function buscarUsuarioCadastradoPeloId($id_para_busca) {
 			$sql = "
 				SELECT
-					id_usuario,
-					nome,
-					email,
-					senha,
-					funcao,
-					tipo_usuario
+					*
 				FROM
-					usuario
+					tusuario
 				WHERE
-					id_usuario  = '$id_para_busca'
+					codusu = '$id_para_busca'
 			";
 
 			$DB = new DataBaseConnection();
@@ -73,7 +72,7 @@
 		public function buscarUsuariosRetornandoComVetor() {
 			$sql = "
 				SELECT *
-				FROM usuario;
+				FROM tusuario;
 			";
 			
 			$DB = new DataBaseConnection();
@@ -99,9 +98,9 @@
 			$sql = "
 				SELECT *
 				FROM
-					usuario
+					tusuario
 				WHERE
-					email = '$email_para_busca'
+					logusu = '$email_para_busca'
 			";
 	
 			$DB = new DataBaseConnection();
@@ -111,16 +110,17 @@
 			return $Data[0]; 
 		}
 		
-		public function alterarInformacoesDoUsuario($id_usuario_para_alterar) {
+		public function alterarInformacoesDoUsuario($cod_para_alterar) {
 			$sql = "
-				UPDATE usuario SET
-				   nome='$this->$nome',
-				   email='$this->$email',
-				   senha='$this->$senha',
-				   funcao='$this->$funcao',
-				   tipo_usuario='$this->$tipo_usuario'
-
-				WHERE id_usuario = '$id_usuario_para_alterar';	
+				UPDATE tusuario SET
+					coddep_tdep='$this->coddep_tdep',
+					nomusu='$this->nomusu',
+				   	logusu='$this->logusu',
+				   	senusu='$this->senusu',
+				   	funusu='$this->funusu',
+				   	nivusu='$this->nivusu',
+				   	stausu='$this->stausu'
+				WHERE codusu = '$cod_para_alterar';	
 			";
 		
 			$DB = new DataBaseConnection();
@@ -130,10 +130,10 @@
 			return $resultadoConsulta;
 		}
 
-		public function deletarUsuario($id_usuario_para_deletar) {
+		public function deletarUsuario($cod_para_deletar) {
 			$sql = "
-				DELETE FROM usuario
-				WHERE id_usuario = '$id_usuario_para_deletar';
+				DELETE FROM tusuario
+				WHERE codusu = '$cod_para_deletar';
 			";
 
 			$DB = new DataBaseConnection();
@@ -144,13 +144,14 @@
 		}
 
 		function __destruct() {
-			$this->$id_usuario;
-			$this->$nome;
-			$this->$email;
-			$this->$senha;
-			$this->$funcao;
-			$this->$tipo_usuario;
+			$this->codusu;
+			$this->coddep_tdep;
+			$this->nomusu;
+			$this->logusu;
+			$this->senusu;
+			$this->funusu;
+			$this->nivusu;
+			$this->stausu;
 		}	
 	};
-
 ?>

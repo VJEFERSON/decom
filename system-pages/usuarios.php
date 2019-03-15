@@ -12,10 +12,6 @@
   <?php }
 ?>
 <!DOCTYPE html>
-<!--
-This is a starter template page. Use this page to start your new project from
-scratch. This page gets rid of all links and provides the needed markup only.
--->
 <html>
   <head>
     <meta charset="utf-8">
@@ -96,7 +92,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <a href="profile.php" class="btn btn-default btn-flat">Profile</a>
                     </div>
                     <div class="pull-right">
-                      <a href="../motor/control/encerrarSessao.php" class="btn btn-default btn-flat">Sign out</a>
+                      <a class="btn btn-default btn-flat" data-toggle="modal" data-target="#signin-modal">Sign out</a>
                     </div>
                   </li>
                 </ul>
@@ -193,6 +189,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <th>Nome</th>
                         <th>Login/Email</th>
                         <th>Tipo de Usuário</th>
+                        <th>Status</th>
                         <th>Ações</th>
                     </tr>
                     </thead>
@@ -201,10 +198,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
 												foreach($user as $user){
 											?>
                           <tr>
-                            <td><?php echo $user['id_usuario'];?></td>
-                            <td><?php echo $user['nome'];?></td>
-                            <td><?php echo $user['email'];?></td>
-                            <td><?php echo $user['tipo_usuario'];?></td>
+                            <td><?php echo $user['codusu'];?></td>
+                            <td><?php echo $user['nomusu'];?></td>
+                            <td><?php echo $user['logusu'];?></td>
+                            <td><?php echo $user['nivusu'];?></td>
+                            <td><?php echo $user['stausu'];?></td>
                             <td>
                               <button type="button" class="btn btn-primary btn-xs">
                                 <i class="glyphicon glyphicon-eye-open"></i> View
@@ -228,6 +226,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <th>Nome</th>
                         <th>Login/Email</th>
                         <th>Tipo de Usuário</th>
+                        <th>Status</th>
                         <th>Ações</th>
                     </tr>
                     </tfoot>
@@ -248,7 +247,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- /.content -->
       </div>
       <!-- /.content-wrapper -->
-      <!-- Modal -->
+      <!-- Modal Adicionar Usuário-->
       <div class="modal fade" id="modal-adicionar-usuario">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -265,33 +264,41 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </div>
                 <div class="form-group">
                   <label for="exampleInputEmail1">Email</label>
-                  <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
+                  <input type="email" class="form-control" id="email" name="email" placeholder="Entre com Email">
                 </div>
                 <div class="form-group">
                   <label for="exampleInputPassword1">Senha</label>
-                  <input type="password" class="form-control" id="senha" name="senha" placeholder="Password">
+                  <input type="password" class="form-control" id="senha" name="senha" placeholder="Senha">
                 </div>
                 <div class="form-group">
                   <label for="exampleInputPassword1">Confirmar Senha</label>
-                  <input type="password" class="form-control" id="confirmacao-senha" placeholder="Password">
+                  <input type="password" class="form-control" id="confirmacao-senha" placeholder="Repita a Senha">
                 </div>
-                
                 <div class="form-group">                
                   <label>Função</label>
                   <select class="form-control select2" style="width: 100%;" id="funcao" name="funcao">
                     <option value="Docente" selected="selected">Docente</option>
                     <option value="Técnico">Técnico</option>
                     <option value="Estagiário">Estagiário</option>
+                    <option value="Outro">Outro</option>
+                  </select>
+                </div>
+                <div class="form-group">                
+                  <label>Departamento</label>
+                  <select class="form-control select2" style="width: 100%;" id="codigo_departamento" name="codigo_departamento">
+                    <option value="0" selected="selected">DECOM</option>
+                    <option value="1" >FACET</option>
                   </select>
                 </div>
                 <div class="form-group">                
                   <label>Tipo de Usuário</label>
                   <select class="form-control select2" style="width: 100%;" id="tipo_usuario" name="tipo_usuario">
-                    <option value="1" selected="selected">Administrador</option>
-                    <option value="2">Comum</option>
+                    <option value="0" selected="selected">Comum</option>
+                    <option value="1" >Administrador</option>
                   </select>
                 </div>
                 <div class="form-group">
+                  <input type="hidden" name="status_usuario" value="1">
                   <input type="hidden" name="acao_formulario" value="criar-usuario">
                   <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
                   <button type="submit" class="btn btn-success pull-right" id="adicionar-usuario">Adicionar</button>
@@ -302,6 +309,35 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <!-- /.modal-content -->
         </div>
         <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
+      <!-- Sign Out Modal-->
+      <div class="modal fade" id="signin-modal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">Sair</h4>
+            </div>
+            <div class="modal-body">
+              <div class="modal-body">Realmente deseja sair?</div>
+              <div class="modal-footer" id="sair">
+                <button  class="btn btn-secondary" type="button"  data-dismiss="modal">Cancel</button>
+                <a class="btn btn-primary" href="../motor/control/encerrarSessao.php">Sair</a>
+              </div>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <div class="modal fade" id="signOutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              
+            </div>
+          </div>
       </div>
       <!-- /.modal -->
       <!-- Main Footer -->
@@ -437,20 +473,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
           
           var nome= $('#nome').val();
           var email= $('#email').val();
-          var funcao= $('#funcao').val();
           var senha= $('#senha').val();
-          var tipo_usuario= $('#tipo_usuario').val();
+          var confimacao_senha= $('#confirmacao-senha').val();
 
-          if(!nome || !email || !senha || !funcao || !tipo_usuario){
-            return alert("Todos os campos devem ser preenchidos!")
+          if(!nome || !email || !senha || !confimacao_senha){
+            return alert("Todos os campos devem ser preenchidos!");
           }else {
-              $("#targetForm" ).submit();
+              if(senha != confimacao_senha){
+                return alert("As senha informadas são diferentes!");
+              }else{
+                $("#targetForm" ).submit();
+              } 
           }   
         });
       });
     </script>
-    <!-- Optionally, you can add Slimscroll and FastClick plugins.
-        Both of these plugins are recommended to enhance the
-        user experience. -->
   </body>
 </html>
