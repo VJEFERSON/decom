@@ -12,55 +12,48 @@
         header("location: ../../authentication/login.php");
     }
 
-    $id_usuario=$_REQUEST['id_usuario'];
+    $id_objeto=$_REQUEST['id_usuario'];
     $codigo_departamento=$_REQUEST['codigo_departamento'];
     $codigo_departamento=intval($codigo_departamento);
     $nome=$_REQUEST['nome'];
-	$email=$_REQUEST['email'];
-    $senha=$_REQUEST['senha'];
-	$funcao=$_REQUEST['funcao'];
-    $tipo_usuario=$_REQUEST['tipo_usuario'];
-    $tipo_usuario=intval($tipo_usuario);
-    $status_usuario=$_REQUEST['status_usuario'];
-    $status_usuario=intval($status_usuario);	
+    $descricao=$_REQUEST['descricao'];
+    $status_objeto=$_REQUEST['status_objeto'];
+    $status_objeto=intval($status_objeto);	
 	$acao_formulario = $_REQUEST['acao_formulario'];
-    
-    var_dump($id_usuario);
-    var_dump($acao_formulario);
 
-	$User = new Usuario();
+	$Obj = new Objeto();
     
-    if($acao_formulario == 'deletar-usuario'){
-        $res = $User->deletarUsuario($id_usuario);
+    if($acao_formulario == 'deletar-objeto'){
+        $res = $Obj->deletarObjeto($id_objeto);
         if ($res === NULL) {
             $res= 'true';	
         } else {
             $res = 'false';	
         }
-        header("location: ../../system-pages/usuarios.php");
+        header("location: ../../system-pages/objetos-departamentos.php");
     } else {
-        $User->setarValoresDaInstancia($codigo_departamento,$nome,$email,$senha,$funcao,$tipo_usuario,$status_usuario);
+        $Obj->setarValoresDaInstancia($codigo_departamento,$nome,$email,$senha,$funcao,$tipo_usuario,$status_usuario);
         switch($acao_formulario) {
-            case 'criar-usuario':
-                $res = $User->inserirUsuarioNoBanco();
+            case 'criar-objeto':
+                $res = $Obj->inserirObjetoNoBanco();
                 if ($res === NULL) {
                     $res = 'true';
                 }
                 else {
                     $res = 'false';	
                 }			
-                header("location: ../../system-pages/usuarios.php");
+                header("location: ../../system-pages/objetos-departamentos.php");
                 break;	
     
-            case 'editar-usuario':
-                $res = $User->alterarInformacoesDoUsuario($id_usuario);
+            case 'editar-objeto':
+                $res = $Obj->alterarInformacoesDoObjeto($id_objeto);
                 if ($res === NULL) {
                     $res= 'true';	
                 }
                 else {
                     $res = 'false';	
                 }
-                header("location: ../../system-pages/usuarios.php");
+                header("location: ../../system-pages/objetos-departamentos.php");
                 break;			
         }
     }

@@ -140,7 +140,7 @@
             </li>
             <li><a href="ferias.php"><i class="fa  fa-calendar"></i> <span>Férias</span></a></li>
             <li><a href="horarios.php"><i class="fa  fa-hourglass-start"></i> <span>Horários</span></a></li>
-            <li><a href="objetos.php"><i class="fa  fa-object-ungroup"></i> <span>Objetos</span></a></li>
+            <li><a href="objetos-departamentos.php"><i class="fa  fa-object-ungroup"></i> <span>Objetos e Departamentos</span></a></li>
             <li><a href="patrimonio.php"><i class="fa fa-cart-plus"></i> <span>Patrimônio</span></a></li>
             <li class="active"><a href="usuarios.php"><i class="fa fa-users"></i> <span>Usuários</span></a></li>
           </ul>
@@ -204,15 +204,18 @@
                             <td><?php echo $user['nivusu'];?></td>
                             <td><?php echo $user['stausu'];?></td>
                             <td>
-                              <button type="button" class="btn btn-primary btn-xs">
+                              <a type="button" class="btn btn-primary btn-xs">
                                 <i class="glyphicon glyphicon-eye-open"></i> View
-                              </button>
-                              <button type="button" class="btn btn-warning btn-xs">
+                              </a>
+                              <a type="button" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#editar-usuario-modal" data-whatever-id-usuario="<?php  echo $user["codusu"]?>" data-whatever-nome="<?php  echo $user["nomusu"]?>" 
+                                data-whatever-email="<?php  echo $user["logusu"]?>" data-whatever-senha="<?php  echo $user["senusu"]?>"
+                                data-whatever-funcao="<?php  echo $user["funusu"]?>" data-whatever-codigo-departamento="<?php  echo $user["coddep_tdep"]?>"
+                                data-whatever-tipo-usuario="<?php  echo $user["nivusu"]?>" data-whatever-status-usuario="<?php  echo $user["stausu"]?>">
                                 <i class="fa fa-edit"></i> Edit
-                              </button>
-                              <button type="button" class="btn btn-danger btn-xs">
+                              </a>
+                              <a type="button" href="../motor/control/controleDeUsuarios.php?id_usuario=<?php  echo $user["codusu"]?>&acao_formulario=deletar-usuario" class="btn btn-danger btn-xs" data-confirm="Realmente deseja <b>Remover</b> o Usuário?">
                                 <i class="fa fa-remove"></i> Remove
-                              </button>
+                              </a>
                             </td>
                           </tr>
                       <?php
@@ -260,11 +263,11 @@
               <form role="form" action="../motor/control/controleDeUsuarios.php" id="targetForm" method="Post">
                 <div class="form-group">
                   <label>Nome</label>
-                  <input type="text" id="nome"  name="nome" class="form-control">
+                  <input type="text" id="nome"  name="nome" class="form-control" placeholder="Nome Completo">
                 </div>
                 <div class="form-group">
                   <label for="exampleInputEmail1">Email</label>
-                  <input type="email" class="form-control" id="email" name="email" placeholder="Entre com Email">
+                  <input type="email" class="form-control" id="email" name="email" placeholder="Email">
                 </div>
                 <div class="form-group">
                   <label for="exampleInputPassword1">Senha</label>
@@ -272,7 +275,7 @@
                 </div>
                 <div class="form-group">
                   <label for="exampleInputPassword1">Confirmar Senha</label>
-                  <input type="password" class="form-control" id="confirmacao-senha" placeholder="Repita a Senha">
+                  <input type="password" class="form-control" id="confirmacao_senha" placeholder="Repita a Senha">
                 </div>
                 <div class="form-group">                
                   <label>Função</label>
@@ -300,8 +303,80 @@
                 <div class="form-group">
                   <input type="hidden" name="status_usuario" value="1">
                   <input type="hidden" name="acao_formulario" value="criar-usuario">
-                  <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
-                  <button type="submit" class="btn btn-success pull-right" id="adicionar-usuario">Adicionar</button>
+                  <button type="button" class="btn btn-default " data-dismiss="modal">Fechar</button>
+                  <button type="submit" class="btn btn-success pull-right" id="adicionar-e-editar-usuario">Adicionar</button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
+      <!-- Editar Modal-->
+      <div class="modal fade" id="editar-usuario-modal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">Sair</h4>
+            </div>
+            <div class="modal-body">
+              <form role="form" action="../motor/control/controleDeUsuarios.php" id="targetForm" method="Post">
+                <input type="hidden" id="id_usuario"  name="id_usuario">
+                <div class="form-group">
+                  <label>Nome</label>
+                  <input type="text" onfocus="this.value='';" id="nome"  name="nome" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Email</label>
+                  <input type="email" onfocus="this.value='';" class="form-control" id="email" name="email">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Senha</label>
+                  <input type="password" onfocus="this.value='';" class="form-control" id="senha" name="senha">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Confirmar Senha</label>
+                  <input type="password" onfocus="this.value='';" class="form-control" id="confirmacao_senha" name="confirmacao_senha">
+                </div>
+                <div class="form-group">                
+                  <label>Função</label>
+                  <select class="form-control select2" style="width: 100%;" id="funcao" name="funcao">
+                    <option value="Docente">Docente</option>
+                    <option value="Estagiário">Estagiário</option>
+                    <option value="Professor Substituto">Professor Substituto</option>
+                    <option value="Técnico">Técnico</option>
+                    <option value="Outro">Outro</option>
+                  </select>
+                </div>
+                <div class="form-group">                
+                  <label>Departamento</label>
+                  <select class="form-control select2" style="width: 100%;" id="codigo_departamento" name="codigo_departamento">
+                    <option value="0" >DECOM</option>
+                    <option value="1" >FACET</option>
+                  </select>
+                </div>
+                <div class="form-group">                
+                  <label>Tipo de Usuário</label>
+                  <select class="form-control select2" style="width: 100%;" id="tipo_usuario" name="tipo_usuario">
+                    <option value="1" >Administrador</option>
+                    <option value="0" >Comum</option>
+                  </select>
+                </div>
+                <div class="form-group">                
+                  <label>Status de Usuário</label>
+                  <select class="form-control select2" style="width: 100%;" id="status_usuario" name="status_usuario">
+                    <option value="1" >Ativo</option>
+                    <option value="0" >Desativado</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <input type="hidden" name="acao_formulario" value="editar-usuario">
+                  <button type="button" class="btn btn-default " data-dismiss="modal">Fechar</button>
+                  <button type="submit" class="btn btn-danger pull-right" id="adicionar-e-editar-usuario">Editar</button>
                 </div>
               </form>
             </div>
@@ -332,14 +407,11 @@
         </div>
         <!-- /.modal-dialog -->
       </div>
-      <div class="modal fade" id="signOutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              
-            </div>
-          </div>
-      </div>
       <!-- /.modal -->
+
+    
+
+
       <!-- Main Footer -->
       <footer class="main-footer">
         <!-- To the right -->
@@ -468,24 +540,60 @@
           $('[data-mask]').inputmask()
         })
 
-        $('#adicionar-usuario').click(function(e) {
+        $('#adicionar-e-editar-usuario').click(function(e) {
           e.preventDefault();
           
-          var nome= $('#nome').val();
-          var email= $('#email').val();
-          var senha= $('#senha').val();
-          var confimacao_senha= $('#confirmacao-senha').val();
+          var nome = $('#nome').val();
+          var email = $('#email').val();
+          var senha = $('#senha').val();
+          var confirmacao_senha = $('#confirmacao_senha').val();
 
-          if(!nome || !email || !senha || !confimacao_senha){
+          if(nome == "" || email == "" || senha == "" || confirmacao_senha == ""){
             return alert("Todos os campos devem ser preenchidos!");
           }else {
-              if(senha != confimacao_senha){
+              if(senha != confirmacao_senha){
                 return alert("As senha informadas são diferentes!");
               }else{
                 $("#targetForm" ).submit();
               } 
           }   
         });
+
+        $('a[data-confirm]').click(function(e) {
+          var href= $(this).attr('href');
+          if(!$('#remover-usuario-modal').length){
+            $('body').append('<div class="modal fade" id="remover-usuario-modal"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">Remover Usuário</h4></div><div class="modal-body"><div class="modal-body">Realmente deseja <b>Remover</b> o Usuário?</b></div><div class="modal-footer" id="sair"><button  class="btn btn-secondary" type="button"  data-dismiss="modal">Cancel</button><a id="data-confirma-acao" type="button" class="btn btn-danger">Remover</a></div></div></div></div></div>');
+          }
+          $('#data-confirma-acao').attr('href',href)
+          $('#remover-usuario-modal').modal({show:true});
+          return false;
+        });
+
+        $('#editar-usuario-modal').on('show.bs.modal', function (event) {
+          var button = $(event.relatedTarget)
+          var recipient_id_usuario = button.data('whatever-id-usuario')  
+          var recipient_nome = button.data('whatever-nome') 
+          var recipient_email = button.data('whatever-email')
+          var recipient_senha = button.data('whatever-senha')
+          var recipient_confirma_senha = button.data('whatever-senha')
+          var recipient_funcao = button.data('whatever-funcao')
+          var recipient_codigo_departamento = button.data('whatever-codigo-departamento')
+          var recipient_tipo_usuario = button.data('whatever-tipo-usuario')
+          var recipient_status_usuario = button.data('whatever-status-usuario')
+          
+          var modal = $(this)
+          modal.find('.modal-title').text('Editar Usuário')
+          modal.find('#id_usuario').val(recipient_id_usuario)
+          modal.find('#nome').val(recipient_nome)
+          modal.find('#email').val(recipient_email)
+          modal.find('#senha').val(recipient_senha)
+          modal.find('#confirmacao_senha').val(recipient_confirma_senha)
+          modal.find('#funcao').val(recipient_funcao)
+          modal.find('#codigo_departamento').val(recipient_codigo_departamento)
+          modal.find('#tipo_usuario').val(recipient_tipo_usuario)
+          modal.find('#status_usuario').val(recipient_status_usuario)
+        });
+      
       });
     </script>
   </body>

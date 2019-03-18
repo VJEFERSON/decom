@@ -128,8 +128,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
         <!-- Optionally, you can add icons to the links -->
-        <li><a href="dashboard.html"><i class="fa  fa-dashboard"></i> <span>Dashboard</span></a></li>
-        <li><a href="agendamento.html"><i class="fa  fa-clock-o"></i> <span>Agendamentos</span></a></li>
+        <li><a href="dashboard.php"><i class="fa  fa-dashboard"></i> <span>Dashboard</span></a></li>
+        <li><a href="agendamento.php"><i class="fa  fa-clock-o"></i> <span>Agendamentos</span></a></li>
         <li class="treeview">
           <a href="#"><i class="fa fa-files-o"></i> <span>Documentos</span>
             <span class="pull-right-container">
@@ -137,17 +137,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="documentos/atas.html">Atas</a></li>
-            <li><a href="documentos/declaracoes.html">Declarações</a></li>
-            <li><a href="documentos/memorandos.html">Memorandos</a></li>
-            <li><a href="documentos/oficios.html">Oficios</a></li>
+            <li><a href="documentos/atas.php">Atas</a></li>
+            <li><a href="documentos/declaracoes.php">Declarações</a></li>
+            <li><a href="documentos/memorandos.php">Memorandos</a></li>
+            <li><a href="documentos/oficios.php">Oficios</a></li>
           </ul>
         </li>
-        <li><a href="ferias.html"><i class="fa  fa-calendar"></i> <span>Férias</span></a></li>
-        <li><a href="horarios.html"><i class="fa  fa-hourglass-start"></i> <span>Horários</span></a></li>
-        <li  class="active"><a href="objetos.html"><i class="fa fa-object-ungroup"></i> <span>Objetos</span></a></li>
-        <li><a href="patrimonio.html"><i class="fa fa-cart-plus"></i> <span>Patrimônio</span></a></li>
-        <li><a href="usuarios.html"><i class="fa fa-users"></i> <span>Usuários</span></a></li>
+        <li><a href="ferias.php"><i class="fa  fa-calendar"></i> <span>Férias</span></a></li>
+        <li><a href="horarios.php"><i class="fa  fa-hourglass-start"></i> <span>Horários</span></a></li>
+        <li  class="active"><a href="objetos-departamentos.html"><i class="fa fa-object-ungroup"></i> <span>Objetos e Departamentos</span></a></li>
+        <li><a href="patrimonio.php"><i class="fa fa-cart-plus"></i> <span>Patrimônio</span></a></li>
+        <li><a href="usuarios.php"><i class="fa fa-users"></i> <span>Usuários</span></a></li>
       </ul>
       <!-- /.sidebar-menu -->
     </section>
@@ -158,12 +158,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>
-        Objetos
-        <small>Listagem</small>
-      </h1>
+      <h1>Objetos</h1>
       <ol class="breadcrumb">
-        <li><a href="usuarios.html"><i class="fa fa-object-ungroup"></i>Objetos</a></li>
+        <li><a href="objetos-departamentos.php"><i class="fa fa-object-ungroup"></i>Objetos e Departamentos</a></li>
       </ol>
     </section>
 
@@ -174,11 +171,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <!-- /.box -->
           <div class="box">
             <div class="box-header">
+              <h3 class="box-title">Objetos Cadastrados</h3>
+            </div>
+            <div class="box-header">
               <button type="button" class="btn btn-block bg-olive btn-sm" data-toggle="modal" data-target="#modal-adicionar-objetos">Adicionar</button>
             </div>
+            <?php  
+                $objetos= new Objeto();
+                $objetos=$objetos->buscarObjetosRetornandoComVetor();
+                if(empty($objetos)) {
+            ?>
+                  <h4 class="well"> Nenhum dado encontrado. </h4>
+            <?php
+                } else {
+            ?>
             <!-- /.box-header -->
             <div class="box-body">
-              <table id="example1" class="table table-bordered table-striped">
+              <table id="table-objeto" class="table table-bordered table-striped">
                 <thead>
                   <tr>
                     <th>Código</th>
@@ -189,11 +198,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   </tr>
                 </thead>
                 <tbody>
+                  <?php
+										foreach($objetos as $objetos){
+						      ?>
                   <tr>
-                    <td>01</td>
-                    <td>Sala 37 - Sala de Aula</td>
-                    <td>DECOM</td>
-                    <td>Diamantina Campus JK</td>
+                    <td><?php echo $objetos['codobj'];?></td>
+                    <td><?php echo $objetos['nomobj'];?></td>
+                    <td><?php echo $objetos['coddep_tdep'];?></td>
+                    <td><?php echo $objetos['camobj'];?></td>
                     <td>
                       <button type="button" class="btn btn-warning btn-xs">
                         <i class="fa fa-edit"></i> Edit
@@ -203,20 +215,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       </button>
                     </td>
                   </tr>
-                  <tr>
-                    <td>02</td>
-                    <td>Projetor Multimídia Epson</td>
-                    <td>DECOM</td>
-                    <td>Diamantina Campus JK</td>
-                    <td>
-                      <button type="button" class="btn btn-warning btn-xs">
-                        <i class="fa fa-edit"></i> Edit
-                      </button>
-                      <button type="button" class="btn btn-danger btn-xs">
-                        <i class="fa fa-remove"></i> Remove
-                      </button>
-                    </td>
-                  </tr>
+                  <?php
+										}
+                  ?>
+                  <!-- /.end-foreach -->
                 </tbody>
                 <tfoot>
                   <tr>
@@ -228,6 +230,102 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   </tr>
                 </tfoot>
               </table>
+              <?php
+				        }
+              ?>
+              <!-- /.end-else -->
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Departamentos
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="objetos-departamentos.php"><i class="fa fa-object-ungroup"></i>Objetos e Departamentos</a></li>
+      </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content container-fluid">
+      <div class="row">
+        <div class="col-xs-12">
+          <!-- /.box -->
+          <div class="box">
+            <div class="box-header">
+              <div class="box-header">
+                <h3 class="box-title">Departamentos Cadastrados</h3>
+              </div>
+              <button type="button" class="btn btn-block bg-olive btn-sm" data-toggle="modal" data-target="#modal-adicionar-departamento">Adicionar</button>
+            </div>
+            <?php  
+              $departamentos= new Departamento();
+              $departamentos=$departamentos->buscarDepartamentosRetornandoComVetor();
+              if(empty($departamentos)) {
+            ?>
+              <h4 class="well"> Nenhum dado encontrado. </h4>
+            <?php
+              } else {
+            ?>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="table-departamento" class="table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th>Código</th>
+                    <th>Nome do Departamento</th>
+                    <th>Descrição</th>
+                    <th>Campus</th>
+                    <th>Cidade</th>
+                    <th>Ações</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php
+										foreach($departamentos as $departamentos){
+						      ?>
+                  <tr>
+                    <td><?php echo $departamentos['coddep'];?></td>
+                    <td><?php echo $departamentos['nomdep'];?></td>
+                    <td><?php echo $departamentos['desdep'];?></td>
+                    <td><?php echo $departamentos['locdep'];?></td>
+                    <td><?php echo $departamentos['ciddep'];?></td>
+                    <td>
+                      <button type="button" class="btn btn-warning btn-xs">
+                        <i class="fa fa-edit"></i> Edit
+                      </button>
+                      <button type="button" class="btn btn-danger btn-xs">
+                        <i class="fa fa-remove"></i> Remove
+                      </button>
+                    </td>
+                  </tr>
+                  <?php
+										}
+                  ?>
+                  <!-- /.end-foreach -->
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <th>Código</th>
+                    <th>Nome do Objeto</th>
+                    <th>Departamento</th>
+                    <th>Campus</th>
+                    <th>Cidade</th>
+                    <th>Ações</th>
+                  </tr>
+                </tfoot>
+              </table>
+              <?php
+				        }
+              ?>
+              <!-- /.end-else -->
             </div>
             <!-- /.box-body -->
           </div>
@@ -396,15 +494,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script>
   $(function () {
     //Tables filters
-    $('#example1').DataTable()
-    $('#example2').DataTable({
-      'paging'      : true,
-      'lengthChange': false,
-      'searching'   : false,
-      'ordering'    : true,
-      'info'        : true,
-      'autoWidth'   : false
-    })
+    $('#table-objeto').DataTable()
+    $('#table-departamento').DataTable()
+    
     //Money Euro
     $('[data-mask]').inputmask()
   })

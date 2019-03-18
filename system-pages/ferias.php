@@ -130,8 +130,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
         <!-- Optionally, you can add icons to the links -->
-        <li><a href="dashboard.html"><i class="fa  fa-dashboard"></i> <span>Dashboard</span></a></li>
-        <li><a href="agendamento.html"><i class="fa  fa-clock-o"></i> <span>Agendamentos</span></a></li>
+        <li><a href="dashboard.php"><i class="fa  fa-dashboard"></i> <span>Dashboard</span></a></li>
+        <li><a href="agendamento.php"><i class="fa  fa-clock-o"></i> <span>Agendamentos</span></a></li>
         <li class="treeview">
           <a href="#"><i class="fa fa-files-o"></i> <span>Documentos</span>
             <span class="pull-right-container">
@@ -139,17 +139,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="documentos/atas.html">Atas</a></li>
-            <li><a href="documentos/declaracoes.html">Declarações</a></li>
-            <li><a href="documentos/memorandos.html">Memorandos</a></li>
-            <li><a href="documentos/oficios.html">Oficios</a></li>
+            <li><a href="documentos/atas.php">Atas</a></li>
+            <li><a href="documentos/declaracoes.php">Declarações</a></li>
+            <li><a href="documentos/memorandos.php">Memorandos</a></li>
+            <li><a href="documentos/oficios.php">Oficios</a></li>
           </ul>
         </li>
-        <li class="active"><a href="ferias.html"><i class="fa  fa-calendar"></i> <span>Férias</span></a></li>
-        <li><a href="horarios.html"><i class="fa  fa-hourglass-start"></i> <span>Horários</span></a></li>
-        <li><a href="objetos.html"><i class="fa  fa-object-ungroup"></i> <span>Objetos</span></a></li>
-        <li><a href="patrimonio.html"><i class="fa fa-cart-plus"></i> <span>Patrimônio</span></a></li>
-        <li><a href="usuarios.html"><i class="fa fa-users"></i> <span>Usuários</span></a></li>
+        <li class="active"><a href="ferias.php"><i class="fa  fa-calendar"></i> <span>Férias</span></a></li>
+        <li><a href="horarios.php"><i class="fa  fa-hourglass-start"></i> <span>Horários</span></a></li>
+        <li><a href="objetos-departamentos.php"><i class="fa  fa-object-ungroup"></i> <span>Objetos e Departamentos</span></a></li>
+        <li><a href="patrimonio.php"><i class="fa fa-cart-plus"></i> <span>Patrimônio</span></a></li>
+        <li><a href="usuarios.php"><i class="fa fa-users"></i> <span>Usuários</span></a></li>
       </ul>
       <!-- /.sidebar-menu -->
     </section>
