@@ -538,7 +538,7 @@
           })
           //Money Euro
           $('[data-mask]').inputmask()
-        })
+        });
 
         $('#adicionar-e-editar-usuario').click(function(e) {
           e.preventDefault();

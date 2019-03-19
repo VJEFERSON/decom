@@ -12,13 +12,13 @@
         header("location: ../../authentication/login.php");
     }
 
-    $id_objeto=$_REQUEST['id_usuario'];
-    $codigo_departamento=$_REQUEST['codigo_departamento'];
+    $id_objeto=$_REQUEST['id_objeto'];
+    $codigo_departamento=$_REQUEST['departamento_objeto'];
     $codigo_departamento=intval($codigo_departamento);
-    $nome=$_REQUEST['nome'];
-    $descricao=$_REQUEST['descricao'];
-    $status_objeto=$_REQUEST['status_objeto'];
-    $status_objeto=intval($status_objeto);	
+    $nome=$_REQUEST['nome_objeto'];
+    $descricao=$_REQUEST['descricao_objeto'];
+    $campus=$_REQUEST['campus'];
+    $status_objeto = '0';
 	$acao_formulario = $_REQUEST['acao_formulario'];
 
 	$Obj = new Objeto();
@@ -32,7 +32,7 @@
         }
         header("location: ../../system-pages/objetos-departamentos.php");
     } else {
-        $Obj->setarValoresDaInstancia($codigo_departamento,$nome,$email,$senha,$funcao,$tipo_usuario,$status_usuario);
+        $Obj->setarValoresDaInstancia($codigo_departamento,$nome,$descricao,$campus,$status_objeto);
         switch($acao_formulario) {
             case 'criar-objeto':
                 $res = $Obj->inserirObjetoNoBanco();

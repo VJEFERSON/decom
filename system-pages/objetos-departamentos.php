@@ -79,7 +79,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <!-- The user image in the navbar-->
               <img src="../dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
               <!-- hidden-xs hides the username on small devices so only the image appears. -->
-              <span class="hidden-xs">Alexander Pierce</span>
+              <span class="hidden-xs"><?php echo $_SESSION['nome'];?></span>
             </a>
             <ul class="dropdown-menu">
                 <!-- The user image in the menu -->
@@ -97,7 +97,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <a href="profile.php" class="btn btn-default btn-flat">Profile</a>
                   </div>
                   <div class="pull-right">
-                    <a href="../motor/control/encerrarSessao.php" class="btn btn-default btn-flat">Sign out</a>
+                    <a class="btn btn-default btn-flat" data-toggle="modal" data-target="#signin-modal">Sign out</a>
                   </div>
                 </li>
             </ul>
@@ -118,7 +118,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>Alexander Pierce</p>
+          <p><?php echo $_SESSION['nome'];?></p>
           <!-- Status -->
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
@@ -174,7 +174,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <h3 class="box-title">Objetos Cadastrados</h3>
             </div>
             <div class="box-header">
-              <button type="button" class="btn btn-block bg-olive btn-sm" data-toggle="modal" data-target="#modal-adicionar-objetos">Adicionar</button>
+              <button type="button" class="btn btn-block bg-olive btn-sm" data-toggle="modal" data-target="#modal-adicionar-objeto">Adicionar</button>
             </div>
             <?php  
                 $objetos= new Objeto();
@@ -204,15 +204,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <tr>
                     <td><?php echo $objetos['codobj'];?></td>
                     <td><?php echo $objetos['nomobj'];?></td>
-                    <td><?php echo $objetos['coddep_tdep'];?></td>
+                    <td><?php echo $objetos['nomdep'];?></td>
                     <td><?php echo $objetos['camobj'];?></td>
                     <td>
                       <button type="button" class="btn btn-warning btn-xs">
                         <i class="fa fa-edit"></i> Edit
                       </button>
-                      <button type="button" class="btn btn-danger btn-xs">
+                      <a type="button" disabled href="../motor/control/controleDeObjetos.php?id_objeto=<?php  echo $objetos["codobj"]?>&acao_formulario=deletar-objeto" class="btn btn-danger btn-xs" data-confirm="Realmente deseja <b>Remover</b> o Objeto?">
                         <i class="fa fa-remove"></i> Remove
-                      </button>
+                      </a>
                     </td>
                   </tr>
                   <?php
@@ -298,12 +298,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <td><?php echo $departamentos['locdep'];?></td>
                     <td><?php echo $departamentos['ciddep'];?></td>
                     <td>
-                      <button type="button" class="btn btn-warning btn-xs">
+                      <a type="button" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#editar-departamento-modal" data-whatever-id-departamento="<?php  echo $departamentos["coddep"]?>" data-whatever-nome-departamento="<?php  echo $departamentos["nomdep"]?>" 
+                        data-whatever-descricao-departamento="<?php  echo $departamentos["desdep"]?>" data-whatever-campus="<?php  echo $departamentos["locdep"]?>"
+                        data-whatever-cidade="<?php  echo $departamentos["ciddep"]?>">
                         <i class="fa fa-edit"></i> Edit
-                      </button>
-                      <button type="button" class="btn btn-danger btn-xs">
+                      </a>
+                      <a type="button" href="../motor/control/controleDeDepartamentos.php?id_departamento=<?php  echo $departamentos["coddep"]?>&acao_formulario=deletar-departamento" class="btn btn-danger btn-xs" data-confirm="Realmente deseja <b>Remover</b> o Departamento?">
                         <i class="fa fa-remove"></i> Remove
-                      </button>
+                      </a>
                     </td>
                   </tr>
                   <?php
@@ -338,41 +340,165 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-  <!-- Modal -->
-  <div class="modal fade" id="modal-adicionar-objetos">
+  <!-- Modal Adicionar Objeto-->
+  <div class="modal fade" id="modal-adicionar-objeto">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title">Adicionar Objetos</h4>
+          <h4 class="modal-title">Adicionar Objeto</h4>
         </div>
         <div class="modal-body">
-          <form role="form">
+          <form role="form" action="../motor/control/controleDeObjetos.php" id="targetFormObjeto" method="Post">
             <div class="form-group">
               <label>Nome</label>
-              <input type="text" class="form-control">
+              <input name="nome_objeto" id="nome_objeto" type="text" class="form-control" placeholder="Nome do Objeto ...">
+            </div>
+            <div class="form-group">                
+              <label>Descrição</label>
+              <textarea name="descricao_objeto" id="descricao_objeto" class="form-control" rows="3" placeholder="Descrição do Objeto ..."></textarea>
             </div>
             <div class="form-group">                
               <label>Departamento</label>
-              <select class="form-control select2" style="width: 100%;">
-                <option selected="selected">DECOM</option>
-                <option>FACET</option>
+              <select name="departamento_objeto" id="departamento_objeto" class="form-control select2" style="width: 100%;">
+                <?php 
+                  $departamentos= new Departamento();
+                  $departamentos=$departamentos->buscarDepartamentosRetornandoComVetor();
+                  foreach($departamentos as $departamentos){?>
+                    <option value="<?php echo $departamentos['coddep']?>"><?php echo $departamentos['nomdep']?></option>
+                <?php } ?>
               </select>
             </div>
             <div class="form-group">                
               <label>Campus</label>
-              <select class="form-control select2" style="width: 100%;">
-                <option selected="selected">Diamantina Campus JK</option>
-                <option>Diamantina Campus 1</option>
-                <option>Teófilo Otoni</option>
+              <select name="campus" id="campus" class="form-control select2" style="width: 100%;">
+                <option value="Diamantina Campus JK" selected="selected">Diamantina Campus JK</option>
+                <option value="Diamantina Campus 1">Diamantina Campus 1</option>
+                <option value="Teófilo Otoni">Teófilo Otoni</option>
               </select>
             </div>
             <div class="form-group">
+              <input type="hidden" name="acao_formulario" value="criar-objeto">
               <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-success pull-right">Adicionar</button>
+              <button type="submit" id="adicionar-e-editar-objeto" class="btn btn-success pull-right">Adicionar</button>
             </div>
           </form>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+  <!-- Modal Adicionar Departamento-->
+  <div class="modal fade" id="modal-adicionar-departamento">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Adicionar Departamento</h4>
+        </div>
+        <div class="modal-body">
+          <form role="form" action="../motor/control/controleDeDepartamentos.php" id="targetFormDepartamento" method="Post">
+            <div class="form-group">
+              <label>Nome</label>
+              <input name="nome_departamento" id="nome_departamento"type="text" class="form-control" placeholder="Nome do Departamento ...">
+            </div>
+            <div class="form-group">                
+              <label>Descrição</label>
+              <textarea name="descricao_departamento" id="descricao_departamento" class="form-control" rows="3" placeholder="Descrição do Departamento ..."></textarea>
+            </div>
+            <div class="form-group">                
+              <label>Campus</label>
+              <select class="form-control select2" style="width: 100%;" name="campus" id="campus">
+                <option selected="selected" value="Campus JK">Campus JK</option>
+                <option value="Campus 1">Campus 1</option>
+                <option value="Outro">Outro</option>
+              </select>
+            </div>
+            <div class="form-group">                
+              <label>Cidade</label>
+              <select class="form-control select2" style="width: 100%;" name="cidade" id="cidade">
+                <option value="Diamantina" selected="selected">Diamantina</option>
+                <option value="Teófilo Otoni">Teófilo Otoni</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <input type="hidden" name="acao_formulario" value="criar-departamento">
+              <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
+              <button type="submit" id="adicionar-e-editar-departamento" class="btn btn-success pull-right">Adicionar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+  <!-- Editar Departamento Modal-->
+  <div class="modal fade" id="editar-departamento-modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Sair</h4>
+        </div>
+        <div class="modal-body">
+          <form role="form" action="../motor/control/controleDeDepartamentos.php" id="targetFormDepartamento" method="Post">
+            <input type="hidden" id="id_departamento"  name="id_departamento">
+            <div class="form-group">
+              <label>Nome</label>
+              <input name="nome_departamento" id="nome_departamento"type="text" class="form-control" placeholder="Nome do Departamento ...">
+            </div>
+            <div class="form-group">                
+              <label>Descrição</label>
+              <textarea name="descricao_departamento" id="descricao_departamento" class="form-control" rows="3" placeholder="Descrição do Departamento ..."></textarea>
+            </div>
+            <div class="form-group">                
+              <label>Campus</label>
+              <select class="form-control select2" style="width: 100%;" name="campus" id="campus">
+                <option value="Campus JK">Campus JK</option>
+                <option value="Campus 1">Campus 1</option>
+                <option value="Outro">Outro</option>
+              </select>
+            </div>
+            <div class="form-group">                
+              <label>Cidade</label>
+              <select class="form-control select2" style="width: 100%;" name="cidade" id="cidade">
+                <option value="Diamantina">Diamantina</option>
+                <option value="Teófilo Otoni">Teófilo Otoni</option>
+              </select>
+            </div>    
+            <div class="form-group">
+              <input type="hidden" name="acao_formulario" value="editar-departamento">
+              <button type="button" class="btn btn-default " data-dismiss="modal">Fechar</button>
+              <button type="submit" class="btn btn-danger pull-right" id="adicionar-e-editar-departamento">Editar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+  <!-- Sign Out Modal-->
+  <div class="modal fade" id="signin-modal">
+     <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+           <h4 class="modal-title">Sair</h4>
+        </div>
+        <div class="modal-body">
+          <div class="modal-body">Realmente deseja sair?</div>
+          <div class="modal-footer" id="sair">
+            <button  class="btn btn-secondary" type="button"  data-dismiss="modal">Cancel</button>
+            <a class="btn btn-primary" href="../motor/control/encerrarSessao.php">Sair</a>
+          </div>
         </div>
       </div>
       <!-- /.modal-content -->
@@ -492,15 +618,68 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="../plugins/input-mask/jquery.inputmask.extensions.js"></script>
 <!-- page script -->
 <script>
-  $(function () {
-    //Tables filters
-    $('#table-objeto').DataTable()
-    $('#table-departamento').DataTable()
-    
-    //Money Euro
-    $('[data-mask]').inputmask()
-  })
-  
+  $(document).ready(function(e) {
+    $(function () {
+      //Tables filters
+      $('#table-objeto').DataTable()
+      $('#table-departamento').DataTable()
+      
+      //Money Euro
+      $('[data-mask]').inputmask()
+    });
+
+    $('#adicionar-e-editar-objeto').click(function(e) {
+      e.preventDefault();
+      var nome_objeto= $('#nome_objeto').val();
+      var descricao_objeto= $('#descricao_objeto').val();
+
+      if(nome_objeto == "" || descricao_objeto == ""){
+        return alert("Todos os campos devem ser preenchidos!");
+      }else {
+        $("#targetFormObjeto" ).submit();
+      }    
+    });
+
+    $('#adicionar-e-editar-departamento').click(function(e) {
+      e.preventDefault();
+      var nome_departamento = $('#nome_departamento').val();
+      var descricao_departamento = $('#descricao_departamento').val();
+
+      if(nome_departamento == "" || descricao_departamento == ""){
+        return alert("Todos os campos devem ser preenchidos!");
+      }else {
+        $("#targetFormDepartamento" ).submit();
+      }    
+    });    
+
+    $('a[data-confirm]').click(function(e) {
+      var href= $(this).attr('href');
+      if(!$('#remover-departamento-modal').length){
+        $('body').append('<div class="modal fade" id="remover-departamento-modal"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">Remover Departamento</h4></div><div class="modal-body"><div class="modal-body">Realmente deseja <b>Remover</b> o Departamento?</b></div><div class="modal-footer" id="sair"><button  class="btn btn-secondary" type="button"  data-dismiss="modal">Cancel</button><a id="data-confirma-acao" type="button" class="btn btn-danger">Remover</a></div></div></div></div></div>');
+      }
+      $('#data-confirma-acao').attr('href',href)
+      $('#remover-departamento-modal').modal({show:true});
+      return false;
+    });
+
+    $('#editar-departamento-modal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget)
+      var recipient_id_departamento = button.data('whatever-id-departamento')  
+      var recipient_nome_departamento = button.data('whatever-nome-departamento') 
+      var recipient_descricao_departamento = button.data('whatever-descricao-departamento')
+      var recipient_campus = button.data('whatever-campus')
+      var recipient_cidade = button.data('whatever-cidade')
+          
+      var modal = $(this)
+      modal.find('.modal-title').text('Editar Departamento')
+      modal.find('#id_departamento').val(recipient_id_departamento)
+      modal.find('#nome_departamento').val(recipient_nome_departamento)
+      modal.find('#descricao_departamento').val(recipient_descricao_departamento)
+      modal.find('#campus').val(recipient_campus)
+      modal.find('#cidade').val(recipient_cidade)
+    });
+
+  });
 </script>
 
 <!-- Optionally, you can add Slimscroll and FastClick plugins.

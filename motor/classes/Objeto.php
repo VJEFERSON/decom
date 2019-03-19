@@ -20,25 +20,23 @@
             $this->conresobj;
 		}
 		
-		public function setarValoresDaInstancia($coddep_tdep,$nomobj,$desobj,$camobj,$staobj,$conresobj){
+		public function setarValoresDaInstancia($coddep_tdep,$nomobj,$desobj,$camobj,$staobj){
 			$this->coddep_tdep=$coddep_tdep;
 			$this->nomobj=$nomobj;
             $this->desobj=$desobj;
             $this->camobj=$camobj;
-            $this->staobj=$staobj;
-            $this->conresobj=$conresobj;			
+            $this->staobj=$staobj;			
 		}
 
 		public function inserirObjetoNoBanco() {
 			$sql = "
-				INSERT INTO tobjeto ( coddep_tdep,nomobj,logusu,senusu,funusu,nivusu,stausu )  
+				INSERT INTO tobjeto ( coddep_tdep,nomobj,desobj,camobj,staobj)  
 				VALUES (
 					'$this->coddep_tdep',
                     '$this->nomobj',
                     '$this->desobj',
                     '$this->camobj',
-                    '$this->staobj',
-                    '$this->conresobj'
+                    '$this->staobj'
 				);
 			";
 			$DB = new DataBaseConnection();
@@ -67,8 +65,10 @@
 
 		public function buscarObjetosRetornandoComVetor() {
 			$sql = "
-				SELECT *
-				FROM tobjeto;
+				SELECT tobjeto.codobj,tobjeto.coddep_tdep,tobjeto.nomobj,tobjeto.desobj,tobjeto.camobj,tobjeto.staobj,
+						tobjeto.conresobj,tdepartamento.nomdep
+				FROM tobjeto,tdepartamento
+				WHERE tdepartamento.coddep = tobjeto.coddep_tdep;
 			";
 			
 			$DB = new DataBaseConnection();
