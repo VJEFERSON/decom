@@ -20,7 +20,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>SISA DECOM | Objetos</title>
+    <title>SISA DECOM | Objetos e Departamentos</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
@@ -176,6 +176,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <div class="box-header">
               <button type="button" class="btn btn-block bg-olive btn-sm" data-toggle="modal" data-target="#modal-adicionar-objeto">Adicionar</button>
             </div>
+            <!-- /.box-header -->
             <?php  
                 $objetos= new Objeto();
                 $objetos=$objetos->buscarObjetosRetornandoComVetor();
@@ -185,7 +186,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <?php
                 } else {
             ?>
-            <!-- /.box-header -->
             <div class="box-body">
               <table id="table-objeto" class="table table-bordered table-striped">
                 <thead>
@@ -207,10 +207,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <td><?php echo $objetos['nomdep'];?></td>
                     <td><?php echo $objetos['camobj'];?></td>
                     <td>
-                      <button type="button" class="btn btn-warning btn-xs">
+                      <a type="button" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#editar-objeto-modal" data-whatever-id-objeto="<?php echo $objetos['codobj'];?>" data-whatever-departamento-objeto="<?php  echo $objetos["coddep_tdep"]?>" 
+                        data-whatever-nome-objeto="<?php  echo $objetos["nomobj"]?>" data-whatever-descricao-objeto="<?php  echo $objetos["desobj"]?>"
+                        data-whatever-campus="<?php  echo $objetos["camobj"]?>">
                         <i class="fa fa-edit"></i> Edit
-                      </button>
-                      <a type="button" disabled href="../motor/control/controleDeObjetos.php?id_objeto=<?php  echo $objetos["codobj"]?>&acao_formulario=deletar-objeto" class="btn btn-danger btn-xs" data-confirm="Realmente deseja <b>Remover</b> o Objeto?">
+                      </a>
+                      <a type="button" href="../motor/control/controleDeObjetos.php?id_objeto=<?php  echo $objetos["codobj"]?>&acao_formulario=deletar-objeto" class="btn btn-danger btn-xs" data-confirm-objeto="Realmente deseja <b>Remover</b> o Objeto?">
                         <i class="fa fa-remove"></i> Remove
                       </a>
                     </td>
@@ -303,7 +305,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         data-whatever-cidade="<?php  echo $departamentos["ciddep"]?>">
                         <i class="fa fa-edit"></i> Edit
                       </a>
-                      <a type="button" href="../motor/control/controleDeDepartamentos.php?id_departamento=<?php  echo $departamentos["coddep"]?>&acao_formulario=deletar-departamento" class="btn btn-danger btn-xs" data-confirm="Realmente deseja <b>Remover</b> o Departamento?">
+                      <a type="button" href="../motor/control/controleDeDepartamentos.php?id_departamento=<?php  echo $departamentos["coddep"]?>&acao_formulario=deletar-departamento" class="btn btn-danger btn-xs" data-confirm-departamento="Realmente deseja <b>Remover</b> o Departamento?">
                         <i class="fa fa-remove"></i> Remove
                       </a>
                     </td>
@@ -382,6 +384,57 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <input type="hidden" name="acao_formulario" value="criar-objeto">
               <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
               <button type="submit" id="adicionar-e-editar-objeto" class="btn btn-success pull-right">Adicionar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+  <!-- Editar Objeto Modal-->
+  <div class="modal fade" id="editar-objeto-modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Sair</h4>
+        </div>
+        <div class="modal-body">
+          <form role="form" action="../motor/control/controleDeObjetos.php" id="targetFormObjeto" method="Post">
+            <input type="number" id="id_objeto"  name="id_objeto">
+            <div class="form-group">
+              <label>Nome</label>
+              <input name="nome_objeto" id="nome_objeto" type="text" class="form-control" >
+            </div>
+            <div class="form-group">                
+              <label>Descrição</label>
+              <textarea name="descricao_objeto" id="descricao_objeto" class="form-control" rows="3"></textarea>
+            </div>
+            <div class="form-group">                
+              <label>Departamento</label>
+              <select name="departamento_objeto" id="departamento_objeto" class="form-control select2" style="width: 100%;">
+                <?php 
+                  $departamentos= new Departamento();
+                  $departamentos=$departamentos->buscarDepartamentosRetornandoComVetor();
+                  foreach($departamentos as $departamentos){?>
+                    <option value="<?php echo $departamentos['coddep']?>"><?php echo $departamentos['nomdep']?></option>
+                <?php } ?>
+              </select>
+            </div>
+            <div class="form-group">                
+              <label>Campus</label>
+              <select name="campus" id="campus" class="form-control select2" style="width: 100%;">
+                <option value="Diamantina Campus JK">Diamantina Campus JK</option>
+                <option value="Diamantina Campus 1">Diamantina Campus 1</option>
+                <option value="Teófilo Otoni">Teófilo Otoni</option>
+              </select>
+            </div> 
+            <div class="form-group">
+              <input type="hidden" name="acao_formulario" value="editar-objeto">
+              <button type="button" class="btn btn-default " data-dismiss="modal">Fechar</button>
+              <button type="submit" class="btn btn-danger pull-right" id="adicionar-e-editar-objeto">Editar</button>
             </div>
           </form>
         </div>
@@ -640,6 +693,33 @@ scratch. This page gets rid of all links and provides the needed markup only.
       }    
     });
 
+    $('a[data-confirm-objeto]').click(function(e) {
+      var href= $(this).attr('href');
+      if(!$('#remover-objeto-modal').length){
+        $('body').append('<div class="modal fade" id="remover-objeto-modal"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">Remover Objeto</h4></div><div class="modal-body"><div class="modal-body">Realmente deseja <b>Remover</b> o Objeto?</b></div><div class="modal-footer" id="sair"><button  class="btn btn-secondary" type="button"  data-dismiss="modal">Cancel</button><a id="data-confirma-acao" type="button" class="btn btn-danger">Remover</a></div></div></div></div></div>');
+      }
+      $('#data-confirma-acao').attr('href',href)
+      $('#remover-objeto-modal').modal({show:true});
+      return false;
+    });
+
+    $('#editar-objeto-modal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget)
+      var recipient_id_objeto = button.data('whatever-id-objeto')  
+      var recipient_nome_objeto = button.data('whatever-nome-objeto') 
+      var recipient_descricao_objeto = button.data('whatever-descricao-objeto')
+      var recipient_departamento_objeto = button.data('whatever-departamento-objeto')
+      var recipient_campus = button.data('whatever-campus')
+          
+      var modal = $(this)
+      modal.find('.modal-title').text('Editar Objeto')
+      modal.find('#id_objeto').val(recipient_id_objeto)
+      modal.find('#nome_objeto').val(recipient_nome_objeto)
+      modal.find('#descricao_objeto').val(recipient_descricao_objeto)
+      modal.find('#departamento_objeto').val(recipient_departamento_objeto)
+      modal.find('#campus').val(recipient_campus)
+    });
+
     $('#adicionar-e-editar-departamento').click(function(e) {
       e.preventDefault();
       var nome_departamento = $('#nome_departamento').val();
@@ -652,7 +732,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       }    
     });    
 
-    $('a[data-confirm]').click(function(e) {
+    $('a[data-confirm-departamento]').click(function(e) {
       var href= $(this).attr('href');
       if(!$('#remover-departamento-modal').length){
         $('body').append('<div class="modal fade" id="remover-departamento-modal"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">Remover Departamento</h4></div><div class="modal-body"><div class="modal-body">Realmente deseja <b>Remover</b> o Departamento?</b></div><div class="modal-footer" id="sair"><button  class="btn btn-secondary" type="button"  data-dismiss="modal">Cancel</button><a id="data-confirma-acao" type="button" class="btn btn-danger">Remover</a></div></div></div></div></div>');

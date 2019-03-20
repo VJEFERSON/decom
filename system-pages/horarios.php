@@ -79,7 +79,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <!-- The user image in the navbar-->
               <img src="../dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
               <!-- hidden-xs hides the username on small devices so only the image appears. -->
-              <span class="hidden-xs">Alexander Pierce</span>
+              <span class="hidden-xs"><?php echo $_SESSION['nome'];?></span>
             </a>
             <ul class="dropdown-menu">
                 <!-- The user image in the menu -->
@@ -97,7 +97,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <a href="profile.php" class="btn btn-default btn-flat">Profile</a>
                   </div>
                   <div class="pull-right">
-                    <a href="../motor/control/encerrarSessao.php" class="btn btn-default btn-flat">Sign out</a>
+                    <a class="btn btn-default btn-flat" data-toggle="modal" data-target="#signin-modal">Sign out</a>
                   </div>
                 </li>
             </ul>
@@ -118,7 +118,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>Alexander Pierce</p>
+          <p><?php echo $_SESSION['nome'];?></p>
           <!-- Status -->
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
@@ -128,8 +128,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
         <!-- Optionally, you can add icons to the links -->
-        <li><a href="dashboard.html"><i class="fa  fa-dashboard"></i> <span>Dashboard</span></a></li>
-        <li><a href="agendamento.html"><i class="fa  fa-clock-o"></i> <span>Agendamentos</span></a></li>
+        <li><a href="dashboard.php"><i class="fa  fa-dashboard"></i> <span>Dashboard</span></a></li>
+        <li><a href="agendamento.php"><i class="fa  fa-clock-o"></i> <span>Agendamentos</span></a></li>
         <li class="treeview">
           <a href="#"><i class="fa fa-files-o"></i> <span>Documentos</span>
             <span class="pull-right-container">
@@ -137,17 +137,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="documentos/atas.html">Atas</a></li>
-            <li><a href="documentos/declaracoes.html">Declarações</a></li>
-            <li><a href="documentos/memorandos.html">Memorandos</a></li>
-            <li><a href="documentos/oficios.html">Oficios</a></li>
+            <li><a href="documentos/atas.php">Atas</a></li>
+            <li><a href="documentos/declaracoes.php">Declarações</a></li>
+            <li><a href="documentos/memorandos.php">Memorandos</a></li>
+            <li><a href="documentos/oficios.php">Oficios</a></li>
           </ul>
         </li>
-        <li><a href="ferias.html"><i class="fa  fa-calendar"></i> <span>Férias</span></a></li>
-        <li  class="active"><a href="horarios.html"><i class="fa  fa-hourglass-start"></i> <span>Horários</span></a></li>
-        <li><a href="objetos.html"><i class="fa  fa-object-ungroup"></i> <span>Objetos</span></a></li>
-        <li><a href="patrimonio.html"><i class="fa fa-cart-plus"></i> <span>Patrimônio</span></a></li>
-        <li><a href="usuarios.html"><i class="fa fa-users"></i> <span>Usuários</span></a></li>
+        <li><a href="ferias.php"><i class="fa  fa-calendar"></i> <span>Férias</span></a></li>
+        <li  class="active"><a href="horarios.php"><i class="fa  fa-hourglass-start"></i> <span>Horários</span></a></li>
+        <li><a href="objetos-departamentos.php"><i class="fa  fa-object-ungroup"></i> <span>Objetos e Departamentos</span></a></li>
+        <li><a href="patrimonio.php"><i class="fa fa-cart-plus"></i> <span>Patrimônio</span></a></li>
+        <li><a href="usuarios.php"><i class="fa fa-users"></i> <span>Usuários</span></a></li>
       </ul>
       <!-- /.sidebar-menu -->
     </section>
@@ -177,8 +177,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <button type="button" class="btn btn-block bg-olive btn-sm" data-toggle="modal" data-target="#modal-adicionar-horario">Adicionar</button>
             </div>
             <!-- /.box-header -->
+            <?php  
+                $horarios= new Horario();
+                $horarios=$horarios->buscarHorariosRetornandoComVetor();
+                if(empty($horarios)) {
+            ?>
+                  <h4 class="well"> Nenhum dado encontrado. </h4>
+            <?php
+                } else {
+            ?>
             <div class="box-body">
-              <table id="example1" class="table table-bordered table-striped">
+              <table id="tableHorarios" class="table table-bordered table-striped">
                 <thead>
                   <tr>
                     <th>Código</th>
@@ -188,32 +197,27 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   </tr>
                 </thead>
                 <tbody>
+                  <?php
+										foreach($horarios as $horario){
+						      ?>
                   <tr>
-                    <td>01</td>
-                    <td>15:00 ás 16:00</td>
-                    <td>Horário das 15 horas</td>
+                    <td><?php echo $horario['codhor'];?></td>
+                    <td><?php echo $horario['nomhor'];?></td>
+                    <td><?php echo $horario['deshor'];?></td>
                     <td>
-                      <button type="button" class="btn btn-warning btn-xs">
+                      <a type="button" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#editar-horario-modal" data-whatever-id-horario="<?php echo $horario['codhor'];?>"
+                        data-whatever-nome-horario="<?php  echo $horario["nomhor"]?>" data-whatever-descricao-horario="<?php  echo $horario["deshor"]?>">
                         <i class="fa fa-edit"></i> Edit
-                      </button>
-                      <button type="button" class="btn btn-danger btn-xs">
+                      </a>
+                      <a type="button" href="../motor/control/controleDeHorarios.php?id_horario=<?php  echo $horario["codhor"]?>&acao_formulario=deletar-horario" class="btn btn-danger btn-xs" data-confirm="Realmente deseja <b>Remover</b> o Horario?">
                         <i class="fa fa-remove"></i> Remove
-                      </button>
+                      </a>
                     </td>
                   </tr>
-                  <tr>
-                    <td>02</td>
-                    <td>16:00 ás 17:00</td>
-                    <td>Horário das 16 horas</td>
-                    <td>
-                      <button type="button" class="btn btn-warning btn-xs">
-                        <i class="fa fa-edit"></i> Edit
-                      </button>
-                      <button type="button" class="btn btn-danger btn-xs">
-                        <i class="fa fa-remove"></i> Remove
-                      </button>
-                    </td>
-                  </tr>
+                  <?php
+										}
+                  ?>
+                  <!-- /.end-foreach -->
                 </tbody>
                 <tfoot>
                   <tr>
@@ -224,6 +228,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   </tr>
                 </tfoot>
               </table>
+              <?php
+				        }
+              ?>
+              <!-- /.end-else -->
             </div>
             <!-- /.box-body -->
           </div>
@@ -236,7 +244,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-  <!-- Modal -->
+  <!-- Adicionar Horario Modal -->
   <div class="modal fade" id="modal-adicionar-horario">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -246,20 +254,74 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <h4 class="modal-title">Adicionar Horário</h4>
         </div>
         <div class="modal-body">
-          <form role="form">
+          <form role="form" action="../motor/control/controleDeHorarios.php" id="targetFormHorario" method="Post">
             <div class="form-group">
-              <label>Horário</label>
-              <input type="text" class="form-control" placeholder="Ex: 15:00 ás 16:00 ...">
+              <label>Nome Horário</label>
+              <input name="nome_horario" id="nome_horario" type="text" class="form-control" placeholder="Ex: 15:00 ás 16:00 ...">
             </div>
             <div class="form-group">
               <label>Descrição</label>
-              <input type="text" class="form-control" placeholder="Ex: Horário das 15 horas ...">
+              <input name="descricao_horario" id="descricao_horario" type="text" class="form-control" placeholder="Ex: Horário das 15 horas ...">
             </div>
             <div class="form-group">
+              <input type="hidden" name="acao_formulario" value="criar-horario">
               <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-success pull-right">Adicionar</button>
+              <button type="submit" id="adicionar-e-editar-horario" class="btn btn-success pull-right" >Adicionar</button>
             </div>
           </form>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+  <!-- Editar Horario Modal-->
+  <div class="modal fade" id="editar-horario-modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Sair</h4>
+        </div>
+        <div class="modal-body">
+          <form role="form" action="../motor/control/controleDeHorarios.php" id="targetFormHorario" method="Post">
+            <input type="text" id="id_horario"  name="id_horario">
+            <div class="form-group">
+              <label>Nome Horário</label>
+              <input name="nome_horario" id="nome_horario" type="text" class="form-control" placeholder="Ex: 15:00 ás 16:00 ...">
+            </div>
+            <div class="form-group">
+              <label>Descrição</label>
+              <input name="descricao_horario" id="descricao_horario" type="text" class="form-control" placeholder="Ex: Horário das 15 horas ...">
+            </div>
+            <div class="form-group">
+              <input type="hidden" name="acao_formulario" value="editar-horario">
+              <button type="button" class="btn btn-default " data-dismiss="modal">Fechar</button>
+              <button type="submit" class="btn btn-danger pull-right" id="adicionar-e-editar-horario">Editar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+  <!-- Sign Out Modal-->
+  <div class="modal fade" id="signin-modal">
+     <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+           <h4 class="modal-title">Sair</h4>
+        </div>
+        <div class="modal-body">
+          <div class="modal-body">Realmente deseja sair?</div>
+          <div class="modal-footer" id="sair">
+            <button  class="btn btn-secondary" type="button"  data-dismiss="modal">Cancel</button>
+            <a class="btn btn-primary" href="../motor/control/encerrarSessao.php">Sair</a>
+          </div>
         </div>
       </div>
       <!-- /.modal-content -->
@@ -379,21 +441,50 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="../plugins/input-mask/jquery.inputmask.extensions.js"></script>
 <!-- page script -->
 <script>
-  $(function () {
-    //Tables filters
-    $('#example1').DataTable()
-    $('#example2').DataTable({
-      'paging'      : true,
-      'lengthChange': false,
-      'searching'   : false,
-      'ordering'    : true,
-      'info'        : true,
-      'autoWidth'   : false
-    })
-    //Money Euro
-    $('[data-mask]').inputmask()
-  })
-  
+  $(document).ready(function(e) {
+    $(function () {
+      //Tables filters
+      $('#tableHorarios').DataTable()
+      //Money Euro
+      $('[data-mask]').inputmask()
+    });
+
+    $('#adicionar-e-editar-horario').click(function(e) {
+      e.preventDefault();
+      var nome_horario= $('#nome_horario').val();
+      var descricao_horario= $('#descricao_horario').val();
+
+      if(nome_horario == "" || descricao_horario == ""){
+        return alert("Todos os campos devem ser preenchidos!");
+      }else {
+        $("#targetFormHorario" ).submit();
+      }    
+    });
+
+    $('a[data-confirm]').click(function(e) {
+      var href= $(this).attr('href');
+      if(!$('#remover-horario-modal').length){
+        $('body').append('<div class="modal fade" id="remover-horario-modal"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">Remover Horario</h4></div><div class="modal-body"><div class="modal-body">Realmente deseja <b>Remover</b> o Horario?</b></div><div class="modal-footer" id="sair"><button  class="btn btn-secondary" type="button"  data-dismiss="modal">Cancel</button><a id="data-confirma-acao" type="button" class="btn btn-danger">Remover</a></div></div></div></div></div>');
+      }
+      $('#data-confirma-acao').attr('href',href)
+      $('#remover-horario-modal').modal({show:true});
+      return false;
+    });
+
+    $('#editar-horario-modal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget)
+      var recipient_id_horario = button.data('whatever-id-horario')  
+      var recipient_nome_horario = button.data('whatever-nome-horario') 
+      var recipient_descricao_horario = button.data('whatever-descricao-horario')
+          
+      var modal = $(this)
+      modal.find('.modal-title').text('Editar Horario')
+      modal.find('#id_horario').val(recipient_id_horario)
+      modal.find('#nome_horario').val(recipient_nome_horario)
+      modal.find('#descricao_horario').val(recipient_descricao_horario)
+    });
+
+  });
 </script>
 
 <!-- Optionally, you can add Slimscroll and FastClick plugins.

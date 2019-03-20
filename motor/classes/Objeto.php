@@ -93,12 +93,10 @@
 		public function alterarInformacoesDoObjeto($cod_para_alterar) {
 			$sql = "
 				UPDATE tobjeto SET
-                coddep_tdep = '$this->coddep_tdep',
-                nomobj = '$this->nomobj',
-                desobj = '$this->desobj',
-                camobj = '$this->camobj',
-                staobj = '$this->staobj',
-                conresobj = '$this->conresobj'
+                	coddep_tdep = '$this->coddep_tdep',
+                	nomobj = '$this->nomobj',
+                	desobj = '$this->desobj',
+                	camobj = '$this->camobj'
 				WHERE codobj = '$cod_para_alterar';	
 			";
 		
