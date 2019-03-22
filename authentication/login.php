@@ -113,8 +113,8 @@
           $.ajax({
             url: '../motor/control/autenticacaoDeUsuarios.php',
             data: {
-            email : email,
-            senha : senha
+              email : email,
+              senha : senha
             },
             success: function(data) {
               obj = JSON.parse(data);

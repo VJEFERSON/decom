@@ -1,5 +1,0 @@
-Alterações Feitas no Banco de Dados:
--> Modifiquei o campo 'coddep_tdep' na tabela 'tobjeto' para chave estrangeira;
-    SQL = ALTER TABLE tobjeto ADD CONSTRAINT coddep_fk_tdepartamento
-        FOREIGN KEY(coddep_tdep) REFERENCES tdepartamento (coddep);
-->

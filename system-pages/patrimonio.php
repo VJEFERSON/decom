@@ -79,7 +79,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <!-- The user image in the navbar-->
               <img src="../dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
               <!-- hidden-xs hides the username on small devices so only the image appears. -->
-              <span class="hidden-xs">Alexander Pierce</span>
+              <span class="hidden-xs"><?php echo $_SESSION['nome'];?></span>
             </a>
             <ul class="dropdown-menu">
                 <!-- The user image in the menu -->
@@ -97,7 +97,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <a href="profile.php" class="btn btn-default btn-flat">Profile</a>
                   </div>
                   <div class="pull-right">
-                    <a href="../motor/control/encerrarSessao.php" class="btn btn-default btn-flat">Sign out</a>
+                    <a class="btn btn-default btn-flat" data-toggle="modal" data-target="#signin-modal">Sign out</a>
                   </div>
                 </li>
             </ul>
@@ -118,7 +118,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>Alexander Pierce</p>
+          <p><?php echo $_SESSION['nome'];?></p>
           <!-- Status -->
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
@@ -128,8 +128,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
         <!-- Optionally, you can add icons to the links -->
-        <li><a href="dashboard.html"><i class="fa  fa-dashboard"></i> <span>Dashboard</span></a></li>
-        <li><a href="agendamento.html"><i class="fa  fa-clock-o"></i> <span>Agendamentos</span></a></li>
+        <li><a href="dashboard.php"><i class="fa  fa-dashboard"></i> <span>Dashboard</span></a></li>
+        <li><a href="agendamento.php"><i class="fa  fa-clock-o"></i> <span>Agendamentos</span></a></li>
         <li class="treeview">
           <a href="#"><i class="fa fa-files-o"></i> <span>Documentos</span>
             <span class="pull-right-container">
@@ -137,17 +137,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="documentos/atas.html">Atas</a></li>
-            <li><a href="documentos/declaracoes.html">Declarações</a></li>
-            <li><a href="documentos/memorandos.html">Memorandos</a></li>
-            <li><a href="documentos/oficios.html">Oficios</a></li>
+            <li><a href="documentos/atas.php">Atas</a></li>
+            <li><a href="documentos/declaracoes.php">Declarações</a></li>
+            <li><a href="documentos/memorandos.php">Memorandos</a></li>
+            <li><a href="documentos/oficios.php">Oficios</a></li>
           </ul>
         </li>
-        <li><a href="ferias.html"><i class="fa  fa-calendar"></i> <span>Férias</span></a></li>
-        <li><a href="horarios.html"><i class="fa  fa-hourglass-start"></i> <span>Horários</span></a></li>
-        <li><a href="objetos.html"><i class="fa  fa-object-ungroup"></i> <span>Objetos</span></a></li>
-        <li><a href="patrimonio.html"><i class="fa fa-cart-plus"></i> <span>Patrimônio</span></a></li>
-        <li><a href="usuarios.html"><i class="fa fa-users"></i> <span>Usuários</span></a></li>
+        <li><a href="ferias.php"><i class="fa  fa-calendar"></i> <span>Férias</span></a></li>
+        <li><a href="horarios.php"><i class="fa  fa-hourglass-start"></i> <span>Horários</span></a></li>
+        <li><a href="objetos-departamentos.php"><i class="fa  fa-object-ungroup"></i> <span>Objetos e Departamentos</span></a></li>
+        <li><a href="patrimonio.php"><i class="fa fa-cart-plus"></i> <span>Patrimônio</span></a></li>
+        <li><a href="usuarios.php"><i class="fa fa-users"></i> <span>Usuários</span></a></li>
       </ul>
       <!-- /.sidebar-menu -->
     </section>
@@ -177,40 +177,65 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <button type="button" class="btn btn-block bg-olive btn-sm" data-toggle="modal" data-target="#modal-adicionar-patrimonio">Adicionar</button>
             </div>
             <!-- /.box-header -->
+            <?php  
+                $patrimonios= new Patrimonio();
+                $patrimonios=$patrimonios->buscarPatrimoniosRetornandoComVetor();
+                if(empty($patrimonios)) {
+            ?>
+                  <h4 class="well"> Nenhum dado encontrado. </h4>
+            <?php
+                } else {
+            ?>
             <div class="box-body">
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                    <th>Código</th>
+                    <th>Patrimônio</th>
                     <th>Nome</th>
+                    <th>Departamento</th>
                     <th>Situação</th>
                     <th>Ações</th>
                 </tr>
                 </thead>
                 <tbody>
+                  <?php
+										foreach($patrimonios as $patrimonio){
+						      ?>
                   <tr>
-                    <td>012019</td>
-                    <td>Cadeira</td>
-                    <td>Ativo</td>
+                    <td><?php echo $patrimonio['codpatri'];?></td>
+                    <td><?php echo $patrimonio['nompatri'];?></td>
+                    <td><?php echo $patrimonio['nomdep'];?></td>
+                    <td><?php echo $patrimonio['stapatri'];?></td>
                     <td>
-                      <button type="button" class="btn btn-warning btn-xs">
+                      <a type="button" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#editar-patrimonio-modal" data-whatever-id-patrimonio="<?php echo $patrimonio['codpatri'];?>" data-whatever-departamento-patrimonio="<?php  echo $patrimonio["coddep_tdep"]?>" 
+                        data-whatever-nome-patrimonio="<?php  echo $patrimonio["nompatri"]?>" data-whatever-descricao-patrimonio="<?php  echo $patrimonio["descpatri"]?>"
+                        data-whatever-status-patrimonio="<?php  echo $patrimonio["stapatri"]?>">
                         <i class="fa fa-edit"></i> Edit
-                      </button>
-                      <button type="button" class="btn btn-danger btn-xs">
+                      </a>
+                      <a type="button" disabled href="../motor/control/controleDePatrimonios.php?id_patrimonio=<?php  echo $patrimonio["codpatri"]?>&acao_formulario=deletar-patrimonio" class="btn btn-danger btn-xs" data-confirm-objeto="Realmente deseja <b>Remover</b> o Objeto?">
                         <i class="fa fa-remove"></i> Remove
-                      </button>
+                      </a>
                     </td>
                   </tr>
+                  <?php
+										}
+                  ?>
+                  <!-- /.end-foreach -->
                 </tbody>
                 <tfoot>
                   <tr>
-                    <th>Código</th>
+                    <th>Patrimônio</th>
                     <th>Nome</th>
+                    <th>Departamento</th>
                     <th>Situação</th>
                     <th>Ações</th>
                   </tr> 
                 </tfoot>
               </table>
+              <?php
+				        }
+              ?>
+              <!-- /.end-else -->
             </div>
             <!-- /.box-body -->
           </div>
@@ -223,7 +248,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-  <!-- Modal -->
+  <!-- Adicionar Patrimônio Modal -->
   <div class="modal fade" id="modal-adicionar-patrimonio">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -233,29 +258,120 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <h4 class="modal-title">Adicionar Patrimônio</h4>
         </div>
         <div class="modal-body">
-          <form role="form">
+          <form role="form" method="post">
+            <div class="form-group">
+              <label>Código Patrimônio</label>
+              <input type="number" name="id_patrimonio" id="id_patrimonio" class="form-control">
+            </div>
             <div class="form-group">
               <label>Nome</label>
-              <input type="text" class="form-control">
+              <input type="text" name="nome_patrimonio" id="nome_patrimonio" class="form-control" placeholder="Ex: Cadeira de Metal ...">
+            </div>
+            <div class="form-group">                
+              <label>Descrição</label>
+              <textarea name="descricao_patrimonio" id="descricao_patrimonio" class="form-control" rows="3" placeholder="Ex: Laboratório 31 ..."></textarea>
             </div>
             <div class="form-group">                
               <label>Situação</label>
-              <select class="form-control select2" style="width: 100%;">
-                <option selected="selected">Ativo</option>
-                <option>Baixa</option>
-                <option>Conserto</option>
-                <option>Danificado</option>
+              <select name="status_patrimonio" id="status_patrimonio" class="form-control select2" style="width: 100%;">
+                <option value="Ativo" selected="selected">Ativo</option>
+                <option value="Baixa">Baixa</option>
+                <option value="Conserto">Conserto</option>
+                <option value="Danificado">Danificado</option>
+              </select>
+            </div>
+            <div class="form-group">                
+              <label>Departamento</label>
+              <select name="departamento_patrimonio" id="departamento_patrimonio" class="form-control select2" style="width: 100%;">
+                <?php 
+                  $departamentos= new Departamento();
+                  $departamentos=$departamentos->buscarDepartamentosRetornandoComVetor();
+                  foreach($departamentos as $departamentos){?>
+                    <option value="<?php echo $departamentos['coddep']?>"><?php echo $departamentos['nomdep']?></option>
+                <?php } ?>
               </select>
             </div>
             <div class="form-group">
-              <label>Data de Compra</label>
-              <input type="text" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
-            </div>
-            <div class="form-group">
+              <input type="hidden" id="acao_formulario" value="criar-patrimonio">
               <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-success pull-right">Adicionar</button>
+              <button type="submit" id="adicionar-e-editar-patrimonio" class="btn btn-success pull-right">Adicionar</button>
             </div>
           </form>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+  <!-- Editar Modal-->
+  <div class="modal fade" id="editar-patrimonio-modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Sair</h4>
+        </div>
+        <div class="modal-body">
+          <form role="form" method="post">
+            <input type="hidden" name="id_patrimonio" id="id_patrimonio" class="form-control">
+            <div class="form-group">
+              <label>Nome</label>
+              <input type="text" name="nome_patrimonio" id="nome_patrimonio" class="form-control" >
+            </div>
+            <div class="form-group">                
+              <label>Descrição</label>
+              <textarea name="descricao_patrimonio" id="descricao_patrimonio" class="form-control" rows="3"></textarea>
+            </div>
+            <div class="form-group">                
+              <label>Situação</label>
+              <select name="status_patrimonio" id="status_patrimonio" class="form-control select2" style="width: 100%;">
+                <option value="Ativo">Ativo</option>
+                <option value="Baixa">Baixa</option>
+                <option value="Conserto">Conserto</option>
+                <option value="Danificado">Danificado</option>
+              </select>
+            </div>
+            <div class="form-group">                
+              <label>Departamento</label>
+              <select name="departamento_patrimonio" id="departamento_patrimonio" class="form-control select2" style="width: 100%;">
+                <?php 
+                  $departamentos= new Departamento();
+                  $departamentos=$departamentos->buscarDepartamentosRetornandoComVetor();
+                  foreach($departamentos as $departamentos){?>
+                    <option value="<?php echo $departamentos['coddep']?>"><?php echo $departamentos['nomdep']?></option>
+                <?php } ?>
+              </select>
+            </div>
+            <div class="form-group">
+              <input type="hidden" name="acao_formulario" value="editar-patrimonio">
+              <button type="button" class="btn btn-default " data-dismiss="modal">Fechar</button>
+              <button type="submit" id="adicionar-e-editar-patrimonio" class="btn btn-danger pull-right" >Editar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+  <!-- Sign Out Modal-->
+  <div class="modal fade" id="signin-modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Sair</h4>
+        </div>
+        <div class="modal-body">
+          <div class="modal-body">Realmente deseja sair?</div>
+          <div class="modal-footer" id="sair">
+            <button  class="btn btn-secondary" type="button"  data-dismiss="modal">Cancel</button>
+            <a class="btn btn-primary" href="../motor/control/encerrarSessao.php">Sair</a>
+          </div>
         </div>
       </div>
       <!-- /.modal-content -->
@@ -375,20 +491,77 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="../plugins/input-mask/jquery.inputmask.extensions.js"></script>
 <!-- page script -->
 <script>
-  $(function () {
-    //Tables filters
-    $('#example1').DataTable()
-    $('#example2').DataTable({
-      'paging'      : true,
-      'lengthChange': false,
-      'searching'   : false,
-      'ordering'    : true,
-      'info'        : true,
-      'autoWidth'   : false
-    })
-    //Money Euro
-    $('[data-mask]').inputmask()
-  })
+  $(document).ready(function(e) {
+    $(function () {
+      //Tables filters
+      $('#example1').DataTable()
+      //Money Euro
+      $('[data-mask]').inputmask()
+    });
+
+    $('#adicionar-e-editar-patrimonio').click(function(e) {
+      var id_patrimonio = $('#id_patrimonio').val();
+      var departamento_patrimonio = $('#departamento_patrimonio').val(); 
+      var nome_patrimonio = $('#nome_patrimonio').val();
+      var descricao_patrimonio = $('#descricao_patrimonio').val();
+      var status_patrimonio = $('#status_patrimonio').val();
+      var acao_formulario = $('#acao_formulario').val();
+
+      if(id_patrimonio == "" || nome_patrimonio == "" || descricao_patrimonio == ""){
+        return alert("Todos os campos devem ser preenchidos!");
+      }else {
+        $.ajax({
+            url: '../motor/control/controleDePatrimonios.php',
+            data: {
+              id_patrimonio : id_patrimonio,
+              departamento_patrimonio : departamento_patrimonio,
+              nome_patrimonio : nome_patrimonio,
+              descricao_patrimonio : descricao_patrimonio,
+              status_patrimonio : status_patrimonio,
+              acao_formulario : acao_formulario
+            },
+            success: function(data) {
+              obj = JSON.parse(data);
+              console.log(obj.res);
+              
+              if(obj.res == 'patrimonio_ja_inserido') {
+                alert("Este Código de Patrimônio já está inserido na Base de Dados!");
+              } else if(obj.res == 'inserir_sucesso') {
+                alert("Patrimônio adicionado com sucesso!");
+              } else if(obj.res == 'inserir_erro') {
+                alert("Patrimônio não foi adicionado. Algum erro ocorreu!");
+              }else if(obj.res == 'editar_sucesso') {
+                alert("Patrimônio editado com sucesso!");
+              }else if(obj.res == 'editar_erro') {
+                alert("Patrimônio editado com sucesso!");
+              }else {
+                alert("Erro ao conectar com banco de dados. Aguarde e tente novamente em alguns instantes!");
+              }
+            },
+            type:'post'
+        });
+      }    
+    });
+
+    $('#editar-patrimonio-modal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget)
+      var recipient_id_patrimonio = button.data('whatever-id-patrimonio')
+      var recipient_nome_patrimonio = button.data('whatever-nome-patrimonio') 
+      var recipient_descricao_patrimonio = button.data('whatever-descricao-patrimonio')
+      var recipient_status_patrimonio = button.data('whatever-status-patrimonio')
+      var recipient_departamento_patrimonio = button.data('whatever-departamento-patrimonio')
+          
+      var modal = $(this)
+      modal.find('.modal-title').text('Editar Património')
+      modal.find('#id_patrimonio').val(recipient_id_patrimonio)
+      modal.find('#nome_patrimonio').val(recipient_nome_patrimonio)
+      modal.find('#descricao_patrimonio').val(recipient_descricao_patrimonio)
+      modal.find('#status_patrimonio').val(recipient_status_patrimonio)
+      modal.find('#departamento_patrimonio').val(recipient_departamento_patrimonio)
+    });
+
+
+  });
   
 </script>
 
