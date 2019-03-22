@@ -87,7 +87,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
                   <p>
-                    <?php echo $_SESSION['nome'];?>
+                    <?php echo $_SESSION['id_patrimonio'];?>
                     <small><?php echo $_SESSION['funcao'];?></small>
                   </p>
                 </li>
@@ -212,7 +212,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         data-whatever-status-patrimonio="<?php  echo $patrimonio["stapatri"]?>">
                         <i class="fa fa-edit"></i> Edit
                       </a>
-                      <a type="button" disabled href="../motor/control/controleDePatrimonios.php?id_patrimonio=<?php  echo $patrimonio["codpatri"]?>&acao_formulario=deletar-patrimonio" class="btn btn-danger btn-xs" data-confirm-objeto="Realmente deseja <b>Remover</b> o Objeto?">
+                      <a type="button" id="<?php  echo $patrimonio["codpatri"]?>" acao_formulario="deletar-patrimonio" class="btn btn-danger btn-xs remover-patrimonio">
                         <i class="fa fa-remove"></i> Remove
                       </a>
                     </td>
@@ -314,8 +314,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <h4 class="modal-title">Sair</h4>
         </div>
         <div class="modal-body">
-          <form role="form" method="post">
-            <input type="hidden" name="id_patrimonio" id="id_patrimonio" class="form-control">
+          <form role="form" method="Post">
+          <div class="form-group">
+              <label>Código Patrimônio</label>
+              <input type="number" name="id_patrimonio" id="id_patrimonio" class="form-control" disabled>
+            </div>
             <div class="form-group">
               <label>Nome</label>
               <input type="text" name="nome_patrimonio" id="nome_patrimonio" class="form-control" >
@@ -345,7 +348,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </select>
             </div>
             <div class="form-group">
-              <input type="hidden" name="acao_formulario" value="editar-patrimonio">
+              <input type="hidden" name="acao_formulario" id="acao_formulario" value="editar-patrimonio">
               <button type="button" class="btn btn-default " data-dismiss="modal">Fechar</button>
               <button type="submit" id="adicionar-e-editar-patrimonio" class="btn btn-danger pull-right" >Editar</button>
             </div>
@@ -500,6 +503,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     });
 
     $('#adicionar-e-editar-patrimonio').click(function(e) {
+      e.preventDefault();
       var id_patrimonio = $('#id_patrimonio').val();
       var departamento_patrimonio = $('#departamento_patrimonio').val(); 
       var nome_patrimonio = $('#nome_patrimonio').val();
@@ -510,6 +514,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       if(id_patrimonio == "" || nome_patrimonio == "" || descricao_patrimonio == ""){
         return alert("Todos os campos devem ser preenchidos!");
       }else {
+        $('#modal-adicionar-patrimonio').modal('hide');
         $.ajax({
             url: '../motor/control/controleDePatrimonios.php',
             data: {
@@ -537,6 +542,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               }else {
                 alert("Erro ao conectar com banco de dados. Aguarde e tente novamente em alguns instantes!");
               }
+              window.location.reload(); 
             },
             type:'post'
         });
@@ -559,6 +565,45 @@ scratch. This page gets rid of all links and provides the needed markup only.
       modal.find('#status_patrimonio').val(recipient_status_patrimonio)
       modal.find('#departamento_patrimonio').val(recipient_departamento_patrimonio)
     });
+
+    $('a.remover-patrimonio').click(function(e) {
+      var id_patrimonio = $(this).attr('id');
+      var acao_formulario = $(this).attr('acao_formulario');
+      
+      if(!$('#remover-patrimonio-modal').length){
+        $('body').append('<div class="modal fade" id="remover-patrimonio-modal"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">Remover Patrimônio</h4></div><div class="modal-body"><div class="modal-body">Realmente deseja <b>Remover</b> o Patrimônio?</b></div><div class="modal-footer" id="sair"><button  class="btn btn-secondary" type="button"  data-dismiss="modal">Cancel</button><a type="button" class="btn btn-danger btn-ok">Remover</a></div></div></div></div></div>');
+      }
+      $('#remover-patrimonio-modal').modal({show:true});
+      $("#remover-patrimonio-modal").modal().find(".btn-ok").unbind('click');
+      $("#remover-patrimonio-modal").modal().find(".btn-ok").on("click", function(){
+        $('#remover-patrimonio-modal').modal('hide'); 
+        $.ajax({
+            url: '../motor/control/controleDePatrimonios.php',
+            data: {
+              id_patrimonio : id_patrimonio,
+              acao_formulario : acao_formulario
+            },
+            
+            success: function(data) {
+              obj = JSON.parse(data);
+              console.log(obj.res);
+              
+              if(obj.res == 'deletar_sucesso') {
+                alert("Patrimônio removido com sucesso!");
+              } else if(obj.res == 'deletar_erro') {
+                alert("Patrimônio não foi removido. Algum erro ocorreu!");
+              }else {
+                alert("Erro ao conectar com banco de dados. Aguarde e tente novamente em alguns instantes!");
+              }
+              window.location.reload(); 
+            },
+            type:'get'
+         });                
+      });
+    });
+
+
+    
 
 
   });

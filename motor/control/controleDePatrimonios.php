@@ -12,16 +12,18 @@
         header("location: ../../authentication/login.php");
     }
 
-    $id_patrimonio=$_POST['id_patrimonio'];
+    $id_patrimonio=$_REQUEST['id_patrimonio'];
     $id_patrimonio=intval($id_patrimonio);
-    $codigo_departamento=$_POST['departamento_patrimonio'];
+    $codigo_departamento=$_REQUEST['departamento_patrimonio'];
     $codigo_departamento=intval($codigo_departamento);
-    $nome_patrimonio=$_POST['nome_patrimonio'];
-    $descricao_patrimonio=$_POST['descricao_patrimonio'];	
-    $status_patrimonio=$_POST['status_patrimonio'];
-    $acao_formulario = $_POST['acao_formulario'];
+    $nome_patrimonio=$_REQUEST['nome_patrimonio'];
+    $descricao_patrimonio=$_REQUEST['descricao_patrimonio'];	
+    $status_patrimonio=$_REQUEST['status_patrimonio'];
+    $acao_formulario = $_REQUEST['acao_formulario'];
+    
     $res;
-
+    
+    $_SESSION['id_patrimonio'] = $acao_formulario;
 	$patrimonio = new Patrimonio();
     
     if($acao_formulario == 'deletar-patrimonio'){
@@ -32,11 +34,11 @@
             $res['res'] = 'deletar_erro';
         }
     } else {
-        $patrimonio->setarValoresDaInstancia($id_patrimonio,$codigo_departamento,$nome_patrimonio,$descricao_patrimonio,$status_patrimonio);
         switch($acao_formulario) {
             case 'criar-patrimonio':
                 $verificaExistenciaDoPatrimonio=$patrimonio->buscarPatrimonioCadastradoPeloId($id_patrimonio);
                 if($verificaExistenciaDoPatrimonio === NULL){
+                    $patrimonio->setarValoresDaInstancia($id_patrimonio,$codigo_departamento,$nome_patrimonio,$descricao_patrimonio,$status_patrimonio);
                     $res = $patrimonio->inserirPatrimonioNoBanco();
                     if ($res === NULL) {
                         $res['res'] = 'inserir_erro';
@@ -50,6 +52,7 @@
                 break;	
     
             case 'editar-patrimonio':
+                $patrimonio->setarValoresDaInstanciaParaEdicao($codigo_departamento,$nome_patrimonio,$descricao_patrimonio,$status_patrimonio);
                 $res = $patrimonio->alterarInformacoesDoPatrimonio($id_patrimonio);
                 if ($res === NULL) {
                     $res['res'] = 'editar_erro';	
@@ -60,6 +63,6 @@
                 break;			
         }
     }
-    
+
     echo json_encode($res);
 ?>

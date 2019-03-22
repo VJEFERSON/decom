@@ -524,14 +524,6 @@
         $(function () {
           //Tables filters
           $('#example1').DataTable()
-          $('#example2').DataTable({
-            'paging'      : true,
-            'lengthChange': false,
-            'searching'   : false,
-            'ordering'    : true,
-            'info'        : true,
-            'autoWidth'   : false
-          })
           //Money Euro
           $('[data-mask]').inputmask()
         });

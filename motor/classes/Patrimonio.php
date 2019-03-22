@@ -23,6 +23,12 @@
             $this->descpatri=$descpatri;
             $this->stapatri=$stapatri;			
 		}
+		public function setarValoresDaInstanciaParaEdicao($coddep_tdep, $nompatri, $descpatri, $stapatri){
+            $this->coddep_tdep=$coddep_tdep;
+            $this->nompatri=$nompatri;
+            $this->descpatri=$descpatri;
+            $this->stapatri=$stapatri;			
+		}
 
 		public function inserirPatrimonioNoBanco() {
 			$sql = "
