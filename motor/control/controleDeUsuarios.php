@@ -25,40 +25,37 @@
     $status_usuario=intval($status_usuario);	
 	$acao_formulario = $_REQUEST['acao_formulario'];
     
-    var_dump($id_usuario);
-    var_dump($acao_formulario);
-
 	$User = new Usuario();
     
     if($acao_formulario == 'deletar-usuario'){
-        $res = $User->deletarUsuario($id_usuario);
-        if ($res === NULL) {
-            $res= 'true';	
+        $resposta = $User->deletarUsuario($id_usuario);
+        if ($resposta === NULL) {
+            $_SESSION['respostaDaRequisicao']='deletar-sucesso';	
         } else {
-            $res = 'false';	
+            $_SESSION['respostaDaRequisicao']='deletar-erro';	
         }
         header("location: ../../system-pages/usuarios.php");
     } else {
         $User->setarValoresDaInstancia($codigo_departamento,$nome,$email,$senha,$funcao,$tipo_usuario,$status_usuario);
         switch($acao_formulario) {
             case 'criar-usuario':
-                $res = $User->inserirUsuarioNoBanco();
-                if ($res === NULL) {
-                    $res = 'true';
+                $resposta = $User->inserirUsuarioNoBanco();
+                if ($resposta === NULL) {
+                    $_SESSION['respostaDaRequisicao']='criar-erro';	
                 }
                 else {
-                    $res = 'false';	
+                    $_SESSION['respostaDaRequisicao']='criar-sucesso';
                 }			
                 header("location: ../../system-pages/usuarios.php");
                 break;	
     
             case 'editar-usuario':
-                $res = $User->alterarInformacoesDoUsuario($id_usuario);
-                if ($res === NULL) {
-                    $res= 'true';	
+                $resposta = $User->alterarInformacoesDoUsuario($id_usuario);
+                if ($resposta === NULL) {
+                    $_SESSION['respostaDaRequisicao']='editar-sucesso';
                 }
                 else {
-                    $res = 'false';	
+                    $_SESSION['respostaDaRequisicao']='editar-erro';
                 }
                 header("location: ../../system-pages/usuarios.php");
                 break;			

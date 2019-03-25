@@ -165,6 +165,54 @@
         <!-- Main content -->
         <section class="content container-fluid">
           <div class="row">
+            <div class="col-md-12">
+              <?php 
+                if($_SESSION['respostaDaRequisicao']=='deletar-sucesso'){
+                  $alerta = '<div class="alert alert-success alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                  <h4><i class="icon fa fa-check"></i> Removido!</h4>
+                  Usuário foi removido com sucesso! Clique no botão &times para fechar!
+                  </div>';
+                  $_SESSION['respostaDaRequisicao']='vazio';
+                }else if($_SESSION['respostaDaRequisicao']=='deletar-erro'){
+                  $alerta = '<div class="alert alert-danger alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                  <h4><i class="icon fa fa-ban"></i> Remover!</h4>
+                  Usuário não foi editado! Clique no botão &times para fechar!
+                  </div>';
+                  $_SESSION['respostaDaRequisicao']='vazio';
+                }else if($_SESSION['respostaDaRequisicao']=='criar-sucesso'){
+                  $alerta = '<div class="alert alert-success alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                  <h4><i class="icon fa fa-check"></i> Adicionado!</h4>
+                  Usuário foi adicionado com sucesso! Clique no botão &times para fechar!
+                </div>';
+                  $_SESSION['respostaDaRequisicao']='vazio';
+                }else if($_SESSION['respostaDaRequisicao']=='criar-erro'){
+                  $alerta = '<div class="alert alert-danger alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                  <h4><i class="icon fa fa-ban"></i> Adicionar!</h4>
+                  Usuário não foi adicionado! Clique no botão &times para fechar!
+                  </div>';
+                  $_SESSION['respostaDaRequisicao']='vazio';
+                }else if($_SESSION['respostaDaRequisicao']=='editar-sucesso'){
+                  $alerta = '<div class="alert alert-success alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                  <h4><i class="icon fa fa-check"></i> Editado!</h4>
+                  Usuário foi editado com sucesso! Clique no botão &times para fechar!
+                  </div>';
+                  $_SESSION['respostaDaRequisicao']='vazio';
+                }else if($_SESSION['respostaDaRequisicao']=='editar-erro'){
+                  $alerta = '<div class="alert alert-danger alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                  <h4><i class="icon fa fa-ban"></i> Editar!</h4>
+                  Usuário não foi editado! Clique no botão &times para fechar!
+                  </div>';
+                  $_SESSION['respostaDaRequisicao']='vazio';
+                }
+                echo $alerta;
+              ?>
+            </div>
             <div class="col-xs-12">
               <!-- /.box -->
               <div class="box">
@@ -185,9 +233,9 @@
                   <table id="example1" class="table table-bordered table-striped">
                     <thead>
                     <tr>
-                        <th>Código</th>
                         <th>Nome</th>
                         <th>Login/Email</th>
+                        <th>Função</th>
                         <th>Tipo de Usuário</th>
                         <th>Status</th>
                         <th>Ações</th>
@@ -198,11 +246,11 @@
 												foreach($user as $user){
 											?>
                           <tr>
-                            <td><?php echo $user['codusu'];?></td>
                             <td><?php echo $user['nomusu'];?></td>
                             <td><?php echo $user['logusu'];?></td>
-                            <td><?php echo $user['nivusu'];?></td>
-                            <td><?php echo $user['stausu'];?></td>
+                            <td><?php echo $user['funusu'];?></td>
+                            <td><?php if($user['nivusu']==1){echo "ADM";}else echo "COMUM";?></td>
+                            <td><?php if($user['stausu']==1){echo "ATIVO";}else echo "DESATIVADO";?></td>
                             <td>
                               <a type="button" class="btn btn-primary btn-xs">
                                 <i class="glyphicon glyphicon-eye-open"></i> View
@@ -225,9 +273,9 @@
                     </tbody>
                     <tfoot>
                     <tr>
-                        <th>Código</th>
                         <th>Nome</th>
                         <th>Login/Email</th>
+                        <th>Função</th>
                         <th>Tipo de Usuário</th>
                         <th>Status</th>
                         <th>Ações</th>
@@ -289,8 +337,12 @@
                 <div class="form-group">                
                   <label>Departamento</label>
                   <select class="form-control select2" style="width: 100%;" id="codigo_departamento" name="codigo_departamento">
-                    <option value="0" selected="selected">DECOM</option>
-                    <option value="1" >FACET</option>
+                    <?php 
+                      $departamentos= new Departamento();
+                      $departamentos=$departamentos->buscarDepartamentosRetornandoComVetor();
+                      foreach($departamentos as $departamentos){?>
+                        <option value="<?php echo $departamentos['coddep']?>"><?php echo $departamentos['nomdep']?></option>
+                    <?php } ?>
                   </select>
                 </div>
                 <div class="form-group">                
@@ -355,8 +407,12 @@
                 <div class="form-group">                
                   <label>Departamento</label>
                   <select class="form-control select2" style="width: 100%;" id="codigo_departamento" name="codigo_departamento">
-                    <option value="0" >DECOM</option>
-                    <option value="1" >FACET</option>
+                    <?php 
+                      $departamentos= new Departamento();
+                      $departamentos=$departamentos->buscarDepartamentosRetornandoComVetor();
+                      foreach($departamentos as $departamentos){?>
+                        <option value="<?php echo $departamentos['coddep']?>"><?php echo $departamentos['nomdep']?></option>
+                    <?php } ?>
                   </select>
                 </div>
                 <div class="form-group">                

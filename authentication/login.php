@@ -1,3 +1,12 @@
+<?PHP
+  $showerros = true;
+  if($showerros) {
+    ini_set("display_errors", $showerros);
+    error_reporting(E_ALL ^ E_NOTICE ^ E_STRICT);
+  }
+	session_start();
+  require_once "../motor/requested.php";
+?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -32,6 +41,33 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
   </head>
   <body class="hold-transition login-page">
+    <div class="row">
+      <div class="col-md-12">
+        <?php 
+          if($_SESSION['respostaDaRequisicao']=='campos_nao_preenchidos'){
+            $alerta = "<div id='alerta-preenchimento' class='alert alert-info alert-dismissible'>
+            <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+            <h4><i class='icon fa fa-info'></i> Atenção!</h4>Todos os campos devem ser preenchidos!</div>";
+            session_destroy();
+          }else if($_SESSION['respostaDaRequisicao']=='no_user_found'){
+            $alerta = '<div id="alerta-email-nao-existe" class="alert alert-warning alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <h4><i class="icon fa fa-warning"></i> Atenção!</h4>
+            Usuário com o Email informado não foi encontrado!
+            </div>';
+            session_destroy();
+          }else if($_SESSION['respostaDaRequisicao']=='wrong_password'){
+            $alerta = '<div id="alerta-senha-incorreta" class="alert alert-warning alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <h4><i class="icon fa fa-warning"></i> Atenção!</h4>
+            Senha incorreta!
+            </div>';
+          }
+          echo $alerta;
+        ?>
+      </div>
+    </div>
+    <!-- /.row -->
   <div class="login-box">
     <div class="login-logo">
       <a href="login.php"><b>SISA</b>DECOM</a>
@@ -44,13 +80,13 @@
       <p class="login-box-msg"> 	
           Identifique-se por favor para ter acesso aos serviços de agendamento do Departamento de Computação!
       </p>
-      <form >
+      <form action="../motor/control/autenticacaoDeUsuarios.php" method="Post">
         <div class="form-group has-feedback">
-          <input type="email" id="email" class="form-control" placeholder="Email">
+          <input type="email" name="email" class="form-control" placeholder="Email">
           <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
         </div>
         <div class="form-group has-feedback">
-          <input type="password" id="senha" class="form-control" placeholder="Senha">
+          <input type="password" name="senha" class="form-control" placeholder="Senha">
           <span class="glyphicon glyphicon-lock form-control-feedback"></span>
         </div>
         <div class="row">
@@ -63,7 +99,7 @@
           </div>
           <!-- /.col -->
           <div class="col-xs-4">
-            <button type="submit" id="logar" class="btn btn-primary btn-block btn-flat" value="Login">Entar</button>
+            <button type="submit" class="btn btn-primary btn-block btn-flat" >Entar</button>
           </div>
           <!-- /.col -->
         </div>
@@ -82,6 +118,10 @@
   <script src="../bower_components/jquery/dist/jquery.min.js"></script>
   <!-- Bootstrap 3.3.7 -->
   <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="../../dist/js/adminlte.min.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="../../dist/js/demo.js"></script>
   <!-- iCheck -->
   <script src="../plugins/iCheck/icheck.min.js"></script>
   <!-- Sweet Alert 2-->
@@ -96,43 +136,6 @@
           radioClass: 'iradio_square-blue',
           increaseArea: '20%' /* optional */
         });
-      });
-      $('#logar').click(function(e) {
-        var email = $('#email').val();
-        var senha = $('#senha').val();
-
-        if( !email || !senha ) {
-          Swal.fire({
-            type: 'info',
-            title: 'Atenção',
-            text: 'Todos os campos devem ser preenchidos!',
-            timer: 10000
-          });
-          
-        } else {
-          $.ajax({
-            url: '../motor/control/autenticacaoDeUsuarios.php',
-            data: {
-              email : email,
-              senha : senha
-            },
-            success: function(data) {
-              obj = JSON.parse(data);
-              console.log(obj.res);
-
-              if(obj.res == 'true') {
-                document.location.href = '../system-pages/dashboard.php';
-              } else if(obj.res == 'no_user_found') {
-                alert("Usuário com o Email informado não foi encontrado!");
-              } else if(obj.res == 'wrong_password') {
-                alert("Senha incorreta!");
-              }else {
-                alert("Erro ao conectar com banco de dados. Aguarde e tente novamente em alguns instantes!");
-              }
-            },
-            type: 'POST'
-          });     
-        }
       });
     });
   </script>
