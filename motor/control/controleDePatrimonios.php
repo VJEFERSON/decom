@@ -20,19 +20,18 @@
     $descricao_patrimonio=$_REQUEST['descricao_patrimonio'];	
     $status_patrimonio=$_REQUEST['status_patrimonio'];
     $acao_formulario = $_REQUEST['acao_formulario'];
-    
-    $res;
-    
-    $_SESSION['id_patrimonio'] = $acao_formulario;
+
+    $_SESSION['respostaDaRequisicao']='erro';
 	$patrimonio = new Patrimonio();
     
     if($acao_formulario == 'deletar-patrimonio'){
         $res = $patrimonio->deletarPatrimonio($id_patrimonio);
         if ($res === NULL) {
-            $res['res']= 'deletar_sucesso';	
+            $_SESSION['respostaDaRequisicao']='deletar-sucesso';	
         } else {
-            $res['res'] = 'deletar_erro';
+            $_SESSION['respostaDaRequisicao']='deletar-erro';
         }
+        header("location: ../../system-pages/patrimonio.php");
     } else {
         switch($acao_formulario) {
             case 'criar-patrimonio':
@@ -41,28 +40,29 @@
                     $patrimonio->setarValoresDaInstancia($id_patrimonio,$codigo_departamento,$nome_patrimonio,$descricao_patrimonio,$status_patrimonio);
                     $res = $patrimonio->inserirPatrimonioNoBanco();
                     if ($res === NULL) {
-                        $res['res'] = 'inserir_erro';
+                        $_SESSION['respostaDaRequisicao']='criar-erro';	
                     }
                     else {
-                        $res['res'] = 'inserir_sucesso';	
+                        $_SESSION['respostaDaRequisicao']='criar-sucesso';	
                     }
                 }else{
-                    $res['res'] = 'patrimonio_ja_inserido';
-                }		
+                    $_SESSION['respostaDaRequisicao'] = 'patrimonio-ja-inserido';  
+                }	
+                header("location: ../../system-pages/patrimonio.php");	
                 break;	
     
             case 'editar-patrimonio':
                 $patrimonio->setarValoresDaInstanciaParaEdicao($codigo_departamento,$nome_patrimonio,$descricao_patrimonio,$status_patrimonio);
                 $res = $patrimonio->alterarInformacoesDoPatrimonio($id_patrimonio);
                 if ($res === NULL) {
-                    $res['res'] = 'editar_erro';	
+                    $_SESSION['respostaDaRequisicao']='editar-sucesso';	
                 }
                 else {
-                    $res['res'] = 'editar_sucesso';	
+                    $_SESSION['respostaDaRequisicao']='editar-erro';	
                 }
+                header("location: ../../system-pages/patrimonio.php");
                 break;			
         }
     }
-
-    echo json_encode($res);
+    header("location: ../../system-pages/patrimonio.php");
 ?>

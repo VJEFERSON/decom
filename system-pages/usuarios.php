@@ -167,7 +167,9 @@
           <div class="row">
             <div class="col-md-12">
               <?php 
-                if($_SESSION['respostaDaRequisicao']=='deletar-sucesso'){
+                if($_SESSION['respostaDaRequisicao']=='vazio'){
+                  $_SESSION['respostaDaRequisicao']='vazio';
+                }else if($_SESSION['respostaDaRequisicao']=='deletar-sucesso'){
                   $alerta = '<div class="alert alert-success alert-dismissible">
                   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                   <h4><i class="icon fa fa-check"></i> Removido!</h4>
@@ -207,6 +209,19 @@
                   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                   <h4><i class="icon fa fa-ban"></i> Editar!</h4>
                   Usuário não foi editado! Clique no botão &times para fechar!
+                  </div>';
+                  $_SESSION['respostaDaRequisicao']='vazio';
+                }else if($_SESSION['respostaDaRequisicao']=='usuario-ja-inserido'){
+                  $alerta = "<div id='alerta-preenchimento' class='alert alert-info alert-dismissible'>
+                  <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                  <h4><i class='icon fa fa-info'></i> Atenção!</h4>
+                  Usuário não adicionado porque Email informado já esta inserido na base de dados, escolha outro Email!</div>";
+                  $_SESSION['respostaDaRequisicao']='vazio';
+                }else{
+                  $alerta = '<div class="alert alert-danger alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                  <h4><i class="icon fa fa-ban"></i> Erro!</h4>
+                  Erro ao conectar com a base de dados, tente novamente mais tarde! Clique no botão &times para fechar!
                   </div>';
                   $_SESSION['respostaDaRequisicao']='vazio';
                 }

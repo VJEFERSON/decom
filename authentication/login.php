@@ -25,11 +25,7 @@
     <link rel="stylesheet" href="../dist/css/AdminLTE.css">
     <!-- iCheck -->
     <link rel="stylesheet" href="../plugins/iCheck/square/blue.css">
-    <!-- Sweet Alert 2 -->
-    <link rel="stylesheet" href="../plugins/sweetalert2/sweetalert2.min.css">
-
     
-
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -124,8 +120,6 @@
   <script src="../../dist/js/demo.js"></script>
   <!-- iCheck -->
   <script src="../plugins/iCheck/icheck.min.js"></script>
-  <!-- Sweet Alert 2-->
-  <script src="../plugins/sweetalert2/sweetalert2.all.min.js"></script>
 
   <!-- Page Scripts --->
   <script>

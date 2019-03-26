@@ -25,7 +25,8 @@
     $status_usuario=intval($status_usuario);	
 	$acao_formulario = $_REQUEST['acao_formulario'];
     
-	$User = new Usuario();
+    $_SESSION['respostaDaRequisicao']='erro';
+    $User = new Usuario();
     
     if($acao_formulario == 'deletar-usuario'){
         $resposta = $User->deletarUsuario($id_usuario);
@@ -36,20 +37,26 @@
         }
         header("location: ../../system-pages/usuarios.php");
     } else {
-        $User->setarValoresDaInstancia($codigo_departamento,$nome,$email,$senha,$funcao,$tipo_usuario,$status_usuario);
         switch($acao_formulario) {
             case 'criar-usuario':
-                $resposta = $User->inserirUsuarioNoBanco();
-                if ($resposta === NULL) {
-                    $_SESSION['respostaDaRequisicao']='criar-erro';	
-                }
-                else {
-                    $_SESSION['respostaDaRequisicao']='criar-sucesso';
-                }			
+                $verificaExistenciaDoUsuarioComEmailInformado=$User->buscarUsuarioCadastradoPeloEmail($email);
+                if($verificaExistenciaDoUsuarioComEmailInformado === NULL){
+                    $User->setarValoresDaInstancia($codigo_departamento,$nome,$email,$senha,$funcao,$tipo_usuario,$status_usuario);
+                    $resposta = $User->inserirUsuarioNoBanco();
+                    if ($resposta === NULL) {
+                        $_SESSION['respostaDaRequisicao']='criar-erro';	
+                    }
+                    else {
+                        $_SESSION['respostaDaRequisicao']='criar-sucesso';
+                    }
+                }else{
+                    $_SESSION['respostaDaRequisicao'] = 'usuario-ja-inserido';  
+                }		
                 header("location: ../../system-pages/usuarios.php");
                 break;	
     
             case 'editar-usuario':
+            $User->setarValoresDaInstancia($codigo_departamento,$nome,$email,$senha,$funcao,$tipo_usuario,$status_usuario);
                 $resposta = $User->alterarInformacoesDoUsuario($id_usuario);
                 if ($resposta === NULL) {
                     $_SESSION['respostaDaRequisicao']='editar-sucesso';
@@ -61,4 +68,5 @@
                 break;			
         }
     }
+    header("location: ../../system-pages/usuarios.php");
 ?>
