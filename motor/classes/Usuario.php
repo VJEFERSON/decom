@@ -32,6 +32,13 @@
 			$this->stausu=$stausu;			
 		}
 
+		public function setarValoresProfile($coddep_tdep,$nomusu,$logusu,$funusu){
+			$this->coddep_tdep=$coddep_tdep;
+			$this->nomusu=$nomusu;
+			$this->logusu=$logusu;
+			$this->funusu=$funusu;			
+		}
+
 		public function inserirUsuarioNoBanco() {
 			$sql = "
 				INSERT INTO tusuario ( coddep_tdep,nomusu,logusu,senusu,funusu,nivusu,stausu )  
@@ -78,7 +85,6 @@
 			$DB = new DataBaseConnection();
 			$DB->estabelerConexaoDataBase();
 			$Data = $DB->fetchData($sql);
-			$realData;
 			if($Data ==NULL){
 				$realData = $Data;
 			}
@@ -123,6 +129,51 @@
 				WHERE codusu = '$cod_para_alterar';	
 			";
 		
+			$DB = new DataBaseConnection();
+			$DB->estabelerConexaoDataBase();
+			$resultadoConsulta =$DB->query($sql);
+			$DB->encerrarConexaoDataBase();
+			return $resultadoConsulta;
+		}
+
+		public function alterarSenhaDoUsuario($cod_para_alterar,$senha_nova) {
+			$sql = "
+				UPDATE tusuario SET
+					senusu = '$senha_nova'
+				WHERE codusu = '$cod_para_alterar';	
+			";
+		
+			$DB = new DataBaseConnection();
+			$DB->estabelerConexaoDataBase();
+			$resultadoConsulta =$DB->query($sql);
+			$DB->encerrarConexaoDataBase();
+			return $resultadoConsulta;
+		}
+
+		public function alterarInformacoesProfileDoUsuario($cod_para_alterar) {
+			$sql = "
+				UPDATE tusuario SET
+					coddep_tdep='$this->coddep_tdep',
+					nomusu='$this->nomusu',
+			   		logusu='$this->logusu',
+			   		funusu='$this->funusu'
+				WHERE codusu = '$cod_para_alterar';
+			";
+		
+			$DB = new DataBaseConnection();
+			$DB->estabelerConexaoDataBase();
+			$resultadoConsulta =$DB->query($sql);
+			$DB->encerrarConexaoDataBase();
+			return $resultadoConsulta;
+		}
+
+		public function desativarUsuario($cod_para_desativar) {
+			$sql = "
+				UPDATE tusuario SET 
+					stausu = '0'
+				WHERE codusu = '$cod_para_desativar';	
+			";
+
 			$DB = new DataBaseConnection();
 			$DB->estabelerConexaoDataBase();
 			$resultadoConsulta =$DB->query($sql);

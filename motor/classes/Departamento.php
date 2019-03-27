@@ -66,7 +66,6 @@
 			$DB = new DataBaseConnection();
 			$DB->estabelerConexaoDataBase();
 			$Data = $DB->fetchData($sql);
-			$realData;
 			if($Data ==NULL){
 				$realData = $Data;
 			}

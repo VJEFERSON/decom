@@ -180,7 +180,7 @@
                       $alerta = '<div class="alert alert-danger alert-dismissible">
                       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                       <h4><i class="icon fa fa-ban"></i> Remover!</h4>
-                      Patrimônio não foi editado! Clique no botão &times para fechar!
+                      Patrimônio não foi removido com sucesso! Clique no botão &times para fechar!
                       </div>';
                       $_SESSION['respostaDaRequisicao']='vazio';
                     }else if($_SESSION['respostaDaRequisicao']=='criar-sucesso'){

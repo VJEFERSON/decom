@@ -19,14 +19,15 @@
     $cidade=$_REQUEST['cidade'];	
 	$acao_formulario = $_REQUEST['acao_formulario'];
 
+    $_SESSION['respostaDaRequisicao']='erro';
 	$departamento = new Departamento();
     
     if($acao_formulario == 'deletar-departamento'){
         $res = $departamento->deletarDepartamento($id_departamento);
         if ($res === NULL) {
-            $res= 'true';	
+            $_SESSION['respostaDaRequisicao']='deletar-departamento-sucesso';	
         } else {
-            $res = 'false';	
+            $_SESSION['respostaDaRequisicao']='deletar-departamento-erro';	
         }
         header("location: ../../system-pages/objetos-departamentos.php");
     } else {
@@ -35,10 +36,10 @@
             case 'criar-departamento':
                 $res = $departamento->inserirDepartamentoNoBanco();
                 if ($res === NULL) {
-                    $res = 'true';
+                    $_SESSION['respostaDaRequisicao']='criar-departamento-erro';
                 }
                 else {
-                    $res = 'false';	
+                    $_SESSION['respostaDaRequisicao']='criar-departamento-sucesso';	
                 }			
                 header("location: ../../system-pages/objetos-departamentos.php");
                 break;	
@@ -46,13 +47,14 @@
             case 'editar-departamento':
                 $res = $departamento->alterarInformacoesDoDepartamento($id_departamento);
                 if ($res === NULL) {
-                    $res= 'true';	
+                    $_SESSION['respostaDaRequisicao']='editar-departamento-sucesso';	
                 }
                 else {
-                    $res = 'false';	
+                    $_SESSION['respostaDaRequisicao']='editar-departamento-erro';	
                 }
                 header("location: ../../system-pages/objetos-departamentos.php");
                 break;			
         }
     }
+    header("location: ../../system-pages/objetos-departamentos.php");
 ?>

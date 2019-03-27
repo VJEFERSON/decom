@@ -17,14 +17,15 @@
     $descricao_horario=$_REQUEST['descricao_horario'];	
 	$acao_formulario = $_REQUEST['acao_formulario'];
 
+    $_SESSION['respostaDaRequisicao']='erro';
 	$horario = new Horario();
     
     if($acao_formulario == 'deletar-horario'){
         $res = $horario->deletarHorario($id_horario);
         if ($res === NULL) {
-            $res= 'true';	
+            $_SESSION['respostaDaRequisicao']='deletar-sucesso';	
         } else {
-            $res = 'false';	
+            $_SESSION['respostaDaRequisicao']='deletar-erro';
         }
         header("location: ../../system-pages/horarios.php");
     } else {
@@ -33,10 +34,10 @@
             case 'criar-horario':
                 $res = $horario->inserirHorarioNoBanco();
                 if ($res === NULL) {
-                    $res = 'true';
+                    $_SESSION['respostaDaRequisicao']='criar-erro';	
                 }
                 else {
-                    $res = 'false';	
+                    $_SESSION['respostaDaRequisicao']='criar-sucesso';	
                 }			
                 header("location: ../../system-pages/horarios.php");
                 break;	
@@ -44,13 +45,14 @@
             case 'editar-horario':
                 $res = $horario->alterarInformacoesDoHorario($id_horario);
                 if ($res === NULL) {
-                    $res= 'true';	
+                    $_SESSION['respostaDaRequisicao']='editar-sucesso';	
                 }
                 else {
-                    $res = 'false';	
+                    $_SESSION['respostaDaRequisicao']='editar-erro';	
                 }
                 header("location: ../../system-pages/horarios.php");
                 break;			
         }
     }
+    header("location: ../../system-pages/horarios.php");
 ?>

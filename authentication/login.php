@@ -40,24 +40,38 @@
     <div class="row">
       <div class="col-md-12">
         <?php 
-          if($_SESSION['respostaDaRequisicao']=='campos_nao_preenchidos'){
+          if(empty($_SESSION) || $_SESSION['respostaDaRequisicao']=='vazio'){
+            $varNadaGambiarra;
+          }else if($_SESSION['respostaDaRequisicao']=='campos_nao_preenchidos'){
             $alerta = "<div id='alerta-preenchimento' class='alert alert-info alert-dismissible'>
             <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
             <h4><i class='icon fa fa-info'></i> Atenção!</h4>Todos os campos devem ser preenchidos!</div>";
             session_destroy();
           }else if($_SESSION['respostaDaRequisicao']=='no_user_found'){
             $alerta = '<div id="alerta-email-nao-existe" class="alert alert-warning alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <h4><i class="icon fa fa-warning"></i> Atenção!</h4>
-            Usuário com o Email informado não foi encontrado!
-            </div>';
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+              <h4><i class="icon fa fa-warning"></i> Atenção!</h4>
+              Usuário com o Email informado não foi encontrado!</div>';
             session_destroy();
           }else if($_SESSION['respostaDaRequisicao']=='wrong_password'){
             $alerta = '<div id="alerta-senha-incorreta" class="alert alert-warning alert-dismissible">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <h4><i class="icon fa fa-warning"></i> Atenção!</h4>
-            Senha incorreta!
+            Senha incorreta!</div>';
+            session_destroy();
+          }else if($_SESSION['respostaDaRequisicao']=='usuario_desativado'){
+            $alerta = "<div id='alerta-preenchimento' class='alert alert-info alert-dismissible'>
+              <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+              <h4><i class='icon fa fa-info'></i> Atenção!</h4>
+              Usuário se encontra desativado! Entre em contato com a Coordenação para saber mais!</div>";
+            session_destroy();
+          }else{
+            $alerta = '<div class="alert alert-danger alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <h4><i class="icon fa fa-ban"></i> Erro!</h4>
+            Erro ao conectar com a base de dados, tente novamente mais tarde! Clique no botão &times para fechar!
             </div>';
+            session_destroy();
           }
           echo $alerta;
         ?>

@@ -21,14 +21,15 @@
     $status_objeto = '0';
 	$acao_formulario = $_REQUEST['acao_formulario'];
 
+    $_SESSION['respostaDaRequisicao']='erro';
 	$Obj = new Objeto();
     
     if($acao_formulario == 'deletar-objeto'){
         $res = $Obj->deletarObjeto($id_objeto);
         if ($res === NULL) {
-            $res= 'true';	
+            $_SESSION['respostaDaRequisicao']='deletar-objeto-sucesso';	
         } else {
-            $res = 'false';	
+            $_SESSION['respostaDaRequisicao']='deletar-objeto-erro';	
         }
         header("location: ../../system-pages/objetos-departamentos.php");
     } else {
@@ -37,10 +38,10 @@
             case 'criar-objeto':
                 $res = $Obj->inserirObjetoNoBanco();
                 if ($res === NULL) {
-                    $res = 'true';
+                    $_SESSION['respostaDaRequisicao']='criar-objeto-erro';
                 }
                 else {
-                    $res = 'false';	
+                    $_SESSION['respostaDaRequisicao']='criar-objeto-sucesso';	
                 }			
                 header("location: ../../system-pages/objetos-departamentos.php");
                 break;	
@@ -48,13 +49,14 @@
             case 'editar-objeto':
                 $res = $Obj->alterarInformacoesDoObjeto($id_objeto);
                 if ($res === NULL) {
-                    $res= 'true';	
+                    $_SESSION['respostaDaRequisicao']='editar-objeto-sucesso';	
                 }
                 else {
-                    $res = 'false';	
+                    $_SESSION['respostaDaRequisicao']='editar-objeto-erro';
                 }
                 header("location: ../../system-pages/objetos-departamentos.php");
                 break;			
         }
     }
+    header("location: ../../system-pages/objetos-departamentos.php");
 ?>
