@@ -32,10 +32,9 @@
 			$this->stausu=$stausu;			
 		}
 
-		public function setarValoresProfile($coddep_tdep,$nomusu,$logusu,$funusu){
+		public function setarValoresProfile($coddep_tdep,$nomusu,$funusu){
 			$this->coddep_tdep=$coddep_tdep;
 			$this->nomusu=$nomusu;
-			$this->logusu=$logusu;
 			$this->funusu=$funusu;			
 		}
 
@@ -149,13 +148,26 @@
 			$DB->encerrarConexaoDataBase();
 			return $resultadoConsulta;
 		}
+		public function alterarEmailDoUsuario($cod_para_alterar,$email_novo) {
+			$sql = "
+				UPDATE tusuario SET
+					logusu = '$email_novo'
+				WHERE codusu = '$cod_para_alterar';	
+			";
+		
+			$DB = new DataBaseConnection();
+			$DB->estabelerConexaoDataBase();
+			$resultadoConsulta =$DB->query($sql);
+			$DB->encerrarConexaoDataBase();
+			return $resultadoConsulta;
+		}
 
+		
 		public function alterarInformacoesProfileDoUsuario($cod_para_alterar) {
 			$sql = "
 				UPDATE tusuario SET
 					coddep_tdep='$this->coddep_tdep',
 					nomusu='$this->nomusu',
-			   		logusu='$this->logusu',
 			   		funusu='$this->funusu'
 				WHERE codusu = '$cod_para_alterar';
 			";

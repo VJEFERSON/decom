@@ -177,14 +177,14 @@
                   Usuário não foi desativado! Clique no botão &times para fechar!
                   </div>';
                   $_SESSION['respostaDaRequisicao']='vazio';
-                }else if($_SESSION['respostaDaRequisicao']=='alterar-sucesso'){
+                }else if($_SESSION['respostaDaRequisicao']=='alterar-senha-sucesso'){
                   $alerta = '<div class="alert alert-success alert-dismissible">
                   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                   <h4><i class="icon fa fa-check"></i> Alterado!</h4>
                   Senha foi alterada com sucesso! Clique no botão &times para fechar!
                 </div>';
                   $_SESSION['respostaDaRequisicao']='vazio';
-                }else if($_SESSION['respostaDaRequisicao']=='alterar-erro'){
+                }else if($_SESSION['respostaDaRequisicao']=='alterar-senha-erro'){
                   $alerta = '<div class="alert alert-danger alert-dismissible">
                   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                   <h4><i class="icon fa fa-ban"></i> Alterar!</h4>
@@ -195,7 +195,28 @@
                   $alerta = "<div id='alerta-preenchimento' class='alert alert-info alert-dismissible'>
                   <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
                   <h4><i class='icon fa fa-info'></i> Atenção!</h4>
-                  Senha não foi alterada porque Senha Atual informada estava erada!</div>";
+                  Senha não foi alterada porque Senha Atual informada estava errada!</div>";
+                  $_SESSION['respostaDaRequisicao']='vazio';
+                }
+                else if($_SESSION['respostaDaRequisicao']=='alterar-email-sucesso'){
+                  $alerta = '<div class="alert alert-success alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                  <h4><i class="icon fa fa-check"></i> Alterado!</h4>
+                  Email foi alterado com sucesso! Clique no botão &times para fechar!
+                </div>';
+                  $_SESSION['respostaDaRequisicao']='vazio';
+                }else if($_SESSION['respostaDaRequisicao']=='alterar-email-erro'){
+                  $alerta = '<div class="alert alert-danger alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                  <h4><i class="icon fa fa-ban"></i> Alterar!</h4>
+                  Email não foi alterado! Clique no botão &times para fechar!
+                  </div>';
+                  $_SESSION['respostaDaRequisicao']='vazio';
+                }else if($_SESSION['respostaDaRequisicao']=='email-atual-errado'){
+                  $alerta = "<div id='alerta-preenchimento' class='alert alert-info alert-dismissible'>
+                  <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                  <h4><i class='icon fa fa-info'></i> Atenção!</h4>
+                  Email não foi alterado porque Email Atual informado estava errado!</div>";
                   $_SESSION['respostaDaRequisicao']='vazio';
                 }else if($_SESSION['respostaDaRequisicao']=='editar-sucesso'){
                   $alerta = '<div class="alert alert-success alert-dismissible">
@@ -215,7 +236,7 @@
                   $alerta = "<div id='alerta-preenchimento' class='alert alert-info alert-dismissible'>
                   <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
                   <h4><i class='icon fa fa-info'></i> Atenção!</h4>
-                  Profile não foi alterado porque Email informado já existe na Base de Dados ou é o mesmo do atual!</div>";
+                  Profile não foi alterado porque Email informado já existe na Base de Dados!</div>";
                   $_SESSION['respostaDaRequisicao']='vazio';
                 }else{
                   $alerta = '<div class="alert alert-danger alert-dismissible">
@@ -271,12 +292,23 @@
                             ?></a>
                           </li>
                         </ul>
-                        <button type="button" class="btn bg-navy btn-block" data-toggle="modal" data-target="#modal-alterar-senha">
-                          <b> Alterar Senha</b>  <i class="fa fa-pencil"></i>
-                        </button>
-                        <a type="button" href="../motor/control/controleProfile.php?id_usuario=<?php  echo $user["codusu"];?>&acao_formulario=desativar-usuario" class="btn bg-maroon btn-block" data-confirm-desativar-usuario="Realmente deseja <b>Desativar</b> o Usuário?">
-                          Desativar Usuário  <i class="fa fa-heartbeat"></i> 
-                        </a>
+                        <div class="row">
+                          <div class="col-md-4 col-sm-4">
+                            <button type="button" class="btn bg-navy btn-block" data-toggle="modal" data-target="#modal-alterar-senha">
+                              <i class="fa fa-user-secret"></i>    <b>Alterar Senha</b>  
+                            </button>
+                          </div>
+                          <div class="col-md-4 col-sm-4">
+                            <button type="button" class="btn bg-orange btn-block" data-toggle="modal" data-target="#modal-alterar-email">
+                              <i class="fa fa-envelope-o"></i>    <b>Alterar Email</b>  
+                            </button>
+                          </div>
+                          <div class="col-md-4 col-sm-4">
+                            <a type="button" href="../motor/control/controleProfile.php?id_usuario=<?php  echo $user["codusu"];?>&acao_formulario=desativar-usuario" class="btn bg-maroon btn-block" data-confirm-desativar-usuario="Realmente deseja <b>Desativar</b> o Usuário?">
+                              <i class="fa fa-heartbeat"></i>    Desativar Usuário   
+                            </a>
+                          </div>
+                        </div>
                       </div>
                       <!-- /.box-body -->
                     </div>
@@ -284,33 +316,44 @@
                   </div>
                   <!-- /.tab-pane -->
                   <div class="tab-pane" id="configuracoes">
-                    <form class="form-horizontal">
+                    <form class="form-horizontal" action="../motor/control/controleProfile.php" id="targetForm" method="Post">
+                      <input type="hidden" class="form-control" id="id_usuario" name="id_usuario" value="<?php echo $_SESSION['id_usuario']?>">
                       <div class="form-group">
                         <label for="inputName" class="col-sm-2 control-label">Nome</label>
                         <div class="col-sm-10">
-                          <input type="email" class="form-control" id="inputName" placeholder="Name">
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label for="inputEmail" class="col-sm-2 control-label">Email</label>
-                        <div class="col-sm-10">
-                          <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                          <input type="text" class="form-control" id="nome" name="nome" placeholder="<?php echo $user['nomusu'];?>" disabled>
                         </div>
                       </div>
                       <div class="form-group">
                         <label for="inputName" class="col-sm-2 control-label">Função</label>
                         <div class="col-sm-10">
-                          <select class="form-control select2" style="width: 100%;">
-                            <option selected="selected">Docente</option>
-                            <option>Técnico</option>
-                            <option>Estagiário</option>
+                          <select class="form-control select2" id="funcao" name="funcao" style="width: 100%;" disabled>
+                            <option <?php if($user['funusu'] == 'Docente'){?>selected="selected"<?php } ?> value="Docente">Docente</option>
+                            <option <?php if($user['funusu'] == 'Técnico'){?>selected="selected"<?php } ?> value="Técnico">Técnico</option>
+                            <option <?php if($user['funusu'] == 'Estagiário'){?>selected="selected"<?php } ?> value="Estagiário">Estagiário</option>
+                            <option <?php if($user['funusu'] == 'Outro'){?>selected="selected"<?php } ?> value="Outro">Outro</option>
                           </select>
                         </div>
                       </div>
-
+                      <div class="form-group">                
+                        <label for="inputName" class="col-sm-2 control-label">Departamento</label>
+                        <div class="col-sm-10">
+                          <select class="form-control select2" style="width: 100%;" id="codigo_departamento" name="codigo_departamento" disabled>
+                            <?php 
+                              $departamentos= new Departamento();
+                              $departamentos=$departamentos->buscarDepartamentosRetornandoComVetor();
+                              foreach($departamentos as $departamentos){?>
+                                <option <?php if($user['coddep_tdep'] == $departamentos['coddep']){?>selected="selected"<?php } ?> value="<?php echo $departamentos['coddep'];?>"><?php echo $departamentos['nomdep'];?></option>
+                            <?php } ?>
+                          </select>
+                        </div>
+                      </div>
                       <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
-                          <button type="submit" class="btn bg-maroon">Submit</button>
+                          <input type="hidden" name="acao_formulario" value="editar-profile">
+                          <a type="button" class="btn bg-navy" id="habilita-edicao-profile">Habilitar Edição</a>
+                          <a type="button" class="btn bg-navy " id="cancela-edicao-profile">Cancelar</a>
+                          <button type="button" class="btn bg-maroon" id="configuracoes-profile">Editar</button>
                         </div>
                       </div>
                     </form>
@@ -338,7 +381,7 @@
               <h4 class="modal-title">Alterar Senha</h4>
             </div>
             <div class="modal-body">
-              <form role="form" action="../motor/control/controleProfile.php" id="targetForm" method="Post">
+              <form role="form" action="../motor/control/controleProfile.php" id="targetFormSenha" method="Post">
                 <input type="hidden" class="form-control" id="id_usuario" name="id_usuario" value="<?php echo $_SESSION['id_usuario']?>">
                 <div class="form-group">
                   <label for="exampleInputPassword1">Senha Antiga</label>
@@ -356,6 +399,43 @@
                   <input type="hidden" name="acao_formulario" value="alterar-senha">
                   <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
                   <button type="submit" class="btn btn-danger pull-right" id="alterar-senha-usuario">Alterar</button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
+      <!-- Alterar Email Modal -->
+      <div class="modal fade" id="modal-alterar-email">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">Alterar Email</h4>
+            </div>
+            <div class="modal-body">
+              <form role="form" action="../motor/control/controleProfile.php" id="targetFormEmail" method="Post">
+                <input type="hidden" class="form-control" id="id_usuario" name="id_usuario" value="<?php echo $_SESSION['id_usuario']?>">
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Email Atual</label>
+                  <input type="email" class="form-control" id="email_atual" name="email_atual" placeholder="exemple@exemple.com">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Email Novo</label>
+                  <input type="email" class="form-control" id="email_novo" name="email_novo" placeholder="exemple@exemple.com">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Confirmar Novo Email</label>
+                  <input type="email" class="form-control" id="confirmacao_email_novo" name="confirmacao_email_novo" placeholder="exemple@exemple.com">
+                </div>
+                <div class="form-group">
+                  <input type="hidden" name="acao_formulario" value="alterar-email">
+                  <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-danger pull-right" id="alterar-email-usuario">Alterar</button>
                 </div>
               </form>
             </div>
@@ -500,6 +580,9 @@
     <!-- page script -->
     <script>
       $(document).ready(function(e) {
+        $("#configuracoes-profile").hide();
+        $("#cancela-edicao-profile").hide();
+
         $(function () {
           //Tables filters
           $('#example1').DataTable();
@@ -519,7 +602,24 @@
               if(senha_nova != confirmacao_senha_nova){
                 return alert("As novas senhas informadas são diferentes!");
               }else{
-                $("#targetForm" ).submit();
+                $("#targetFormSenha" ).submit();
+              } 
+          }   
+        });
+
+        $('#alterar-email-usuario').click(function(e) {
+          e.preventDefault();
+          var email_atual = $('#email_atual').val();
+          var email_novo = $('#email_novo').val();
+          var confirmacao_email_novo = $('#confirmacao_email_novo').val();
+
+          if(email_atual == "" || email_novo == "" || confirmacao_email_novo == ""){
+            return alert("Todos os campos devem ser preenchidos!");
+          }else {
+              if(email_novo != confirmacao_email_novo){
+                return alert("OS novos emails informados são diferentes!");
+              }else{
+                $("#targetFormEmail" ).submit();
               } 
           }   
         });
@@ -527,12 +627,43 @@
         $('a[data-confirm-desativar-usuario]').click(function(e) {
           var href= $(this).attr('href');
           if(!$('#desativar-usuario-modal').length){
-            $('body').append('<div class="modal fade" id="desativar-usuario-modal"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">Desativar Usuário</h4></div><div class="modal-body"><div class="modal-body">Realmente deseja <b>Desativar</b> seu Usuário?</b></div><div class="modal-footer" id="sair"><button  class="btn btn-secondary" type="button"  data-dismiss="modal">Cancel</button><a id="data-confirma-acao" type="button" class="btn btn-danger">Desativar</a></div></div></div></div></div>');
+            $('body').append('<div class="modal fade" id="desativar-usuario-modal"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">Desativar Usuário</h4></div><div class="modal-body"><div class="modal-body">Realmente deseja <b>Desativar</b> seu Usuário? Caso <b>Desative</b> seu Usuário você será automaticamente deslogado do Sistema e não terá mais acesso ao mesmo!</div><div class="modal-footer" id="sair"><button  class="btn btn-secondary" type="button"  data-dismiss="modal">Cancel</button><a id="data-confirma-acao" type="button" class="btn btn-danger">Desativar</a></div></div></div></div></div>');
           }
           $('#data-confirma-acao').attr('href',href)
           $('#desativar-usuario-modal').modal({show:true});
           return false;
         });
+
+        $('#habilita-edicao-profile').click(function(e) {
+          $("#habilita-edicao-profile").hide();
+          $("#configuracoes-profile").show();
+          $("#cancela-edicao-profile").show();
+          $('#nome').prop('disabled', false);
+          $('#email').prop('disabled', false);
+          $('#funcao').prop('disabled', false);
+          $('#codigo_departamento').prop('disabled', false);
+        });
+
+        $('#cancela-edicao-profile').click(function(e) {
+          $("#configuracoes-profile").hide();
+          $("#cancela-edicao-profile").hide();
+          $("#habilita-edicao-profile").show();
+          $('#nome').prop('disabled', true);
+          $('#email').prop('disabled', true);
+          $('#funcao').prop('disabled', true);
+          $('#codigo_departamento').prop('disabled', true);
+        });
+
+        $('#configuracoes-profile').click(function(e) {
+          e.preventDefault();
+          var nome = $('#nome').val();
+          if(nome == ""){
+            return alert("Todos os campos devem ser preenchidos!");
+          }else {
+            $("#targetForm" ).submit();
+          }   
+        });
+
       });
     </script>
   </body>
