@@ -147,7 +147,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </li>
           <li><a href="ferias.html"><i class="fa  fa-calendar"></i> <span>Férias</span></a></li>
           <li><a href="horarios.html"><i class="fa  fa-hourglass-start"></i> <span>Horários</span></a></li>
-          <li><a href="objetos.html"><i class="fa  fa-object-ungroup"></i> <span>Objetos</span></a></li>
+          <li><a href="objetos-departamentos.php"><i class="fa  fa-object-ungroup"></i> <span>Objetos e Departamento</span></a></li>
           <li><a href="patrimonio.html"><i class="fa fa-cart-plus"></i> <span>Patrimônio</span></a></li>
           <li><a href="usuarios.html"><i class="fa fa-users"></i> <span>Usuários</span></a></li>
         </ul>
@@ -295,7 +295,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         DECOM
       </div>
       <!-- Default to the left -->
-      <strong>Copyright &copy; SISA 2019 <a href="http://decom.ufvjm.edu.br/">Departamento de Computação - DECOM</a>.</strong> Todos os direitos reservados.
+      <strong>SISA 2019 <a href="http://decom.ufvjm.edu.br/">Departamento de Computação - DECOM</a>.</strong>
     </footer>
 
     <!-- Control Sidebar -->

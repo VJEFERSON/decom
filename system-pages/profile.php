@@ -156,7 +156,8 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            Informações Pessoais
+            Profile
+            <small>Informações Pessoais</small>
           </h1>
           <ol class="breadcrumb">
             <li><a href="profile.php"><i class="fa fa-user"></i>Profile</a></li>
@@ -166,89 +167,89 @@
         <!-- Main content -->
         <section class="content container-fluid">
           <div class="row">
-          <div class="col-md-12">
-              <?php 
-                if($_SESSION['respostaDaRequisicao']=='vazio'){
-                  $_SESSION['respostaDaRequisicao']='vazio';
-                }else if($_SESSION['respostaDaRequisicao']=='desativar-erro'){
-                  $alerta = '<div class="alert alert-danger alert-dismissible">
-                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                  <h4><i class="icon fa fa-ban"></i> Desativar!</h4>
-                  Usuário não foi desativado! Clique no botão &times para fechar!
+            <div class="col-md-12">
+                <?php 
+                  if($_SESSION['respostaDaRequisicao']=='vazio'){
+                    $_SESSION['respostaDaRequisicao']='vazio';
+                  }else if($_SESSION['respostaDaRequisicao']=='desativar-erro'){
+                    $alerta = '<div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4><i class="icon fa fa-ban"></i> Desativar!</h4>
+                    Usuário não foi desativado! Clique no botão &times para fechar!
+                    </div>';
+                    $_SESSION['respostaDaRequisicao']='vazio';
+                  }else if($_SESSION['respostaDaRequisicao']=='alterar-senha-sucesso'){
+                    $alerta = '<div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4><i class="icon fa fa-check"></i> Alterado!</h4>
+                    Senha foi alterada com sucesso! Clique no botão &times para fechar!
                   </div>';
-                  $_SESSION['respostaDaRequisicao']='vazio';
-                }else if($_SESSION['respostaDaRequisicao']=='alterar-senha-sucesso'){
-                  $alerta = '<div class="alert alert-success alert-dismissible">
-                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                  <h4><i class="icon fa fa-check"></i> Alterado!</h4>
-                  Senha foi alterada com sucesso! Clique no botão &times para fechar!
-                </div>';
-                  $_SESSION['respostaDaRequisicao']='vazio';
-                }else if($_SESSION['respostaDaRequisicao']=='alterar-senha-erro'){
-                  $alerta = '<div class="alert alert-danger alert-dismissible">
-                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                  <h4><i class="icon fa fa-ban"></i> Alterar!</h4>
-                  Senha não foi alterada! Clique no botão &times para fechar!
+                    $_SESSION['respostaDaRequisicao']='vazio';
+                  }else if($_SESSION['respostaDaRequisicao']=='alterar-senha-erro'){
+                    $alerta = '<div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4><i class="icon fa fa-ban"></i> Alterar!</h4>
+                    Senha não foi alterada! Clique no botão &times para fechar!
+                    </div>';
+                    $_SESSION['respostaDaRequisicao']='vazio';
+                  }else if($_SESSION['respostaDaRequisicao']=='senha-atual-errada'){
+                    $alerta = "<div id='alerta-preenchimento' class='alert alert-info alert-dismissible'>
+                    <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                    <h4><i class='icon fa fa-info'></i> Atenção!</h4>
+                    Senha não foi alterada porque Senha Atual informada estava errada!</div>";
+                    $_SESSION['respostaDaRequisicao']='vazio';
+                  }
+                  else if($_SESSION['respostaDaRequisicao']=='alterar-email-sucesso'){
+                    $alerta = '<div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4><i class="icon fa fa-check"></i> Alterado!</h4>
+                    Email foi alterado com sucesso! Clique no botão &times para fechar!
                   </div>';
-                  $_SESSION['respostaDaRequisicao']='vazio';
-                }else if($_SESSION['respostaDaRequisicao']=='senha-atual-errada'){
-                  $alerta = "<div id='alerta-preenchimento' class='alert alert-info alert-dismissible'>
-                  <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-                  <h4><i class='icon fa fa-info'></i> Atenção!</h4>
-                  Senha não foi alterada porque Senha Atual informada estava errada!</div>";
-                  $_SESSION['respostaDaRequisicao']='vazio';
-                }
-                else if($_SESSION['respostaDaRequisicao']=='alterar-email-sucesso'){
-                  $alerta = '<div class="alert alert-success alert-dismissible">
-                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                  <h4><i class="icon fa fa-check"></i> Alterado!</h4>
-                  Email foi alterado com sucesso! Clique no botão &times para fechar!
-                </div>';
-                  $_SESSION['respostaDaRequisicao']='vazio';
-                }else if($_SESSION['respostaDaRequisicao']=='alterar-email-erro'){
-                  $alerta = '<div class="alert alert-danger alert-dismissible">
-                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                  <h4><i class="icon fa fa-ban"></i> Alterar!</h4>
-                  Email não foi alterado! Clique no botão &times para fechar!
-                  </div>';
-                  $_SESSION['respostaDaRequisicao']='vazio';
-                }else if($_SESSION['respostaDaRequisicao']=='email-atual-errado'){
-                  $alerta = "<div id='alerta-preenchimento' class='alert alert-info alert-dismissible'>
-                  <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-                  <h4><i class='icon fa fa-info'></i> Atenção!</h4>
-                  Email não foi alterado porque Email Atual informado estava errado!</div>";
-                  $_SESSION['respostaDaRequisicao']='vazio';
-                }else if($_SESSION['respostaDaRequisicao']=='editar-sucesso'){
-                  $alerta = '<div class="alert alert-success alert-dismissible">
-                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                  <h4><i class="icon fa fa-check"></i> Editado!</h4>
-                  Profile foi editado com sucesso! Clique no botão &times para fechar!
-                  </div>';
-                  $_SESSION['respostaDaRequisicao']='vazio';
-                }else if($_SESSION['respostaDaRequisicao']=='editar-erro'){
-                  $alerta = '<div class="alert alert-danger alert-dismissible">
-                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                  <h4><i class="icon fa fa-ban"></i> Editar!</h4>
-                  Profile não foi editado! Clique no botão &times para fechar!
-                  </div>';
-                  $_SESSION['respostaDaRequisicao']='vazio';
-                }else if($_SESSION['respostaDaRequisicao']=='email-ja-cadastrado'){
-                  $alerta = "<div id='alerta-preenchimento' class='alert alert-info alert-dismissible'>
-                  <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-                  <h4><i class='icon fa fa-info'></i> Atenção!</h4>
-                  Profile não foi alterado porque Email informado já existe na Base de Dados!</div>";
-                  $_SESSION['respostaDaRequisicao']='vazio';
-                }else{
-                  $alerta = '<div class="alert alert-danger alert-dismissible">
-                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                  <h4><i class="icon fa fa-ban"></i> Erro!</h4>
-                  Erro ao conectar com a base de dados, tente novamente mais tarde! Clique no botão &times para fechar!
-                  </div>';
-                  $_SESSION['respostaDaRequisicao']='vazio';
-                }
-                echo $alerta;
-              ?>
-            </div>
+                    $_SESSION['respostaDaRequisicao']='vazio';
+                  }else if($_SESSION['respostaDaRequisicao']=='alterar-email-erro'){
+                    $alerta = '<div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4><i class="icon fa fa-ban"></i> Alterar!</h4>
+                    Email não foi alterado! Clique no botão &times para fechar!
+                    </div>';
+                    $_SESSION['respostaDaRequisicao']='vazio';
+                  }else if($_SESSION['respostaDaRequisicao']=='email-atual-errado'){
+                    $alerta = "<div id='alerta-preenchimento' class='alert alert-info alert-dismissible'>
+                    <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                    <h4><i class='icon fa fa-info'></i> Atenção!</h4>
+                    Email não foi alterado porque Email Atual informado estava errado!</div>";
+                    $_SESSION['respostaDaRequisicao']='vazio';
+                  }else if($_SESSION['respostaDaRequisicao']=='editar-sucesso'){
+                    $alerta = '<div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4><i class="icon fa fa-check"></i> Editado!</h4>
+                    Profile foi editado com sucesso! Clique no botão &times para fechar!
+                    </div>';
+                    $_SESSION['respostaDaRequisicao']='vazio';
+                  }else if($_SESSION['respostaDaRequisicao']=='editar-erro'){
+                    $alerta = '<div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4><i class="icon fa fa-ban"></i> Editar!</h4>
+                    Profile não foi editado! Clique no botão &times para fechar!
+                    </div>';
+                    $_SESSION['respostaDaRequisicao']='vazio';
+                  }else if($_SESSION['respostaDaRequisicao']=='email-ja-cadastrado'){
+                    $alerta = "<div id='alerta-preenchimento' class='alert alert-info alert-dismissible'>
+                    <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                    <h4><i class='icon fa fa-info'></i> Atenção!</h4>
+                    Profile não foi alterado porque Email informado já existe na Base de Dados!</div>";
+                    $_SESSION['respostaDaRequisicao']='vazio';
+                  }else{
+                    $alerta = '<div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4><i class="icon fa fa-ban"></i> Erro!</h4>
+                    Erro ao conectar com a base de dados, tente novamente mais tarde! Clique no botão &times para fechar!
+                    </div>';
+                    $_SESSION['respostaDaRequisicao']='vazio';
+                  }
+                  echo $alerta;
+                ?>
+              </div>
             <div class="col-xs-12">
               <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
@@ -474,7 +475,7 @@
           DECOM
         </div>
         <!-- Default to the left -->
-        <strong>Copyright &copy; SISA 2019 <a href="http://decom.ufvjm.edu.br/">Departamento de Computação - DECOM</a>.</strong> Todos os direitos reservados.
+        <strong>SISA 2019 <a href="http://decom.ufvjm.edu.br/">Departamento de Computação - DECOM</a>.</strong>
       </footer>
 
       <!-- Control Sidebar -->

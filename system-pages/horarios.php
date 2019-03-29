@@ -393,7 +393,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           DECOM
         </div>
         <!-- Default to the left -->
-        <strong>Copyright &copy; SISA 2019 <a href="http://decom.ufvjm.edu.br/">Departamento de Computação - DECOM</a>.</strong> Todos os direitos reservados.
+        <strong>SISA 2019 <a href="http://decom.ufvjm.edu.br/">Departamento de Computação - DECOM</a>.</strong>
       </footer>
 
       <!-- Control Sidebar -->

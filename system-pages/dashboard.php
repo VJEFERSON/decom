@@ -153,7 +153,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </li>
         <li><a href="ferias.php"><i class="fa  fa-calendar"></i> <span>Férias</span></a></li>
         <li><a href="horarios.php"><i class="fa  fa-hourglass-start"></i> <span>Horários</span></a></li>
-        <li><a href="objetos.php"><i class="fa  fa-object-ungroup"></i> <span>Objetos</span></a></li>
+        <li><a href="objetos-departamentos.php"><i class="fa  fa-object-ungroup"></i> <span>Objetos e Departamentos</span></a></li>
         <li><a href="patrimonio.php"><i class="fa fa-cart-plus"></i> <span>Patrimônio</span></a></li>
         <li ><a href="usuarios.php"><i class="fa fa-users"></i> <span>Usuários</span></a></li>
       </ul>
@@ -177,11 +177,204 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- Main content -->
     <section class="content container-fluid">
+      <!-- Info boxes -->
+      <div class="row">
+        <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="info-box">
+            <span class="info-box-icon bg-aqua"><i class="fa fa-files-o"></i></span>
 
-      <!--------------------------
-        | Your Page Content Here |
-        -------------------------->
+            <div class="info-box-content">
+              <span class="info-box-text">Documentos</span>
+              <span class="info-box-number">90 <small>PDF's</small></span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
 
+        <!-- fix for small devices only -->
+        <div class="clearfix visible-sm-block"></div>
+
+        <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="info-box">
+            <span class="info-box-icon bg-yellow"><i class="fa fa-users"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Usuários</span>
+              <span class="info-box-number">31 <small>Ativos</small></span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="info-box">
+            <span class="info-box-icon bg-green"><i class="ion ion-ios-people-outline"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Online</span>
+              <span class="info-box-number">4 <small>Logados</small></span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+
+        <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="info-box">
+            <span class="info-box-icon bg-red"><i class="fa fa-bug"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Reports</span>
+              <span class="info-box-number">31 <small>Novos</small></span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+      <div class="box box-default">
+        <div class="box-body">
+      <div class="row">
+        <div class="col-md-3 col-sm-12 col-xs-12">
+          <!-- Profile Image -->
+          <div class="box box-primary">
+            <div class="box-body box-profile">
+              <img class="profile-user-img img-responsive img-circle" src="../dist/img/user2-160x160.jpg" alt="User profile picture">
+              <h3 class="profile-username text-center"> <?php echo $_SESSION['nome'];?></h3>
+              <p class="text-muted text-center"><?php echo $_SESSION['funcao'];?></p>
+              <?php  
+                $user= new Usuario();
+                $user=$user->buscarUsuarioCadastradoPeloId($_SESSION['id_usuario']);
+              ?>
+              <ul class="list-group list-group-unbordered">
+                <li class="list-group-item">
+                  <b>Email</b> <a class="pull-right"><?php
+                    if(empty($user)){
+                      echo "Erro ao buscar informações de Usuário";
+                    }else{
+                      echo $user['logusu'];
+                    }
+                  ?></a>
+                </li>
+                <li class="list-group-item">
+                  <b>Usuário</b> <a class="pull-right"><?php
+                    if(empty($user)){
+                      echo "Erro ao buscar informações de Usuário";
+                    }else{
+                      if($user['nivusu']==1){
+                        echo "ADMINISTRADOR";
+                      }else 
+                        echo "COMUM";
+                    }
+                  ?></a>
+                </li>
+              </ul>
+              <a href="profile.php" type="button" class="btn bg-navy btn-block" >
+                  <b>Alterar Informações Pessoais</b>  
+                </a>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-9 col-sm-12 col-xs-12">
+          <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+              <li class="active"><a href="#painel" data-toggle="tab">Painel</a></li>
+              <li><a href="#reportar-sugerir" data-toggle="tab">Reportar ou Sugerir</a></li>
+            </ul>
+            <div class="tab-content">
+              <div class="active tab-pane" id="painel">
+                <!-- Application buttons -->
+                <div class="box-body">
+                  <a href="agendamento.php" class="btn btn-app">
+                    <i class="fa fa-clock-o"></i> Agendamentos
+                  </a>
+                  <a href="objetos-departamentos.php" class="btn btn-app">
+                    <i class="fa fa-object-ungroup"></i> Departamentos
+                  </a>
+                  <a href="documentos/atas.php" class="btn btn-app">
+                    <i class="fa fa-files-o"></i> Documentos
+                  </a>
+                  <a href="documentacao-sistema.php" class="btn btn-app">
+                    <i class="fa fa-book"></i> Doc.Sistema
+                  </a>
+                  <a href="ferias.php" class="btn btn-app">
+                    <i class="fa fa-calendar"></i> Férias
+                  </a>
+                  <a href="horarios.php" class="btn btn-app">
+                    <i class="fa fa-hourglass-start"></i> Horários
+                  </a>
+                  <a href="objetos-departamentos.php" class="btn btn-app">
+                    <i class="fa fa-object-ungroup"></i> Objetos
+                  </a>
+                  <a href="patrimonio.php" class="btn btn-app">
+                    <i class="fa fa-cart-plus"></i> Patrimônio
+                  </a>
+                  <a href="reports.php" class="btn btn-app">
+                    <i class="fa fa-bug"></i> Reports
+                  </a>
+                  <a href="sugestoes.php" class="btn btn-app">
+                    <i class="fa fa-commenting"></i> Sugestões
+                  </a>
+                  <a href="usuarios.php" class="btn btn-app">
+                    <i class="fa fa-users"></i> Usuários
+                  </a>
+                </div>
+                <!-- /.box-body -->  
+              </div>
+              <!-- /.tab-pane -->
+              <div class="tab-pane" id="reportar-sugerir">
+                <form class="form-horizontal" action="../motor/control/controleProfile.php" id="targetForm" method="Post">
+                  <input type="hidden" class="form-control" id="id_usuario" name="id_usuario" value="<?php echo $_SESSION['id_usuario']?>">
+                  <div class="form-group">
+                    <label for="inputName" class="col-sm-2 control-label">Nome Usuário</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="nome" name="nome" placeholder="<?php echo $user['nomusu'];?>" disabled>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputName" class="col-sm-2 control-label">Tipo de Comentário</label>
+                    <div class="col-sm-10">
+                      <select class="form-control select2" style="width: 100%;" id="report-sugestao" name="report-sugestao">
+                        <option value="REPORT" selected="selected">Report</option>
+                        <option value="SUGESTAO">Sugestão</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputName" class="col-sm-2 control-label">Comentário</label>
+                    <div class="col-sm-10">
+                    <textarea name="comentario" id="comentario" class="form-control" rows="3" placeholder="Comentário ..."></textarea>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                      <button type="button" class="btn bg-maroon" id="reportar">Enviar</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <!-- /.tab-pane -->
+            </div>
+            <!-- /.tab-content -->
+          </div>
+          <!-- /.nav-tabs-custom -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+        </div>
+        <!-- /.box body-->
+      <div>
+      <!-- /.box -->  
     </section>
     <!-- /.content -->
   </div>
@@ -194,7 +387,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       DECOM
     </div>
     <!-- Default to the left -->
-    <strong>Copyright &copy; SISA 2019 <a href="http://decom.ufvjm.edu.br/">Departamento de Computação - DECOM</a>.</strong> Todos os direitos reservados.
+    <strong>SISA 2019 <a href="http://decom.ufvjm.edu.br/">Departamento de Computação - DECOM</a>.</strong>
   </footer>
 
   <!-- Control Sidebar -->
