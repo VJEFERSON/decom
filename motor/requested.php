@@ -1,5 +1,6 @@
 <?php 
     require_once "bd/connection.php";
+    require_once "classes/Agendamento.php";
     require_once "classes/Departamento.php";
     require_once "classes/Horario.php";
     require_once "classes/Objeto.php";

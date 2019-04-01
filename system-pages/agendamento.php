@@ -147,7 +147,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </li>
           <li><a href="ferias.html"><i class="fa  fa-calendar"></i> <span>Férias</span></a></li>
           <li><a href="horarios.html"><i class="fa  fa-hourglass-start"></i> <span>Horários</span></a></li>
-          <li><a href="objetos-departamentos.php"><i class="fa  fa-object-ungroup"></i> <span>Objetos e Departamento</span></a></li>
+          <li><a href="objetos-agendamentos.php"><i class="fa  fa-object-ungroup"></i> <span>Objetos e Departamento</span></a></li>
           <li><a href="patrimonio.html"><i class="fa fa-cart-plus"></i> <span>Patrimônio</span></a></li>
           <li><a href="usuarios.html"><i class="fa fa-users"></i> <span>Usuários</span></a></li>
         </ul>
@@ -179,26 +179,40 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <button type="button" class="btn btn-block bg-olive btn-sm" data-toggle="modal" data-target="#modal-agendar">Agendar</button>
               </div>
               <!-- /.box-header -->
+              <?php  
+                $agendamentos= new Agendamento();
+                $yearSearch = date('Y');
+                $agendamentos=$agendamentos->buscarAgendamentosRetornandoComVetor($yearSearch);
+                if(empty($agendamentos)) {
+              ?>
+                <h4 class="well"> Nenhum dado encontrado. </h4>
+              <?php
+                } else {
+              ?>
               <div class="box-body">
-                <table id="example1" class="table table-bordered table-striped">
+                <table id="agendamentosTable" class="table table-bordered table-striped">
                   <thead>
                     <tr>
                       <th>Nome Usuário</th>
                       <th>Nome Objeto</th>
+                      <th>Descrição</th>
                       <th>Horário</th>
                       <th>Data Agendamento</th>
                       <th>Ações</th>
                     </tr>
                   </thead>
                   <tbody>
+                    <?php
+                      foreach($agendamentos as $agendamentos){
+                    ?>
                     <tr>
-                      <td>Valdeci</td>
-                      <td>Sala 31</td>
+                      <td><?php echo $agendamentos['nomusu'];?></td>
+                      <td><?php echo $agendamentos['nomobj'];?></td>
+                      <td><?php echo $agendamentos['desage'];?></td>                      
                       <td>
-                        <button type="button" class="btn btn-info btn-xs" disabled>15:00 as 16:00</button>
-                        <button type="button" class="btn btn-info btn-xs" disabled>16:00 as 18:00</button>
+                        <button type="button" class="btn btn-info btn-xs" disabled><?php echo $agendamentos['nomhor'];?></button>
                       </td>
-                      <td>06/07/2019</td>
+                      <td><?php echo $agendamentos['datage'];?></td>
                       <td>
                         <button type="button" class="btn btn-warning btn-xs">
                           <i class="fa fa-edit"></i> Edit
@@ -208,17 +222,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </button>
                       </td>
                     </tr>
+                    <?php
+                      }
+                    ?>
+                    <!-- /.end-foreach -->
                   </tbody>
                   <tfoot>
                     <tr>
                       <th>Nome Usuário</th>
                       <th>Nome Objeto</th>
+                      <th>Descrição</th>
                       <th>Horário</th>
                       <th>Data Agendamento</th>
                       <th>Ações</th>
                     </tr>
                   </tfoot>
                 </table>
+                <?php
+                  }
+                ?>
+                <!-- /.end-else -->
               </div>
               <!-- /.box-body -->
             </div>
@@ -399,9 +422,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <script src="../plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
   <script src="../plugins/input-mask/jquery.inputmask.extensions.js"></script>
   <!-- Bootstrap Datepicker -->
-  <script src="../../bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+  <script src="../bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
   <!-- Select2 -->
-  <script src="../../bower_components/select2/dist/js/select2.full.min.js"></script>
+  <script src="../bower_components/select2/dist/js/select2.full.min.js"></script>
 
   <!-- page script -->
   <script>
@@ -409,15 +432,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
       //Initialize Select2 Elements
       $('.select2').select2()
       //Tables filters
-      $('#example1').DataTable()
-      $('#example2').DataTable({
-        'paging'      : true,
-        'lengthChange': false,
-        'searching'   : false,
-        'ordering'    : true,
-        'info'        : true,
-        'autoWidth'   : false
-      })
+      $('#agendamentosTable').DataTable()
+      
       //Money Euro
       $('[data-mask]').inputmask()
       //Date picker
