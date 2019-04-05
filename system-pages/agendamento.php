@@ -99,7 +99,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <a href="profile.php" class="btn btn-default btn-flat">Profile</a>
                   </div>
                   <div class="pull-right">
-                    <a href="../motor/control/encerrarSessao.php" class="btn btn-default btn-flat">Sign out</a>
+                    <a class="btn btn-default btn-flat" data-toggle="modal" data-target="#signin-modal">Sign out</a>
                   </div>
                 </li>
               </ul>
@@ -120,7 +120,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
           </div>
           <div class="pull-left info">
-            <p>Alexander Pierce</p>
+            <p><?php echo $_SESSION['nome'];?></p>
             <!-- Status -->
             <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
           </div>
@@ -130,7 +130,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <ul class="sidebar-menu" data-widget="tree">
           <li class="header">MAIN NAVIGATION</li>
           <!-- Optionally, you can add icons to the links -->
-          <li><a href="dashboard.html"><i class="fa  fa-dashboard"></i> <span>Dashboard</span></a></li>
+          <li><a href="dashboard.php"><i class="fa  fa-dashboard"></i> <span>Dashboard</span></a></li>
           <li class="active"><a href="agendamento.html"><i class="fa  fa-clock-o"></i> <span>Agendamentos</span></a></li>
           <li class="treeview">
             <a href="#"><i class="fa fa-files-o"></i> <span>Documentos</span>
@@ -139,17 +139,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </span>
             </a>
             <ul class="treeview-menu">
-              <li><a href="documentos/atas.html">Atas</a></li>
-              <li><a href="documentos/declaracoes.html">Declarações</a></li>
-              <li><a href="documentos/memorandos.html">Memorandos</a></li>
-              <li><a href="documentos/oficios.html">Oficios</a></li>
+              <li><a href="documentos/atas.php">Atas</a></li>
+              <li><a href="documentos/declaracoes.php">Declarações</a></li>
+              <li><a href="documentos/memorandos.php">Memorandos</a></li>
+              <li><a href="documentos/oficios.php">Oficios</a></li>
             </ul>
           </li>
-          <li><a href="ferias.html"><i class="fa  fa-calendar"></i> <span>Férias</span></a></li>
-          <li><a href="horarios.html"><i class="fa  fa-hourglass-start"></i> <span>Horários</span></a></li>
+          <li><a href="ferias.php"><i class="fa  fa-calendar"></i> <span>Férias</span></a></li>
+          <li><a href="horarios.php"><i class="fa  fa-hourglass-start"></i> <span>Horários</span></a></li>
           <li><a href="objetos-agendamentos.php"><i class="fa  fa-object-ungroup"></i> <span>Objetos e Departamento</span></a></li>
-          <li><a href="patrimonio.html"><i class="fa fa-cart-plus"></i> <span>Patrimônio</span></a></li>
-          <li><a href="usuarios.html"><i class="fa fa-users"></i> <span>Usuários</span></a></li>
+          <li><a href="patrimonio.php"><i class="fa fa-cart-plus"></i> <span>Patrimônio</span></a></li>
+          <li><a href="usuarios.php"><i class="fa fa-users"></i> <span>Usuários</span></a></li>
         </ul>
         <!-- /.sidebar-menu -->
       </section>
@@ -165,7 +165,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <small>Listagem</small>
         </h1>
         <ol class="breadcrumb">
-          <li><a href="usuarios.html"><i class="fa fa-clock-o"></i>Agendamentos</a></li>
+          <li><a href="agendamento.php"><i class="fa fa-clock-o"></i>Agendamentos</a></li>
         </ol>
       </section>
 
@@ -281,18 +281,24 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <div class="form-group">                
                 <label>Objeto</label>
                 <select class="form-control select2" style="width: 100%;">
-                  <option selected="selected">Sala 31</option>
-                  <option>Sala 37</option>
-                  <option>Projetor 21</option>
+                  <?php 
+                    $objetos= new Objeto();
+                    $objetos=$objetos->buscarObjetosRetornandoComVetor();
+                    foreach($objetos as $objetos){?>
+                      <option value="<?php echo $objetos['codobj']?>"><?php echo $objetos['nomobj']?></option>
+                  <?php } ?>
                 </select>
               </div>
               <div class="form-group">
                 <label>Horários Disponíveís</label>
                 <select class="form-control select2" multiple="multiple" data-placeholder="Selecione os Horários"
                         style="width: 100%;">
-                  <option>15:00 as 16:00</option>
-                  <option>16:00 as 18:00</option>
-                  <option>18:00 as 19:00</option>
+                  <?php 
+                    $horarios= new Horario();
+                    $horarios=$horarios->buscarHorariosRetornandoComVetor();
+                    foreach($horarios as $horarios){?>
+                      <option value="<?php echo $horarios['codhor']?>"><?php echo $horarios['nomhor']?></option>
+                  <?php } ?>
                 </select>
               </div>
               <div class="form-group">
@@ -304,6 +310,28 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <button type="submit" class="btn btn-success pull-right">Adicionar</button>
               </div>
             </form>
+          </div>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+    <!-- Sign Out Modal-->
+    <div class="modal fade" id="signin-modal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Sair</h4>
+          </div>
+          <div class="modal-body">
+            <div class="modal-body">Realmente deseja sair?</div>
+            <div class="modal-footer" id="sair">
+              <button  class="btn btn-secondary" type="button"  data-dismiss="modal">Cancel</button>
+              <a class="btn btn-primary" href="../motor/control/encerrarSessao.php">Sair</a>
+            </div>
           </div>
         </div>
         <!-- /.modal-content -->

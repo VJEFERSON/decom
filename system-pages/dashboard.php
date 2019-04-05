@@ -105,7 +105,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <a href="profile.php" class="btn btn-default btn-flat">Profile</a>
                 </div>
                 <div class="pull-right">
-                  <a href="../motor/control/encerrarSessao.php" class="btn btn-default btn-flat">Sign out</a>
+                  <a class="btn btn-default btn-flat" data-toggle="modal" data-target="#signin-modal">Sign out</a>
                 </div>
               </li>
             </ul>
@@ -379,6 +379,28 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
+  <!-- Sign Out Modal-->
+  <div class="modal fade" id="signin-modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Sair</h4>
+        </div>
+        <div class="modal-body">
+          <div class="modal-body">Realmente deseja sair?</div>
+          <div class="modal-footer" id="sair">
+            <button  class="btn btn-secondary" type="button"  data-dismiss="modal">Cancel</button>
+            <a class="btn btn-primary" href="../motor/control/encerrarSessao.php">Sair</a>
+          </div>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
 
   <!-- Main Footer -->
   <footer class="main-footer">

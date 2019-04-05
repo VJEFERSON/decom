@@ -75,7 +75,7 @@
                   <!-- The user image in the navbar-->
                   <img src="../../dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
                   <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                  <span class="hidden-xs">Alexander Pierce</span>
+                  <span class="hidden-xs"><?php echo $_SESSION['nome'];?></span>
                 </a>
                 <ul class="dropdown-menu">
                   <!-- The user image in the menu -->
@@ -114,7 +114,7 @@
               <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
-              <p>Alexander Pierce</p>
+              <p><?php echo $_SESSION['nome'];?></p>
               <!-- Status -->
               <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
@@ -124,8 +124,8 @@
           <ul class="sidebar-menu" data-widget="tree">
             <li class="header">MAIN NAVIGATION</li>
             <!-- Optionally, you can add icons to the links -->
-            <li ><a href="../dashboard.html"><i class="fa  fa-dashboard"></i> <span>Dashboard</span></a></li>
-            <li><a href="../agendamento.html"><i class="fa  fa-clock-o"></i> <span>Agendamentos</span></a></li>
+            <li ><a href="../dashboard.php"><i class="fa  fa-dashboard"></i> <span>Dashboard</span></a></li>
+            <li><a href="../agendamento.php"><i class="fa  fa-clock-o"></i> <span>Agendamentos</span></a></li>
             <li class="active treeview">
               <a href="#"><i class="fa fa-files-o"></i> <span>Documentos</span>
                 <span class="pull-right-container">
@@ -133,17 +133,17 @@
                   </span>
               </a>
               <ul class="treeview-menu">
-                <li><a href="atas.html">Atas</a></li>
-                <li><a href="declaracoes.html">Declarações</a></li>
-                <li class="active"><a href="memorandos.html">Memorandos</a></li>
-                <li><a href="oficios.html">Oficios</a></li>
+                <li><a href="atas.php">Atas</a></li>
+                <li><a href="declaracoes.php">Declarações</a></li>
+                <li class="active"><a href="memorandos.php">Memorandos</a></li>
+                <li><a href="oficios.php">Oficios</a></li>
               </ul>
             </li>
-            <li><a href="../ferias.html"><i class="fa  fa-calendar"></i> <span>Férias</span></a></li>
-            <li><a href="../horarios.html"><i class="fa  fa-hourglass-start"></i> <span>Horários</span></a></li>
-            <li><a href="../objetos.html"><i class="fa  fa-object-ungroup"></i> <span>Objetos</span></a></li>
-            <li><a href="../patrimonio.html"><i class="fa fa-cart-plus"></i> <span>Patrimônio</span></a></li>
-            <li ><a href="../usuarios.html"><i class="fa fa-users"></i> <span>Usuários</span></a></li>
+            <li><a href="../ferias.php"><i class="fa  fa-calendar"></i> <span>Férias</span></a></li>
+            <li><a href="../horarios.php"><i class="fa  fa-hourglass-start"></i> <span>Horários</span></a></li>
+            <li><a href="../objetos-departamentos.php"><i class="fa  fa-object-ungroup"></i> <span>Objetos e Departamentos</span></a></li>
+            <li><a href="../patrimonio.php"><i class="fa fa-cart-plus"></i> <span>Patrimônio</span></a></li>
+            <li ><a href="../usuarios.php"><i class="fa fa-users"></i> <span>Usuários</span></a></li>
           </ul>
           <!-- /.sidebar-menu -->
         </section>

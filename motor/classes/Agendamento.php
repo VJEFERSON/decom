@@ -47,6 +47,7 @@
 		}
 
 		public function buscarAgendamentosRetornandoComVetor($yearSearch) {
+			$yearBefore = $yearSearch-1;
 			$sql = "
                 SELECT tagendamento.codobj_tobj,tagendamento.codusu_tusu,
                     tagendamento.datage, tagendamento.desage,
@@ -54,7 +55,42 @@
                 FROM tagendamento,tobjeto,tusuario,thorario
                 WHERE tagendamento.codobj_tobj = tobjeto.codobj AND
                     tagendamento.codusu_tusu = tusuario.codusu AND
-                    tagendamento.codhor_thor = thorario.codhor ;
+					tagendamento.codhor_thor = thorario.codhor AND
+					tagendamento.datage LIKE '%$yearSearch%';
+			";
+			
+			$DB = new DataBaseConnection();
+			$DB->estabelerConexaoDataBase();
+			$Data = $DB->fetchData($sql);
+			if($Data ==NULL){
+				$realData = $Data;
+			}
+			else{
+				foreach($Data as $itemData){
+					if(is_bool($itemData)) continue;
+					else{
+						$realData[] = $itemData;	
+					}
+				}
+			}
+			$DB->encerrarConexaoDataBase();
+			return $realData; 
+		}
+
+
+
+
+
+		public function buscarHorariosDosAgendamentosRetornandoComVetor($codUsuario,$codObjeto,$dataAgendamento,$yearSearch){
+			$sql = "
+				SELECT thorario.nomhor,tagendamento.codusu_tusu,tagendamento.datage,
+						tagendamento.codobj_tobj
+                FROM tagendamento,tobjeto,tusuario,thorario
+                WHERE tagendamento.codobj_tobj = '$codObjeto' AND
+                    tagendamento.codusu_tusu = '$codUsuario' AND
+					tagendamento.datage = '$dataAgendamento' AND
+					tagendamento.codhor_thor = thorario.codhor AND
+					tagendamento.datage LIKE '%$yearSearch%';
 			";
 			
 			$DB = new DataBaseConnection();
