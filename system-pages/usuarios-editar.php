@@ -154,147 +154,71 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            Usuários
-            <small>Listagem</small>
+            Usuário
+            <small>Editar</small>
           </h1>
           <ol class="breadcrumb">
-            <li><a href="usuarios.php"><i class="fa fa-users"></i>Usuários</a></li>
+            <li><a href="usuarios.php"><i class="fa fa-users"></i>Usuários</a></li><li><a href="usuarios-editar.php">Editar</a></li>
           </ol>
         </section>
 
         <!-- Main content -->
         <section class="content container-fluid">
-          <div class="row">
-            <div class="col-md-12">
-              <?php 
-                if($_SESSION['respostaDaRequisicao']=='vazio'){
-                  $_SESSION['respostaDaRequisicao']='vazio';
-                }else if($_SESSION['respostaDaRequisicao']=='deletar-sucesso'){
-                  $alerta = '<div class="alert alert-success alert-dismissible">
-                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                  <h4><i class="icon fa fa-check"></i> Removido!</h4>
-                  Usuário foi removido com sucesso! Clique no botão &times para fechar!
-                  </div>';
-                  $_SESSION['respostaDaRequisicao']='vazio';
-                }else if($_SESSION['respostaDaRequisicao']=='deletar-erro'){
-                  $alerta = '<div class="alert alert-danger alert-dismissible">
-                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                  <h4><i class="icon fa fa-ban"></i> Remover!</h4>
-                  Usuário não foi editado! Clique no botão &times para fechar!
-                  </div>';
-                  $_SESSION['respostaDaRequisicao']='vazio';
-                }else if($_SESSION['respostaDaRequisicao']=='criar-sucesso'){
-                  $alerta = '<div class="alert alert-success alert-dismissible">
-                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                  <h4><i class="icon fa fa-check"></i> Adicionado!</h4>
-                  Usuário foi adicionado com sucesso! Clique no botão &times para fechar!
-                </div>';
-                  $_SESSION['respostaDaRequisicao']='vazio';
-                }else if($_SESSION['respostaDaRequisicao']=='criar-erro'){
-                  $alerta = '<div class="alert alert-danger alert-dismissible">
-                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                  <h4><i class="icon fa fa-ban"></i> Adicionar!</h4>
-                  Usuário não foi adicionado! Clique no botão &times para fechar!
-                  </div>';
-                  $_SESSION['respostaDaRequisicao']='vazio';
-                }else if($_SESSION['respostaDaRequisicao']=='editar-sucesso'){
-                  $alerta = '<div class="alert alert-success alert-dismissible">
-                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                  <h4><i class="icon fa fa-check"></i> Editado!</h4>
-                  Usuário foi editado com sucesso! Clique no botão &times para fechar!
-                  </div>';
-                  $_SESSION['respostaDaRequisicao']='vazio';
-                }else if($_SESSION['respostaDaRequisicao']=='editar-erro'){
-                  $alerta = '<div class="alert alert-danger alert-dismissible">
-                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                  <h4><i class="icon fa fa-ban"></i> Editar!</h4>
-                  Usuário não foi editado! Clique no botão &times para fechar!
-                  </div>';
-                  $_SESSION['respostaDaRequisicao']='vazio';
-                }else if($_SESSION['respostaDaRequisicao']=='usuario-ja-inserido'){
-                  $alerta = "<div id='alerta-preenchimento' class='alert alert-info alert-dismissible'>
-                  <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-                  <h4><i class='icon fa fa-info'></i> Atenção!</h4>
-                  Usuário não adicionado porque Email informado já esta inserido na base de dados, escolha outro Email!</div>";
-                  $_SESSION['respostaDaRequisicao']='vazio';
-                }else{
-                  $alerta = '<div class="alert alert-danger alert-dismissible">
-                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                  <h4><i class="icon fa fa-ban"></i> Erro!</h4>
-                  Erro ao conectar com a base de dados, tente novamente mais tarde! Clique no botão &times para fechar!
-                  </div>';
-                  $_SESSION['respostaDaRequisicao']='vazio';
-                }
-                echo $alerta;
-              ?>
-            </div>
-            <div class="col-xs-12">
+          <div class="col-xs-12">
               <!-- /.box -->
               <div class="box">
                 <div class="box-header">
-                  <button type="button" class="btn btn-block bg-olive btn-sm" data-toggle="modal" data-target="#modal-adicionar-usuario">Adicionar</button>
+                  <p>Informações</p>
                 </div>
-                <?php  
-                  $user= new Usuario();
-                  $user=$user->buscarUsuariosRetornandoComVetor();
-                  if(empty($user)) {
-                ?>
-                    <h4 class="well"> Nenhum dado encontrado. </h4>
-                <?php
-                  } else {
-                ?>
                 <!-- /.box-header -->
+                <?php  
+                  $id_usuario=$_REQUEST['id_usuario'];
+                  $user= new Usuario();
+                  $user=$user->buscarUsuarioCadastradoPeloId($id_usuario);
+                ?>
                 <div class="box-body">
-                  <table id="example1" class="table table-bordered table-striped">
-                    <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Login/Email</th>
-                        <th>Função</th>
-                        <th>Tipo de Usuário</th>
-                        <th>Status</th>
-                        <th>Ações</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                      <?php
-												foreach($user as $user){
-											?>
-                          <tr>
-                            <td><?php echo $user['nomusu'];?></td>
-                            <td><?php echo $user['logusu'];?></td>
-                            <td><?php echo $user['funusu'];?></td>
-                            <td><?php if($user['nivusu']==1){echo "ADM";}else echo "COMUM";?></td>
-                            <td><?php if($user['stausu']==1){echo "ATIVO";}else echo "DESATIVADO";?></td>
-                            <td>
-                              <a href="usuarios-editar.php?id_usuario=<?php  echo $user["codusu"]?>" type="button" class="btn btn-primary btn-xs" >
-                                <i class="glyphicon glyphicon-eye-open"></i> View / <i class="fa fa-edit"></i> Edit
-                              </a>
-                              <a type="button" href="../motor/control/controleDeUsuarios.php?id_usuario=<?php  echo $user["codusu"]?>&acao_formulario=deletar-usuario" class="btn btn-danger btn-xs" data-confirm="Realmente deseja <b>Remover</b> o Usuário?">
-                                <i class="fa fa-remove"></i> Remove
-                              </a>
-                            </td>
-                          </tr>
-                      <?php
-												}
-                      ?>
-                      <!-- /.end-foreach -->
-                    </tbody>
-                    <tfoot>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Login/Email</th>
-                        <th>Função</th>
-                        <th>Tipo de Usuário</th>
-                        <th>Status</th>
-                        <th>Ações</th>
-                    </tr>
-                    </tfoot>
-                  </table>
-                  <?php
-				            }
-                  ?>
-                  <!-- /.end-else -->
+                  <form class="form-horizontal" action="../motor/control/controleProfile.php" id="targetForm" method="Post">
+                    <div class="form-group">
+                      <div class="col-sm-offset-2 col-sm-10">
+                        <input type="hidden" name="acao_formulario" value="editar-profile">
+                        <a type="button" class="btn bg-orange" id="voltar-usuarios">Voltar</a>
+                        <a type="button" class="btn bg-navy" id="habilita-edicao-usuario">Habilitar Edição</a>
+                        <a type="button" class="btn bg-navy " id="cancela-edicao-usuario">Cancelar</a>
+                        <button type="button" class="btn bg-maroon" id="edita-usuario">Editar</button>
+                      </div>
+                    </div>  
+                    <input type="hidden" class="form-control" id="id_usuario" name="id_usuario" value="<?php echo $_SESSION['id_usuario']?>">
+                      <div class="form-group">
+                        <label for="inputName" class="col-sm-2 control-label">Nome</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" id="nome" name="nome" placeholder="<?php echo $user['nomusu'];?>" disabled>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="inputName" class="col-sm-2 control-label">Função</label>
+                        <div class="col-sm-10">
+                          <select class="form-control select2" id="funcao" name="funcao" style="width: 100%;" disabled>
+                            <option <?php if($user['funusu'] == 'Docente'){?>selected="selected"<?php } ?> value="Docente">Docente</option>
+                            <option <?php if($user['funusu'] == 'Técnico'){?>selected="selected"<?php } ?> value="Técnico">Técnico</option>
+                            <option <?php if($user['funusu'] == 'Estagiário'){?>selected="selected"<?php } ?> value="Estagiário">Estagiário</option>
+                            <option <?php if($user['funusu'] == 'Outro'){?>selected="selected"<?php } ?> value="Outro">Outro</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="form-group">                
+                        <label for="inputName" class="col-sm-2 control-label">Departamento</label>
+                        <div class="col-sm-10">
+                          <select class="form-control select2" style="width: 100%;" id="codigo_departamento" name="codigo_departamento" disabled>
+                            <?php 
+                              $departamentos= new Departamento();
+                              $departamentos=$departamentos->buscarDepartamentosRetornandoComVetor();
+                              foreach($departamentos as $departamentos){?>
+                                <option <?php if($user['coddep_tdep'] == $departamentos['coddep']){?>selected="selected"<?php } ?> value="<?php echo $departamentos['coddep'];?>"><?php echo $departamentos['nomdep'];?></option>
+                            <?php } ?>
+                          </select>
+                        </div>
+                      </div>
+                    </form>
                 </div>
                 <!-- /.box-body -->
               </div>
@@ -307,74 +231,6 @@
         <!-- /.content -->
       </div>
       <!-- /.content-wrapper -->
-      <!-- Modal Adicionar Usuário-->
-      <div class="modal fade" id="modal-adicionar-usuario">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title">Adicionar Usuário</h4>
-            </div>
-            <div class="modal-body">
-              <form role="form" action="../motor/control/controleDeUsuarios.php" id="targetForm" method="Post">
-                <div class="form-group">
-                  <label>Nome</label>
-                  <input type="text" id="nome"  name="nome" class="form-control" placeholder="Nome Completo">
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputEmail1">Email</label>
-                  <input type="email" class="form-control" id="email" name="email" placeholder="Email">
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputPassword1">Senha</label>
-                  <input type="password" class="form-control" id="senha" name="senha" placeholder="Senha">
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputPassword1">Confirmar Senha</label>
-                  <input type="password" class="form-control" id="confirmacao_senha" placeholder="Repita a Senha">
-                </div>
-                <div class="form-group">                
-                  <label>Função</label>
-                  <select class="form-control select2" style="width: 100%;" id="funcao" name="funcao">
-                    <option value="Docente" selected="selected">Docente</option>
-                    <option value="Técnico">Técnico</option>
-                    <option value="Estagiário">Estagiário</option>
-                    <option value="Outro">Outro</option>
-                  </select>
-                </div>
-                <div class="form-group">                
-                  <label>Departamento</label>
-                  <select class="form-control select2" style="width: 100%;" id="codigo_departamento" name="codigo_departamento">
-                    <?php 
-                      $departamentos= new Departamento();
-                      $departamentos=$departamentos->buscarDepartamentosRetornandoComVetor();
-                      foreach($departamentos as $departamentos){?>
-                        <option value="<?php echo $departamentos['coddep']?>"><?php echo $departamentos['nomdep']?></option>
-                    <?php } ?>
-                  </select>
-                </div>
-                <div class="form-group">                
-                  <label>Tipo de Usuário</label>
-                  <select class="form-control select2" style="width: 100%;" id="tipo_usuario" name="tipo_usuario">
-                    <option value="0" selected="selected">Comum</option>
-                    <option value="1" >Administrador</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <input type="hidden" name="status_usuario" value="1">
-                  <input type="hidden" name="acao_formulario" value="criar-usuario">
-                  <button type="button" class="btn btn-default " data-dismiss="modal">Fechar</button>
-                  <button type="submit" class="btn btn-success pull-right" id="adicionar-e-editar-usuario">Adicionar</button>
-                </div>
-              </form>
-            </div>
-          </div>
-          <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-      </div>
-      <!-- /.modal -->
       <!-- Sign Out Modal-->
       <div class="modal fade" id="signin-modal">
         <div class="modal-dialog">
@@ -510,41 +366,45 @@
     <!-- page script -->
     <script>
       $(document).ready(function(e) {
+        $("#edita-usuario").hide();
+        $("#cancela-edicao-usuario").hide();
         $(function () {
-          //Tables filters
-          $('#example1').DataTable()
           //Money Euro
           $('[data-mask]').inputmask()
         });
 
-        $('#adicionar-e-editar-usuario').click(function(e) {
-          e.preventDefault();
-          
-          var nome = $('#nome').val();
-          var email = $('#email').val();
-          var senha = $('#senha').val();
-          var confirmacao_senha = $('#confirmacao_senha').val();
+        $('#habilita-edicao-usuario').click(function(e) {
+          $("#habilita-edicao-usuario").hide();
+          $("#voltar-usuarios").hide();
+          $("#edita-usuario").show();
+          $("#cancela-edicao-usuario").show();
+          $('#nome').prop('disabled', false);
+          $('#email').prop('disabled', false);
+          $('#funcao').prop('disabled', false);
+          $('#codigo_departamento').prop('disabled', false);
+        });
 
-          if(nome == "" || email == "" || senha == "" || confirmacao_senha == ""){
+        $('#cancela-edicao-usuario').click(function(e) {
+          $("#edita-usuario").hide();
+          $("#cancela-edicao-usuario").hide();
+          $("#voltar-usuarios").show();
+          $("#habilita-edicao-usuario").show();
+          $('#nome').prop('disabled', true);
+          $('#email').prop('disabled', true);
+          $('#funcao').prop('disabled', true);
+          $('#codigo_departamento').prop('disabled', true);
+        });
+
+        $('#configuracoes-profile').click(function(e) {
+          e.preventDefault();
+          var nome = $('#nome').val();
+          if(nome == ""){
             return alert("Todos os campos devem ser preenchidos!");
           }else {
-              if(senha != confirmacao_senha){
-                return alert("As senha informadas são diferentes!");
-              }else{
-                $("#targetForm" ).submit();
-              } 
+            $("#targetForm" ).submit();
           }   
         });
 
-        $('a[data-confirm]').click(function(e) {
-          var href= $(this).attr('href');
-          if(!$('#remover-usuario-modal').length){
-            $('body').append('<div class="modal fade" id="remover-usuario-modal"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">Remover Usuário</h4></div><div class="modal-body"><div class="modal-body">Realmente deseja <b>Remover</b> o Usuário?</b></div><div class="modal-footer" id="sair"><button  class="btn btn-secondary" type="button"  data-dismiss="modal">Cancel</button><a id="data-confirma-acao" type="button" class="btn btn-danger">Remover</a></div></div></div></div></div>');
-          }
-          $('#data-confirma-acao').attr('href',href)
-          $('#remover-usuario-modal').modal({show:true});
-          return false;
-        });
       });
     </script>
   </body>
