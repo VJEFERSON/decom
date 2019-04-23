@@ -1,12 +1,13 @@
 {
-  "name": "admin-lte",
-  "homepage": "https://adminlte.io",
+  "name": "Sisa Decom - Sistema de Agendamento Departamento de Computação",
+  "homepage": "https://decom.ufvjm.edu/sisa",
   "authors": [
-    "Abdullah Almsaeed <abdullah@almsaeedstudio.com>"
+    "Valdeci Jeferson P. Rocha <valdeci_jeferson@hotmail.com>",
+    "Allan <allan@hotmail.com>"
   ],
-  "description": "Admin dashboard and control panel template",
+  "description": "Área de Administração de Documentos, Agendamentos,Patrimônios, entre outros do DECOM, criado utilizando Tema ADMIN LTE2 e PHP.",
   "main": [
-    "index2.html",
+    "index.php",
     "dist/css/AdminLTE.css",
     "dist/js/adminlte.js",
     "build/less/AdminLTE.less"
@@ -20,6 +21,7 @@
     "bootstrap",
     "theme",
     "backend",
+    "php",
     "responsive"
   ],
   "license": "MIT",
