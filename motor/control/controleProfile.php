@@ -19,8 +19,12 @@
     $nome=$_REQUEST['nome'];
     $email_atual=$_REQUEST['email_atual'];
     $email_novo=$_REQUEST['email_novo'];
+
     $senha_atual=$_REQUEST['senha_atual'];
+    $senha_atualMD5=md5($senha_atual);
     $senha_nova=$_REQUEST['senha_nova'];
+    $senha_novaMD5=md5($senha_nova);
+
 	$funcao=$_REQUEST['funcao'];	
 	$acao_formulario = $_REQUEST['acao_formulario'];
     
@@ -40,10 +44,10 @@
         switch($acao_formulario) {
             case 'alterar-senha':
                 $User=$User->buscarUsuarioCadastradoPeloId($id_usuario);
-                $verificaIgualdadeDosEmails = strcmp($senha_atual,$User['senusu']);
-                if($verificaIgualdadeDosEmails == 0){
+                $verificaIgualdadeDasSenha = strcmp($senha_atualMD5,$User['senusu']);
+                if($verificaIgualdadeDasSenha == 0){
                     $User = new Usuario();
-                    $resposta = $User->alterarSenhaDoUsuario($id_usuario,$senha_nova);
+                    $resposta = $User->alterarSenhaDoUsuario($id_usuario,$senha_novaMD5);
                     if ($resposta === NULL) {
                         $_SESSION['respostaDaRequisicao']='alterar-senha-sucesso';
                         header("location: ../../system-pages/profile.php");	

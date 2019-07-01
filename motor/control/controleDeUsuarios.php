@@ -13,11 +13,13 @@
     }
 
     $id_usuario=$_REQUEST['id_usuario'];
+    $id_usuario = intval($id_usuario);
     $codigo_departamento=$_REQUEST['codigo_departamento'];
     $codigo_departamento=intval($codigo_departamento);
     $nome=$_REQUEST['nome'];
 	$email=$_REQUEST['email'];
     $senha=$_REQUEST['senha'];
+    $senhaMD5=md5($senha);
 	$funcao=$_REQUEST['funcao'];
     $tipo_usuario=$_REQUEST['tipo_usuario'];
     $tipo_usuario=intval($tipo_usuario);
@@ -36,12 +38,12 @@
             $_SESSION['respostaDaRequisicao']='deletar-erro';	
         }
         header("location: ../../system-pages/usuarios.php");
-    } else {
+    }else{
         switch($acao_formulario) {
             case 'criar-usuario':
                 $verificaExistenciaDoUsuarioComEmailInformado=$User->buscarUsuarioCadastradoPeloEmail($email);
                 if($verificaExistenciaDoUsuarioComEmailInformado === NULL){
-                    $User->setarValoresDaInstancia($codigo_departamento,$nome,$email,$senha,$funcao,$tipo_usuario,$status_usuario);
+                    $User->setarValoresDaInstancia($codigo_departamento,$nome,$email,$senhaMD5,$funcao,$tipo_usuario,$status_usuario);
                     $resposta = $User->inserirUsuarioNoBanco();
                     if ($resposta === NULL) {
                         $_SESSION['respostaDaRequisicao']='criar-erro';	
@@ -56,16 +58,24 @@
                 break;	
     
             case 'editar-usuario':
-            $User->setarValoresDaInstancia($codigo_departamento,$nome,$email,$senha,$funcao,$tipo_usuario,$status_usuario);
-                $resposta = $User->alterarInformacoesDoUsuario($id_usuario);
-                if ($resposta === NULL) {
-                    $_SESSION['respostaDaRequisicao']='editar-sucesso';
-                }
-                else {
-                    $_SESSION['respostaDaRequisicao']='editar-erro';
-                }
-                header("location: ../../system-pages/usuarios.php");
-                break;			
+                $User->setarValoresDaInstancia($codigo_departamento,$nome,$email,$senhaMD5,$funcao,$tipo_usuario,$status_usuario);
+                var_dump($id_usuario);
+                var_dump($_SESSION['id_usuario']);
+                var_dump($status_usuario);
+                if($id_usuario == intval($_SESSION['id_usuario']) && $status_usuario == 0){
+                    $_SESSION['respostaDaRequisicao']='editar-erro-desativacao';
+                    header("location: ../../system-pages/usuarios.php");
+                }else{
+                    $resposta = $User->alterarInformacoesDoUsuario($id_usuario);
+                    if ($resposta === NULL) {
+                        $_SESSION['respostaDaRequisicao']='editar-sucesso';
+                    }
+                    else {
+                        $_SESSION['respostaDaRequisicao']='editar-erro';
+                    }
+                    header("location: ../../system-pages/usuarios.php");    
+                }	
+                break;	
         }
     }
     header("location: ../../system-pages/usuarios.php");

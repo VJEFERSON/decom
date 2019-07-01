@@ -22,7 +22,8 @@
 				$_SESSION['respostaDaRequisicao']='usuario_desativado';
 				header("location: ../../authentication/login.php");
 			}else{
-				$verificaIgualdadeDasSenhas = strcmp($senha,$User['senusu']);
+				$senhaMD5 = md5($senha);
+				$verificaIgualdadeDasSenhas = strcmp($senhaMD5,$User['senusu']);
 				//$verificaIgualdadeDasSenhas = password_verify($senha,$User['senha']);
 				if ($verificaIgualdadeDasSenhas == 0) {
 					$_SESSION['id_usuario'] = $User['codusu'];

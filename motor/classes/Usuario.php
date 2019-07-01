@@ -120,11 +120,9 @@
 				UPDATE tusuario SET
 					coddep_tdep='$this->coddep_tdep',
 					nomusu='$this->nomusu',
-				   	logusu='$this->logusu',
-				   	senusu='$this->senusu',
 				   	funusu='$this->funusu',
-				   	nivusu='$this->nivusu',
-				   	stausu='$this->stausu'
+					nivusu='$this->nivusu',
+					stausu='$this->stausu'
 				WHERE codusu = '$cod_para_alterar';	
 			";
 		

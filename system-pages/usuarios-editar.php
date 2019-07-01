@@ -177,16 +177,7 @@
                   $user=$user->buscarUsuarioCadastradoPeloId($id_usuario);
                 ?>
                 <div class="box-body">
-                  <form class="form-horizontal" action="../motor/control/controleProfile.php" id="targetForm" method="Post">
-                    <div class="form-group">
-                      <div class="col-sm-offset-2 col-sm-10">
-                        <input type="hidden" name="acao_formulario" value="editar-profile">
-                        <a type="button" class="btn bg-orange" id="voltar-usuarios">Voltar</a>
-                        <a type="button" class="btn bg-navy" id="habilita-edicao-usuario">Habilitar Edição</a>
-                        <a type="button" class="btn bg-navy " id="cancela-edicao-usuario">Cancelar</a>
-                        <button type="button" class="btn bg-maroon" id="edita-usuario">Editar</button>
-                      </div>
-                    </div>  
+                  <form class="form-horizontal" action="../motor/control/controleDeUsuarios.php" id="targetForm" method="Post">  
                     <input type="hidden" class="form-control" id="id_usuario" name="id_usuario" value="<?php echo $_SESSION['id_usuario']?>">
                       <div class="form-group">
                         <label for="inputName" class="col-sm-2 control-label">Nome</label>
@@ -216,6 +207,34 @@
                                 <option <?php if($user['coddep_tdep'] == $departamentos['coddep']){?>selected="selected"<?php } ?> value="<?php echo $departamentos['coddep'];?>"><?php echo $departamentos['nomdep'];?></option>
                             <?php } ?>
                           </select>
+                        </div>
+                      </div>
+                      <div class="form-group">                
+                        <label for="inputName" class="col-sm-2 control-label">Tipo de Usuário</label>
+                        <div class="col-sm-10">
+                          <select class="form-control select2" id="tipo_usuario" name="tipo_usuario" style="width: 100%;" disabled>
+                            <option <?php if($user['nivusu'] == '0'){?>selected="selected"<?php } ?> value="0">Comum</option>
+                            <option <?php if($user['nivusu'] == '1'){?>selected="selected"<?php } ?> value="1">Administrador</option>
+                            <option <?php if($user['nivusu'] == '2'){?>selected="selected"<?php } ?> value="2">Secretaria</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="form-group">                
+                        <label for="inputName" class="col-sm-2 control-label">Status do Usuário</label>
+                        <div class="col-sm-10">
+                          <select class="form-control select2" id="status_usuario" name="status_usuario" style="width: 100%;" disabled>
+                            <option <?php if($user['stausu'] == '0'){?>selected="selected"<?php } ?> value="0">Desativado</option>
+                            <option <?php if($user['stausu'] == '1'){?>selected="selected"<?php } ?> value="1">Ativo</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                          <input type="hidden" name="acao_formulario" value="editar-usuario">
+                          <a type="button" href="usuarios.php" class="btn bg-orange" id="voltar-usuarios">Voltar</a>
+                          <a type="button" class="btn bg-navy" id="habilita-edicao-usuario">Habilitar Edição</a>
+                          <a type="button" class="btn bg-navy " id="cancela-edicao-usuario">Cancelar</a>
+                          <button type="button" class="btn bg-maroon" id="edita-usuario">Editar</button>
                         </div>
                       </div>
                     </form>
@@ -253,6 +272,7 @@
         <!-- /.modal-dialog -->
       </div>
       <!-- /.modal -->
+
       <!-- Main Footer -->
       <footer class="main-footer">
         <!-- To the right -->
@@ -368,6 +388,7 @@
       $(document).ready(function(e) {
         $("#edita-usuario").hide();
         $("#cancela-edicao-usuario").hide();
+
         $(function () {
           //Money Euro
           $('[data-mask]').inputmask()
@@ -382,6 +403,8 @@
           $('#email').prop('disabled', false);
           $('#funcao').prop('disabled', false);
           $('#codigo_departamento').prop('disabled', false);
+          $('#tipo_usuario').prop('disabled', false);
+          $('#status_usuario').prop('disabled', false);
         });
 
         $('#cancela-edicao-usuario').click(function(e) {
@@ -393,9 +416,11 @@
           $('#email').prop('disabled', true);
           $('#funcao').prop('disabled', true);
           $('#codigo_departamento').prop('disabled', true);
+          $('#tipo_usuario').prop('disabled', true);
+          $('#status_usuario').prop('disabled', true);
         });
 
-        $('#configuracoes-profile').click(function(e) {
+        $('#edita-usuario').click(function(e) {
           e.preventDefault();
           var nome = $('#nome').val();
           if(nome == ""){

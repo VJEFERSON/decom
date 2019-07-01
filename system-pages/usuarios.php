@@ -169,7 +169,8 @@
               <?php 
                 if($_SESSION['respostaDaRequisicao']=='vazio'){
                   $_SESSION['respostaDaRequisicao']='vazio';
-                }else if($_SESSION['respostaDaRequisicao']=='deletar-sucesso'){
+                }
+                else if($_SESSION['respostaDaRequisicao']=='deletar-sucesso'){
                   $alerta = '<div class="alert alert-success alert-dismissible">
                   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                   <h4><i class="icon fa fa-check"></i> Removido!</h4>
@@ -183,7 +184,8 @@
                   Usuário não foi editado! Clique no botão &times para fechar!
                   </div>';
                   $_SESSION['respostaDaRequisicao']='vazio';
-                }else if($_SESSION['respostaDaRequisicao']=='criar-sucesso'){
+                }
+                else if($_SESSION['respostaDaRequisicao']=='criar-sucesso'){
                   $alerta = '<div class="alert alert-success alert-dismissible">
                   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                   <h4><i class="icon fa fa-check"></i> Adicionado!</h4>
@@ -197,7 +199,8 @@
                   Usuário não foi adicionado! Clique no botão &times para fechar!
                   </div>';
                   $_SESSION['respostaDaRequisicao']='vazio';
-                }else if($_SESSION['respostaDaRequisicao']=='editar-sucesso'){
+                }
+                else if($_SESSION['respostaDaRequisicao']=='editar-sucesso'){
                   $alerta = '<div class="alert alert-success alert-dismissible">
                   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                   <h4><i class="icon fa fa-check"></i> Editado!</h4>
@@ -211,13 +214,22 @@
                   Usuário não foi editado! Clique no botão &times para fechar!
                   </div>';
                   $_SESSION['respostaDaRequisicao']='vazio';
-                }else if($_SESSION['respostaDaRequisicao']=='usuario-ja-inserido'){
+                }
+                else if($_SESSION['respostaDaRequisicao']=='usuario-ja-inserido'){
                   $alerta = "<div id='alerta-preenchimento' class='alert alert-info alert-dismissible'>
                   <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
                   <h4><i class='icon fa fa-info'></i> Atenção!</h4>
                   Usuário não adicionado porque Email informado já esta inserido na base de dados, escolha outro Email!</div>";
                   $_SESSION['respostaDaRequisicao']='vazio';
-                }else{
+                }
+                else if($_SESSION['respostaDaRequisicao']=='editar-erro-desativacao'){
+                  $alerta = "<div id='alerta-preenchimento' class='alert alert-info alert-dismissible'>
+                  <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                  <h4><i class='icon fa fa-info'></i> Atenção!</h4>
+                  Usuário não doi editado, você não pode desativar seu próprio Usuário por está opção. Para desativar vá em Profile>Desativar Usuário!</div>";
+                  $_SESSION['respostaDaRequisicao']='vazio';
+                }
+                else{
                   $alerta = '<div class="alert alert-danger alert-dismissible">
                   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                   <h4><i class="icon fa fa-ban"></i> Erro!</h4>
@@ -359,13 +371,14 @@
                   <select class="form-control select2" style="width: 100%;" id="tipo_usuario" name="tipo_usuario">
                     <option value="0" selected="selected">Comum</option>
                     <option value="1" >Administrador</option>
+                    <option value="2" >Secretaria</option>
                   </select>
                 </div>
                 <div class="form-group">
                   <input type="hidden" name="status_usuario" value="1">
                   <input type="hidden" name="acao_formulario" value="criar-usuario">
                   <button type="button" class="btn btn-default " data-dismiss="modal">Fechar</button>
-                  <button type="submit" class="btn btn-success pull-right" id="adicionar-e-editar-usuario">Adicionar</button>
+                  <button type="submit" class="btn btn-success pull-right" id="adicionar-usuario">Adicionar</button>
                 </div>
               </form>
             </div>
@@ -397,6 +410,7 @@
         <!-- /.modal-dialog -->
       </div>
       <!-- /.modal -->
+
       <!-- Main Footer -->
       <footer class="main-footer">
         <!-- To the right -->
@@ -517,7 +531,7 @@
           $('[data-mask]').inputmask()
         });
 
-        $('#adicionar-e-editar-usuario').click(function(e) {
+        $('#adicionar-usuario').click(function(e) {
           e.preventDefault();
           
           var nome = $('#nome').val();
