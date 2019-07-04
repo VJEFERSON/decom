@@ -276,7 +276,10 @@
                             <td><?php echo $user['nomusu'];?></td>
                             <td><?php echo $user['logusu'];?></td>
                             <td><?php echo $user['funusu'];?></td>
-                            <td><?php if($user['nivusu']==1){echo "ADM";}else echo "COMUM";?></td>
+                            <td><?php 
+                              if($user['nivusu']==1){echo "ADM";} 
+                              else if($user['nivusu']==2){echo "SECRETARIA";}
+                              else echo "COMUM";?></td>
                             <td><?php if($user['stausu']==1){echo "ATIVO";}else echo "DESATIVADO";?></td>
                             <td>
                               <a href="usuarios-editar.php?id_usuario=<?php  echo $user["codusu"]?>" type="button" class="btn btn-primary btn-xs" >

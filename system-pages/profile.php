@@ -285,10 +285,11 @@
                               if(empty($user)){
                                 echo "Erro ao buscar informações de Usuário";
                               }else{
-                                if($user['nivusu']==1){
-                                  echo "ADMINISTRADOR";
-                                }else 
-                                  echo "COMUM";
+                                if($user['nivusu']==1)
+                                  echo "ADMINISTRADOR"; 
+                                else if($user['nivusu']==2)
+                                  echo "SECRETARIA";
+                                else echo "COMUM";
                               }
                             ?></a>
                           </li>

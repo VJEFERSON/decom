@@ -51,7 +51,7 @@
 		public function buscarPatrimonioCadastradoPeloId($id_para_busca) {
 			$sql = "
 				SELECT
-					codpatri
+					*
 				FROM
 					tpatrimonio
 				WHERE

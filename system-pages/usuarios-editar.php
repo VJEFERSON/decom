@@ -231,13 +231,13 @@
                       <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
                           <input type="hidden" name="acao_formulario" value="editar-usuario">
-                          <a type="button" href="usuarios.php" class="btn bg-orange" id="voltar-usuarios">Voltar</a>
+                          <a type="button" href="usuarios.php" class="btn btn-default" id="voltar-usuarios">Voltar</a>
                           <a type="button" class="btn bg-navy" id="habilita-edicao-usuario">Habilitar Edição</a>
                           <a type="button" class="btn bg-navy " id="cancela-edicao-usuario">Cancelar</a>
                           <button type="button" class="btn bg-maroon" id="edita-usuario">Editar</button>
                         </div>
                       </div>
-                    </form>
+                  </form>
                 </div>
                 <!-- /.box-body -->
               </div>

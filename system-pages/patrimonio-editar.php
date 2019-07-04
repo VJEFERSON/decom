@@ -103,10 +103,8 @@
       </header>
       <!-- Left side column. contains the logo and sidebar -->
       <aside class="main-sidebar">
-
         <!-- sidebar: style can be found in sidebar.less -->
         <section class="sidebar">
-
           <!-- Sidebar user panel (optional) -->
           <div class="user-panel">
             <div class="pull-left image">
@@ -201,7 +199,7 @@
                       $alerta = '<div class="alert alert-success alert-dismissible">
                       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                       <h4><i class="icon fa fa-check"></i> Editado!</h4>
-                      Patrimônio foi editado com sucesso! Clique no botão &times para fechar!
+                      Usuário foi editado com sucesso! Clique no botão &times para fechar!
                       </div>';
                       $_SESSION['respostaDaRequisicao']='vazio';
                     }else if($_SESSION['respostaDaRequisicao']=='editar-erro'){
@@ -236,62 +234,52 @@
                 </div>
                 <!-- /.box-header -->
                 <?php  
-                    $patrimonios= new Patrimonio();
-                    $patrimonios=$patrimonios->buscarPatrimoniosRetornandoComVetor();
-                    if(empty($patrimonios)) {
-                ?>
-                      <h4 class="well"> Nenhum dado encontrado. </h4>
-                <?php
-                    } else {
+                  $id_patrimonio=$_REQUEST['id_patrimonio'];
+                  $patrimonio= new Patrimonio();
+                  $patrimonio=$patrimonio->buscarPatrimonioCadastradoPeloId($id_patrimonio);
                 ?>
                 <div class="box-body">
-                  <table id="example1" class="table table-bordered table-striped">
-                    <thead>
-                    <tr>
-                        <th>Patrimônio</th>
-                        <th>Nome</th>
-                        <th>Departamento</th>
-                        <th>Situação</th>
-                        <th>Ações</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                      <?php
-                        foreach($patrimonios as $patrimonio){
-                      ?>
-                      <tr>
-                        <td><?php echo $patrimonio['codpatri'];?></td>
-                        <td><?php echo $patrimonio['nompatri'];?></td>
-                        <td><?php echo $patrimonio['nomdep'];?></td>
-                        <td><?php echo $patrimonio['stapatri'];?></td>
-                        <td>
-                          <a type="button" class="btn btn-warning btn-xs" data-toggle="modal"  href="patrimonio-editar.php?id_patrimonio=<?php echo $patrimonio['codpatri'];?>">
-                            <i class="fa fa-edit"></i> Edit
-                          </a>
-                          <a type="button" href="../motor/control/controleDePatrimonios.php?id_patrimonio=<?php  echo $patrimonio["codpatri"]?>&acao_formulario=deletar-patrimonio" class="btn btn-danger btn-xs" data-confirm="Realmente deseja <b>Remover</b> o Patrimônio?">
-                            <i class="fa fa-remove"></i> Remove
-                          </a>
-                        </td>
-                      </tr>
-                      <?php
-                        }
-                      ?>
-                      <!-- /.end-foreach -->
-                    </tbody>
-                    <tfoot>
-                      <tr>
-                        <th>Patrimônio</th>
-                        <th>Nome</th>
-                        <th>Departamento</th>
-                        <th>Situação</th>
-                        <th>Ações</th>
-                      </tr> 
-                    </tfoot>
-                  </table>
-                  <?php
-                    }
-                  ?>
-                  <!-- /.end-else -->
+                    <form role="form" action="../motor/control/controleDePatrimonios.php" id="targetForm" method="Post">
+                        <div class="form-group">
+                            <label>Código</label>
+                            <input type="text" name="id_patrimonio" id="id_patrimonio" class="form-control" value="<?php echo $patrimonio['codpatri']?>" readonly="readonly">
+                        </div>
+                        <div class="form-group">
+                            <label>Nome</label>
+                            <input type="text" name="nome_patrimonio" id="nome_patrimonio" class="form-control" placeholder="<?php echo $patrimonio['nompatri']?>" disabled>
+                        </div>
+                        <div class="form-group">                
+                            <label>Descrição</label>
+                            <textarea name="descricao_patrimonio" id="descricao_patrimonio" class="form-control" rows="3" placeholder="<?php echo $patrimonio['despatri']?>" disabled></textarea>
+                        </div>
+                        <div class="form-group">                
+                            <label>Situação</label>
+                            <select name="status_patrimonio" id="status_patrimonio" class="form-control select2" style="width: 100%;" disabled>
+                                <option <?php if($patrimonio['stapatri'] == 'Ativo'){?>selected="selected"<?php } ?> value="Ativo">Ativo</option>
+                                <option <?php if($patrimonio['stapatri'] == 'Baixa'){?>selected="selected"<?php } ?> value="Baixa">Baixa</option>
+                                <option <?php if($patrimonio['stapatri'] == 'Conserto'){?>selected="selected"<?php } ?> value="Conserto">Conserto</option>
+                                <option <?php if($patrimonio['stapatri'] == 'Danificado'){?>selected="selected"<?php } ?> value="Danificado">Danificado</option>
+                            </select>
+                        </div>
+                        <div class="form-group">                
+                            <label>Departamento</label>
+                            <select name="departamento_patrimonio" id="departamento_patrimonio" class="form-control select2" style="width: 100%;" disabled>
+                                <?php 
+                                $departamentos= new Departamento();
+                                $departamentos=$departamentos->buscarDepartamentosRetornandoComVetor();
+                                foreach($departamentos as $departamentos){?>
+                                    <option value="<?php echo $departamentos['coddep']?>"><?php echo $departamentos['nomdep']?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" name="acao_formulario" id="acao_formulario" value="editar-patrimonio">
+                            <a type="button" href="patrimonio.php" class="btn btn-default" id="voltar">Voltar</a>
+                            <a type="button" class="btn bg-navy pull-right" id="habilita-edicao">Habilitar Edição</a>
+                            <a type="button" class="btn bg-navy " id="cancela-edicao">Cancelar</a>
+                            <button type="submit" class="btn bg-maroon pull-right" id="editar-patrimonio" >Editar</button>
+                        </div>
+                    </form>
                 </div>
                 <!-- /.box-body -->
               </div>
@@ -304,62 +292,6 @@
         <!-- /.content -->
       </div>
       <!-- /.content-wrapper -->
-      <!-- Adicionar Patrimônio Modal -->
-      <div class="modal fade" id="modal-adicionar-patrimonio">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title">Adicionar Patrimônio</h4>
-            </div>
-            <div class="modal-body">
-              <form role="form" action="../motor/control/controleDePatrimonios.php" id="targetForm" method="Post">
-                <div class="form-group">
-                  <label>Código Patrimônio</label>
-                  <input type="number" name="id_patrimonio" id="id_patrimonio" class="form-control">
-                </div>
-                <div class="form-group">
-                  <label>Nome</label>
-                  <input type="text" name="nome_patrimonio" id="nome_patrimonio" class="form-control" placeholder="Ex: Cadeira de Metal ...">
-                </div>
-                <div class="form-group">                
-                  <label>Descrição</label>
-                  <textarea name="descricao_patrimonio" id="descricao_patrimonio" class="form-control" rows="3" placeholder="Ex: Laboratório 31 ..."></textarea>
-                </div>
-                <div class="form-group">                
-                  <label>Situação</label>
-                  <select name="status_patrimonio" id="status_patrimonio" class="form-control select2" style="width: 100%;">
-                    <option value="Ativo" selected="selected">Ativo</option>
-                    <option value="Baixa">Baixa</option>
-                    <option value="Conserto">Conserto</option>
-                    <option value="Danificado">Danificado</option>
-                  </select>
-                </div>
-                <div class="form-group">                
-                  <label>Departamento</label>
-                  <select name="departamento_patrimonio" id="departamento_patrimonio" class="form-control select2" style="width: 100%;">
-                    <?php 
-                      $departamentos= new Departamento();
-                      $departamentos=$departamentos->buscarDepartamentosRetornandoComVetor();
-                      foreach($departamentos as $departamentos){?>
-                        <option value="<?php echo $departamentos['coddep']?>"><?php echo $departamentos['nomdep']?></option>
-                    <?php } ?>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <input type="hidden" id="acao_formulario" name="acao_formulario" value="criar-patrimonio">
-                  <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
-                  <button type="submit" id="adicionar-patrimonio" class="btn btn-success pull-right">Adicionar</button>
-                </div>
-              </form>
-            </div>
-          </div>
-          <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-      </div>
-      <!-- /.modal -->
       <!-- Sign Out Modal-->
       <div class="modal fade" id="signin-modal">
         <div class="modal-dialog">
@@ -493,14 +425,32 @@
     <!-- page script -->
     <script>
       $(document).ready(function(e) {
-        $(function () {
-          //Tables filters
-          $('#example1').DataTable()
-          //Money Euro
-          $('[data-mask]').inputmask()
+        $("#editar-patrimonio").hide();
+        $("#cancela-edicao").hide();
+        
+        $('#habilita-edicao').click(function(e) {
+          $("#habilita-edicao").hide();
+          $("#voltar").hide();
+          $("#editar-patrimonio").show();
+          $("#cancela-edicao").show();
+          $('#departamento_patrimonio').prop('disabled', false);
+          $('#nome_patrimonio').prop('disabled', false);
+          $('#status_patrimonio').prop('disabled', false);
+          $('#descricao_patrimonio').prop('disabled', false);
         });
 
-        $('#adicionar-patrimonio').click(function(e) {
+        $('#cancela-edicao').click(function(e) {
+          $("#editar-patrimonio").hide();
+          $("#cancela-edicao").hide();
+          $("#voltar").show();
+          $("#habilita-edicao").show();
+          $('#departamento_patrimonio').prop('disabled', true);
+          $('#nome_patrimonio').prop('disabled', true);
+          $('#status_patrimonio').prop('disabled', true);
+          $('#descricao_patrimonio').prop('disabled', true);
+        });
+
+        $('#editar-patrimonio').click(function(e) {
           e.preventDefault();
           var id_patrimonio = $('#id_patrimonio').val();
           var departamento_patrimonio = $('#departamento_patrimonio').val(); 
@@ -509,22 +459,13 @@
           var status_patrimonio = $('#status_patrimonio').val();
           var acao_formulario = $('#acao_formulario').val();
 
-          if(id_patrimonio == "" || nome_patrimonio == "" || descricao_patrimonio == ""){
+          if(nome_patrimonio == "" || descricao_patrimonio == ""){
             return alert("Todos os campos devem ser preenchidos!");
           }else{
             $("#targetForm" ).submit();
           }    
         });
 
-        $('a[data-confirm]').click(function(e) {
-          var href= $(this).attr('href');
-          if(!$('#remover-patrimonio-modal').length){
-            $('body').append('<div class="modal fade" id="remover-patrimonio-modal"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">Remover Patrimônio</h4></div><div class="modal-body"><div class="modal-body">Realmente deseja <b>Remover</b> o Patrimônio?</b></div><div class="modal-footer" id="sair"><button  class="btn btn-secondary" type="button"  data-dismiss="modal">Cancel</button><a id="data-confirma-acao" type="button" class="btn btn-danger">Remover</a></div></div></div></div></div>');
-          }
-          $('#data-confirma-acao').attr('href',href)
-          $('#remover-patrimonio-modal').modal({show:true});
-          return false;
-        });
       });
     </script>
   </body>
