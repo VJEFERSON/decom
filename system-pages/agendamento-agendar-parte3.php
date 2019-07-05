@@ -31,6 +31,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="../bower_components/Ionicons/css/ionicons.min.css">
     <!-- DataTables -->
     <link rel="stylesheet" href="../bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+    <!-- daterange picker -->
+    <link rel="stylesheet" href="../bower_components/bootstrap-daterangepicker/daterangepicker.css">
+    <!-- bootstrap datepicker -->
+    <link rel="stylesheet" href="../bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link rel="stylesheet" href="../plugins/iCheck/all.css">
+    <!-- Bootstrap Color Picker -->
+    <link rel="stylesheet" href="../bower_components/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css">
+    <!-- Bootstrap time Picker -->
+    <link rel="stylesheet" href="../plugins/timepicker/bootstrap-timepicker.min.css">    
+    <!-- Select2 -->
+    <link rel="stylesheet" href="../bower_components/select2/dist/css/select2.min.css">  
     <!-- Theme style -->
     <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -160,86 +172,68 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <section class="content-header">
         <h1>
           Agendamentos
-          <small>Listagem</small>
+          <small>Agendar</small>
         </h1>
         <ol class="breadcrumb">
-          <li><a href="agendamento.php"><i class="fa fa-clock-o"></i>Agendamentos</a></li>
+          <li><a href="agendamento.php"><i class="fa fa-clock-o"></i>Agendamentos</a></li><li><a href="agendamento-agendar.php">Agendar</a></li>
         </ol>
       </section>
-
       <!-- Main content -->
       <section class="content container-fluid">
         <div class="row">
           <div class="col-xs-12">
             <!-- /.box -->
             <div class="box">
-              <div class="box-header">
-                <a type="button" href="agendamento-agendar-parte1.php" class="btn btn-block bg-olive btn-sm">Agendar</a>
-              </div>
-              <!-- /.box-header -->
-              <?php  
-                $agendamentos= new Agendamento();
-                $yearSearch = date('Y');
-                $agendamentos=$agendamentos->buscarAgendamentosRetornandoComVetor($yearSearch);
-                if(empty($agendamentos)) {
-              ?>
-                <h4 class="well"> Nenhum dado encontrado. </h4>
-              <?php
-                } else {
-              ?>
-              <div class="box-body">
-                <table id="agendamentosTable" class="table table-bordered table-striped">
-                  <thead>
-                    <tr>
-                      <th>Nome Usuário</th>
-                      <th>Nome Objeto</th>
-                      <th>Descrição</th>
-                      <th>Horário</th>
-                      <th>Data Agendamento</th>
-                      <th>Ações</th>
-                    </tr>
-                  </thead>
-                  <tbody>
+                <div class="box-header">
+  
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
                     <?php
-                      foreach($agendamentos as $agendamentos){
+                        $id_objeto = $_REQUEST['id_objeto'];
+                        $descricao = $_REQUEST['descricao'];
+                        $date_picker = $_REQUEST['date-picker'];
+                        //var_dump($date_picker);
                     ?>
-                    <tr>
-                      <td><?php echo $agendamentos['nomusu'];?></td>
-                      <td><?php echo $agendamentos['nomobj'];?></td>
-                      <td><?php echo $agendamentos['desage'];?></td>                      
-                      <td>
-                        <button type="button" class="btn btn-info btn-xs" disabled><?php echo $agendamentos['nomhor'];?></button>
-                      </td>
-                      <td><?php echo $agendamentos['datage'];?></td>
-                      <td>
-                        <button type="button" class="btn btn-warning btn-xs">
-                          <i class="fa fa-edit"></i> Edit
-                        </button>
-                        <button type="button" class="btn btn-danger btn-xs">
-                          <i class="fa fa-remove"></i> Remove
-                        </button>
-                      </td>
-                    </tr>
-                    <?php
-                      }
-                    ?>
-                    <!-- /.end-foreach -->
-                  </tbody>
-                  <tfoot>
-                    <tr>
-                      <th>Nome Usuário</th>
-                      <th>Nome Objeto</th>
-                      <th>Descrição</th>
-                      <th>Horário</th>
-                      <th>Data Agendamento</th>
-                      <th>Ações</th>
-                    </tr>
-                  </tfoot>
-                </table>
-                <?php
-                  }
-                ?>
-                <!-- /.end-else -->
+                    <form role="form" id="terceira-parte">
+                        <input type="hidden" class="form-control" id="id_usuario" name="id_usuario" value="<?php echo $_SESSION['id_usuario']?>"> 
+                        <div class="form-group">
+                            <label>Descrição</label>
+                            <input type="text" id ="descricao" name="descricao" class="form-control" value="<?php echo $descricao?>" readonly="readonly">
+                        </div>
+                        <div class="form-group">                
+                        <label>Objeto</label>
+                            <select id="id_objeto" name="id_objeto" class="form-control select2" style="width: 100%;">
+                            <?php 
+                                $objetos= new Objeto();
+                                $objetos=$objetos->buscarObjetoCadastradoPeloId($id_objeto);?>
+                                <option value="<?php echo $objetos['codobj']?>" readonly="readonly"><?php echo $objetos['nomobj']?></option>
+                            <?php ?>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Data(s):</label>
+                            <input type="text" id ="datas_agendamento" name="datas_agendamento" class="form-control" value="<?php echo $date_picker?>" readonly="readonly">
+                        </div>
+                        <!-- Horários -->
+                        <div class="form-group">
+                        <label>Horários Disponíveís</label>
+                        <select class="form-control select2" multiple="multiple" data-placeholder="Selecione os Horários"
+                                        style="width: 100%;">
+                            <?php 
+                            $horarios= new Horario();
+                            $horarios=$horarios->buscarHorariosRetornandoComVetor($date_picker,$id_objeto);
+                            foreach($horarios as $horarios){?>
+                                <option value="<?php echo $horarios['codhor']?>"><?php echo $horarios['nomhor']?></option>
+                            <?php } ?>
+                        </select>
+                        </div>
+                    <div class="form-group">
+                        <a type="button" href="agendamento-agendar-parte1.php" class="btn btn-danger">Cancelar</a>
+                        <button type="submit" class="btn btn-success pull-right" id="agendar-terceira-parte">Agendar</button>
+                    </div>
+                </form>
+                <!-- / .Form Horarios -->
               </div>
               <!-- /.box-body -->
             </div>
@@ -365,36 +359,57 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   <!-- REQUIRED JS SCRIPTS -->
 
-  
   <!-- jQuery 3 -->
   <script src="../bower_components/jquery/dist/jquery.min.js"></script>
-    <!-- Bootstrap 3.3.7 -->
-    <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-    <!-- DataTables -->
-    <script src="../bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="../bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-    <!-- SlimScroll -->
-    <script src="../bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-    <!-- FastClick -->
-    <script src="../bower_components/fastclick/lib/fastclick.js"></script>
-    <!-- AdminLTE App -->
-    <script src="../dist/js/adminlte.min.js"></script>
-    <!-- AdminLTE for demo purposes -->
-    <script src="../dist/js/demo.js"></script>
-    <!-- InputMask -->
-    <script src="../plugins/input-mask/jquery.inputmask.js"></script>
-    <script src="../plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
-    <script src="../plugins/input-mask/jquery.inputmask.extensions.js"></script>
+  <!-- Bootstrap 3.3.7 -->
+  <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <!-- DataTables -->
+  <script src="../bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+  <script src="../bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+  <!-- Select2 -->
+  <script src="../bower_components/select2/dist/js/select2.full.min.js"></script>
+  <!-- InputMask -->
+  <script src="../plugins/input-mask/jquery.inputmask.js"></script>
+  <script src="../plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+  <script src="../plugins/input-mask/jquery.inputmask.extensions.js"></script>
+  <!-- date-range-picker -->
+  <script src="../bower_components/moment/min/moment.min.js"></script>
+  <script src="../bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+  <!-- bootstrap datepicker -->
+  <script src="../bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+  <!-- bootstrap color picker -->
+  <script src="../bower_components/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js"></script>
+  <!-- bootstrap time picker -->
+  <script src="../plugins/timepicker/bootstrap-timepicker.min.js"></script>
+  <!-- SlimScroll -->
+  <script src="../bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+  <!-- iCheck 1.0.1 -->
+  <script src="../plugins/iCheck/icheck.min.js"></script>
+  <!-- FastClick -->
+  <script src="../bower_components/fastclick/lib/fastclick.js"></script>
+  <!-- AdminLTE App -->
+  <script src="../dist/js/adminlte.min.js"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="../dist/js/demo.js"></script>
   <!-- Page script -->
   <script>
-    $(function () {
-      //Initialize Select2 Elements
-      $('.select2').select2()
-      //Tables filters
-      $('#agendamentosTable').DataTable()
-      //Money Euro
-      $('[data-mask]').inputmask()
-    })  
+    $(document).ready(function(e) {
+        $('#agendar-terceira-parte').click(function(e) {
+            e.preventDefault();
+            var descricao = $('#descricao').val();
+            var id_objeto = $('#id_objeto').val();
+            var date = $('#dates').val();
+            if(descricao == "" || id_objeto == "" || dates=""){
+                return alert("Todos os campos devem ser preenchidos!");
+            }else{
+                $("#targetForm" ).submit();
+            }    
+        });
+
+        $('#voltar-segunda-parte').click(function(e) {
+            $("#targetForm" ).submit();   
+        });
+    }); 
   </script>
   <!-- Optionally, you can add Slimscroll and FastClick plugins.
       Both of these plugins are recommended to enhance the

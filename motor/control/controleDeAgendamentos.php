@@ -12,10 +12,12 @@
         header("location: ../../authentication/login.php");
     }
 
-    $id_agendamento=$_REQUEST['id_agendamento'];
-    	
-	$acao_formulario = $_REQUEST['acao_formulario'];
-
+    $id_usuario=$_REQUEST['id_usuario'];
+    $descricao = $_REQUEST['descricao'];
+    $id_objeto=$_REQUEST['id_objeto'];
+    $datas_agendamento=$_REQUEST['datas_agendamento'];
+    $id_horarios=$_REQUEST['id_horarios'];
+    $acao_formulario = $_REQUEST['acao_formulario'];
     $_SESSION['respostaDaRequisicao']='erro';
 	$agendamento = new Agendamento();
     

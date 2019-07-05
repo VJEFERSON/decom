@@ -185,73 +185,31 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- /.box -->
             <div class="box">
                 <div class="box-header">
-              
+  
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
-                    <form role="form">
-                        <div id="primeira-parte">
-                            <div class="form-group">
-                                <input type="text" class="form-control" value="<?php echo $_SESSION['id_usuario']?>" disabled>
-                            </div>
-                            <div class="form-group">
-                                <label>Descrição</label>
-                                <textarea class="form-control" rows="3" placeholder="Texto ..."></textarea>
-                            </div>
-                            <div class="form-group">                
-                                <label>Objeto</label>
-                                <select class="form-control select2" style="width: 100%;">
-                                <?php 
-                                    $objetos= new Objeto();
-                                    $objetos=$objetos->buscarObjetosRetornandoComVetor();
-                                    foreach($objetos as $objetos){?>
-                                    <option value="<?php echo $objetos['codobj']?>"><?php echo $objetos['nomobj']?></option>
-                                <?php } ?>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <a type="button" href="agendamento.php" class="btn btn-default">Voltar</a>
-                                <button type="button" class="btn btn-primary pull-right" id="prosseguir-segunda">Prosseguir</button>
-                            </div>
-                        </div>
-                        <div id="segunda-parte">
-                            <!-- Date range -->
-                            <div class="form-group">
-                                <label>Date range:</label>
-
-                                <div class="input-group">
-                                <div class="input-group-addon">
-                                    <i class="fa fa-calendar"></i>
-                                </div>
-                                <input type="text" class="form-control pull-right" id="reservation">
-                                </div>
-                                <!-- /.input group -->
-                            </div>
-                            <div class="form-group">
-                                <button type="button" class="btn btn-default" id="voltar-primeira">Voltar</a>
-                                <button type="button" class="btn btn-primary pull-right" id="prosseguir-terceira">Prosseguir</button>
-                            </div>
-                        </div>
-                        <div id="terceira-parte">
-                            <!-- Horários -->
-                            <div class="form-group">
-                                <label>Horários Disponíveís</label>
-                                <select class="form-control select2" multiple="multiple" data-placeholder="Selecione os Horários"
-                                        style="width: 100%;">
-                                <?php 
-                                    $horarios= new Horario();
-                                    $horarios=$horarios->buscarHorariosRetornandoComVetor();
-                                    foreach($horarios as $horarios){?>
-                                    <option value="<?php echo $horarios['codhor']?>"><?php echo $horarios['nomhor']?></option>
-                                <?php } ?>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <button type="button" class="btn btn-default" id="voltar-segunda">Voltar</a>
-                                <button type="submit" class="btn btn-success pull-right" id="agendar">Agendar</button>
-                            </div>
-                        </div>
-                    </form>
+                  <form role="form" action="agendamento-agendar-parte2.php" id="targetForm" method="Post">
+                    <div class="form-group">
+                      <label>Descrição</label>
+                      <input type="text" id ="descricao" name="descricao" class="form-control" placeholder="Texto ..."></input>
+                    </div>
+                    <div class="form-group">                
+                      <label>Objeto</label>
+                        <select id="id_objeto" name="id_objeto" class="form-control select2" style="width: 100%;">
+                          <?php 
+                            $objetos= new Objeto();
+                            $objetos=$objetos->buscarObjetosRetornandoComVetor();
+                            foreach($objetos as $objetos){?>
+                              <option value="<?php echo $objetos['codobj']?>"><?php echo $objetos['nomobj']?></option>
+                          <?php } ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                      <a type="button" href="agendamento.php" class="btn btn-default" >Voltar</a>
+                      <button type="submit" class="btn btn-primary pull-right" id="agendar-primeira-parte">Prosseguir</button>
+                    </div>
+                  </form>
               </div>
               <!-- /.box-body -->
             </div>
@@ -412,32 +370,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Page script -->
   <script>
     $(document).ready(function(e) {
-        $("#segunda-parte").hide();
-        $("#terceira-parte").hide();
-        
+      $('#agendar-primeira-parte').click(function(e) {
+          e.preventDefault();
+          var descricao = $('#descricao').val();
+          var id_objeto = $('#id_objeto').val();
 
-        $("#prosseguir-segunda").click(function(e) {
-          $("#primeira-parte").hide();
-          $("#segunda-parte").show();
-        });
-
-        $("#prosseguir-terceira").click(function(e) {
-          $("#segunda-parte").hide();
-          $("#terceira-parte").show();
-        });
-
-        $("#voltar-primeira").click(function(e) {
-          $("#primeira-parte").show();
-          $("#segunda-parte").hide();
-        })
-
-        $("#voltar-segunda").click(function(e) {
-          $("#segunda-parte").show();
-          $("#terceira-parte").hide();
-        })
-
-        //Date range picker
-        $('#reservation').daterangepicker()
+          if(descricao == "" || id_objeto == ""){
+            return alert("Todos os campos devem ser preenchidos!");
+          }else{
+            $("#targetForm" ).submit();
+          }    
+      });
     }); 
   </script>
   <!-- Optionally, you can add Slimscroll and FastClick plugins.

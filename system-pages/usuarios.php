@@ -333,6 +333,7 @@
             </div>
             <div class="modal-body">
               <form role="form" action="../motor/control/controleDeUsuarios.php" id="targetForm" method="Post">
+                <input type="text" class="form-control" id ="segundaParte" name="segundaParte" value="<?php echo true?>">
                 <div class="form-group">
                   <label>Nome</label>
                   <input type="text" id="nome"  name="nome" class="form-control" placeholder="Nome Completo">
