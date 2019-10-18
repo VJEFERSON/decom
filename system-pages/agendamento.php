@@ -5,7 +5,7 @@
     error_reporting(E_ALL ^ E_NOTICE ^ E_STRICT);
   }
   session_start();
-  if(empty($_SESSION)){?>
+  if(empty($_SESSION) || $_SESSION['status_usuario'] == 0){?>
     <script>
       document.location.href = '../authentication/login.php';
     </script>
@@ -170,6 +170,81 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- Main content -->
       <section class="content container-fluid">
         <div class="row">
+        <div class="col-md-12">
+              <?php 
+                if($_SESSION['respostaDaRequisicao']=='vazio'){
+                  $_SESSION['respostaDaRequisicao']='vazio';
+                }
+                else if($_SESSION['respostaDaRequisicao']=='deletar-sucesso'){
+                  $alerta = '<div class="alert alert-success alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                  <h4><i class="icon fa fa-check"></i> Removido!</h4>
+                  Usuário foi removido com sucesso! Clique no botão &times para fechar!
+                  </div>';
+                  $_SESSION['respostaDaRequisicao']='vazio';
+                }else if($_SESSION['respostaDaRequisicao']=='deletar-erro'){
+                  $alerta = '<div class="alert alert-danger alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                  <h4><i class="icon fa fa-ban"></i> Remover!</h4>
+                  Usuário não foi editado! Clique no botão &times para fechar!
+                  </div>';
+                  $_SESSION['respostaDaRequisicao']='vazio';
+                }
+                else if($_SESSION['respostaDaRequisicao']=='criar-sucesso'){
+                  $alerta = '<div class="alert alert-success alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                  <h4><i class="icon fa fa-check"></i> Adicionado!</h4>
+                  Agendamento efetuado com sucesso! Clique no botão &times para fechar!
+                </div>';
+                  $_SESSION['respostaDaRequisicao']='vazio';
+                }else if($_SESSION['respostaDaRequisicao']=='criar-erro'){
+                  $alerta = '<div class="alert alert-danger alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                  <h4><i class="icon fa fa-ban"></i> Adicionar!</h4>
+                  O agendamento não pode ser efetuado! Clique no botão &times para fechar!
+                  </div>';
+                  $_SESSION['respostaDaRequisicao']='vazio';
+                }
+                else if($_SESSION['respostaDaRequisicao']=='editar-sucesso'){
+                  $alerta = '<div class="alert alert-success alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                  <h4><i class="icon fa fa-check"></i> Editado!</h4>
+                  Usuário foi editado com sucesso! Clique no botão &times para fechar!
+                  </div>';
+                  $_SESSION['respostaDaRequisicao']='vazio';
+                }else if($_SESSION['respostaDaRequisicao']=='editar-erro'){
+                  $alerta = '<div class="alert alert-danger alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                  <h4><i class="icon fa fa-ban"></i> Editar!</h4>
+                  Usuário não foi editado! Clique no botão &times para fechar!
+                  </div>';
+                  $_SESSION['respostaDaRequisicao']='vazio';
+                }
+                else if($_SESSION['respostaDaRequisicao']=='usuario-ja-inserido'){
+                  $alerta = "<div id='alerta-preenchimento' class='alert alert-info alert-dismissible'>
+                  <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                  <h4><i class='icon fa fa-info'></i> Atenção!</h4>
+                  Usuário não adicionado porque Email informado já esta inserido na base de dados, escolha outro Email!</div>";
+                  $_SESSION['respostaDaRequisicao']='vazio';
+                }
+                else if($_SESSION['respostaDaRequisicao']=='editar-erro-desativacao'){
+                  $alerta = "<div id='alerta-preenchimento' class='alert alert-info alert-dismissible'>
+                  <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                  <h4><i class='icon fa fa-info'></i> Atenção!</h4>
+                  Usuário não doi editado, você não pode desativar seu próprio Usuário por está opção. Para desativar vá em Profile>Desativar Usuário!</div>";
+                  $_SESSION['respostaDaRequisicao']='vazio';
+                }
+                else{
+                  $alerta = '<div class="alert alert-danger alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                  <h4><i class="icon fa fa-ban"></i> Erro!</h4>
+                  Erro ao conectar com a base de dados, tente novamente mais tarde! Clique no botão &times para fechar!
+                  </div>';
+                  $_SESSION['respostaDaRequisicao']='vazio';
+                }
+                echo $alerta;
+              ?>
+            </div>
           <div class="col-xs-12">
             <!-- /.box -->
             <div class="box">
@@ -179,7 +254,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <!-- /.box-header -->
               <?php  
                 $agendamentos= new Agendamento();
-                $yearSearch = date('Y');
+                $yearSearch = '2020';//date('Y');
                 $agendamentos=$agendamentos->buscarAgendamentosRetornandoComVetor($yearSearch);
                 if(empty($agendamentos)) {
               ?>
@@ -213,10 +288,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <td><?php echo $agendamentos['datage'];?></td>
                       <td>
                         <button type="button" class="btn btn-warning btn-xs">
-                          <i class="fa fa-edit"></i> Edit
+                          <i class="fa fa-edit"></i> Editar
                         </button>
                         <button type="button" class="btn btn-danger btn-xs">
-                          <i class="fa fa-remove"></i> Remove
+                          <i class="fa fa-remove"></i> Remover
                         </button>
                       </td>
                     </tr>
