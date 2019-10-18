@@ -8,9 +8,9 @@
         error_reporting(E_ALL ^ E_NOTICE ^ E_STRICT);
     }
     session_start();
-    /*if(empty($_SESSION)){
+    if(empty($_SESSION)){
         header("location: ../../authentication/login.php");
-    }*/
+    }
 
     $id_usuario=$_REQUEST['id_usuario'];
     $descricao = $_REQUEST['descricao'];
