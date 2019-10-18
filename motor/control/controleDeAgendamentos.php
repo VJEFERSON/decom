@@ -8,9 +8,9 @@
         error_reporting(E_ALL ^ E_NOTICE ^ E_STRICT);
     }
     session_start();
-    if(empty($_SESSION)){
+    /*if(empty($_SESSION)){
         header("location: ../../authentication/login.php");
-    }
+    }*/
 
     $id_usuario=$_REQUEST['id_usuario'];
     $descricao = $_REQUEST['descricao'];
@@ -27,6 +27,15 @@
         switch($acao_formulario) {
             case 'criar-agendamento':
                 
+                $agendamento->setarValoresDaInstancia($id_objeto, $id_usuario, $id_horarios,$datas_agendamento,$descricao,'0');
+                $resposta = $agendamento->inserirAgendamentoNoBanco();
+                if($resposta === NULL){
+                    $_SESSION['respostaDaRequisicao']='criar-erro';
+                }
+                else{
+                    $_SESSION['respostaDaRequisicao']='criar-sucesso';
+                }
+                header("location: ../../system-pages/agendamento.php");
                 break;	
     
             case 'editar-agendamento':
