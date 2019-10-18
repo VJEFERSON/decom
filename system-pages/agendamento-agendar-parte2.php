@@ -5,7 +5,7 @@
     error_reporting(E_ALL ^ E_NOTICE ^ E_STRICT);
   }
   session_start();
-  if(empty($_SESSION)){?>
+  if(empty($_SESSION) || $_SESSION['status_usuario'] == 0){?>
     <script>
       document.location.href = '../authentication/login.php';
     </script>
@@ -195,8 +195,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   ?>
                   <form role="form" action="agendamento-agendar-parte3.php" id="targetForm" method="Post">
                     <div class="form-group">
-                        <label>Descrição</label>
-                        <input type="text" id ="descricao" name="descricao" class="form-control" value="<?php echo $descricao?>" readonly="readonly">
+                        <label>Descrição</label> 
+                        <input type="text" id ="descricao" name="descricao" class="form-control"  value="<?php echo $descricao?>" readonly="readonly">
                         </div>
                         <div class="form-group">                
                         <label>Objeto</label>
@@ -389,8 +389,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
         var dateToday = new Date(); 
         $('#date-picker').daterangepicker({
             minDate: dateToday,
+            singleDatePicker: true,
             "locale": {
-                "format": "DD/MM/YYYY",
+                "format": "YYYY/MM/DD",
                 "daysOfWeek": [
                     "Dom",
                     "Seg",
