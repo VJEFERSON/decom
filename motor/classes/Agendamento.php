@@ -27,6 +27,27 @@
             $this->gerrec=$gerrec;			
 		}
 
+		public function atualizarValoresDoAgendamento($codigo_objeto, $data, $horario){
+
+			$sql = "
+			UPDATE tagendamento SET
+			codhor_thor='$this->codhor_thor',
+			codobj_tobj='$this->codobj_tobj',
+			codusu_tusu='$this->codusu_tusu',
+			datage='$this->datage',
+			desage='$this->desage',
+			gerrec='$this->gerrec'
+			WHERE codobj_tobj = '$codigo_objeto' AND datage = '$data'
+			AND codhor_thor = '$horario';
+			";
+
+			$DB = new DataBaseConnection();
+			$DB->estabelerConexaoDataBase();
+			$resultadoConsulta =$DB->query($sql);
+			$DB->encerrarConexaoDataBase();
+			return $resultadoConsulta;
+		}
+
 		public function inserirAgendamentoNoBanco() {
 			$sql = "
 				INSERT INTO tagendamento (codobj_tobj, codusu_tusu, codhor_thor, datage, desage, gerrec)  
@@ -49,9 +70,7 @@
 		public function buscarAgendamentosRetornandoComVetor($yearSearch) {
 			$yearBefore = $yearSearch-1;
 			$sql = "
-                SELECT tagendamento.codobj_tobj,tagendamento.codusu_tusu,
-                    tagendamento.datage, tagendamento.desage,
-                    tobjeto.nomobj,thorario.nomhor,tusuario.nomusu
+				SELECT *
                 FROM tagendamento,tobjeto,tusuario,thorario
                 WHERE tagendamento.codobj_tobj = tobjeto.codobj AND
                     tagendamento.codusu_tusu = tusuario.codusu AND
@@ -75,6 +94,22 @@
 			}
 			$DB->encerrarConexaoDataBase();
 			return $realData; 
+		}
+
+		public function buscarAgendamento($codObjeto, $codHorario, $dataAgendamento){
+			$sql = "
+				  SELECT *
+				  FROM tagendamento, tobjeto, thorario
+				  WHERE tagendamento.codobj_tobj = '$codObjeto' AND tagendamento.codhor_thor='$codHorario'
+				  AND tagendamento.datage='$dataAgendamento'
+				  AND tagendamento.codobj_tobj = tobjeto.codobj AND tagendamento.codhor_thor = thorario.codhor
+				  ";
+			$DB = new DataBaseConnection();
+			$DB->estabelerConexaoDataBase();
+			$resultadoConsulta = $DB->fetchData($sql);
+			$DB->encerrarConexaoDataBase();
+			return $resultadoConsulta[0]; 
+
 		}
 
 
@@ -109,7 +144,21 @@
 			}
 			$DB->encerrarConexaoDataBase();
 			return $realData; 
-        }
+		}
+		public function deletarAgendamento($codObjeto, $codHorario, $dataAgendamento) {
+			$sql = "
+				DELETE FROM tagendamento
+				WHERE tagendamento.codobj_tobj = '$codObjeto'
+				AND tagendamento.codhor_thor = '$codHorario'
+				AND tagendamento.datage= '$dataAgendamento';
+			";
+
+			$DB = new DataBaseConnection();
+			$DB->estabelerConexaoDataBase();
+			$resultadoConsulta =$DB->query($sql);
+			$DB->encerrarConexaoDataBase();
+			return $resultadoConsulta;
+		}
 		
 		function __destruct() {
 			$this->codobj_tobj;
