@@ -179,14 +179,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   $alerta = '<div class="alert alert-success alert-dismissible">
                   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                   <h4><i class="icon fa fa-check"></i> Removido!</h4>
-                  Usuário foi removido com sucesso! Clique no botão &times para fechar!
+                  Agendamento removido com sucesso! Clique no botão &times para fechar!
                   </div>';
                   $_SESSION['respostaDaRequisicao']='vazio';
                 }else if($_SESSION['respostaDaRequisicao']=='deletar-erro'){
                   $alerta = '<div class="alert alert-danger alert-dismissible">
                   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                   <h4><i class="icon fa fa-ban"></i> Remover!</h4>
-                  Usuário não foi editado! Clique no botão &times para fechar!
+                  Agendamento não foi deletado! Clique no botão &times para fechar!
                   </div>';
                   $_SESSION['respostaDaRequisicao']='vazio';
                 }
@@ -209,14 +209,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   $alerta = '<div class="alert alert-success alert-dismissible">
                   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                   <h4><i class="icon fa fa-check"></i> Editado!</h4>
-                  Usuário foi editado com sucesso! Clique no botão &times para fechar!
+                  Agendamento editado com sucesso! Clique no botão &times para fechar!
                   </div>';
                   $_SESSION['respostaDaRequisicao']='vazio';
                 }else if($_SESSION['respostaDaRequisicao']=='editar-erro'){
                   $alerta = '<div class="alert alert-danger alert-dismissible">
                   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                   <h4><i class="icon fa fa-ban"></i> Editar!</h4>
-                  Usuário não foi editado! Clique no botão &times para fechar!
+                  Agendamento não foi editado! Clique no botão &times para fechar!
                   </div>';
                   $_SESSION['respostaDaRequisicao']='vazio';
                 }
@@ -254,7 +254,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <!-- /.box-header -->
               <?php  
                 $agendamentos= new Agendamento();
-                $yearSearch = '2020';//date('Y');
+                $yearSearch = date('Y');
                 $agendamentos=$agendamentos->buscarAgendamentosRetornandoComVetor($yearSearch);
                 if(empty($agendamentos)) {
               ?>
@@ -270,7 +270,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <th>Nome Objeto</th>
                       <th>Descrição</th>
                       <th>Horário</th>
-                      <th>Data Agendamento</th>
+                      <th>Data Agendamento(Ano/Mês/Dia)</th>
                       <th>Ações</th>
                     </tr>
                   </thead>
@@ -287,10 +287,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       </td>
                       <td><?php echo $agendamentos['datage'];?></td>
                       <td>
-                        <button type="button" class="btn btn-warning btn-xs">
+                        <a href="agendamento-editar.php?idobj=<?php echo $agendamentos['codobj_tobj']?>&idhor=<?php echo $agendamentos["codhor_thor"]?>&iddatage=<?php echo $agendamentos['datage']?>" type="button" class="btn btn-warning btn-xs">
                           <i class="fa fa-edit"></i> Editar
-                        </button>
-                        <button type="button" class="btn btn-danger btn-xs">
+                        </a>
+                        <a href="../motor/control/controleDeAgendamentos.php?idobj=<?php echo $agendamentos['codobj_tobj']?>&idhor=<?php echo $agendamentos["codhor_thor"]?>&iddatage=<?php echo $agendamentos['datage']?>&acao_formulario=deletar-agendamento" type="button" class="btn btn-danger btn-xs">
                           <i class="fa fa-remove"></i> Remover
                         </button>
                       </td>
