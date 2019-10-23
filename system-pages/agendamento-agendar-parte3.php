@@ -5,7 +5,7 @@
     error_reporting(E_ALL ^ E_NOTICE ^ E_STRICT);
   }
   session_start();
-  if(empty($_SESSION)){?>
+  if(empty($_SESSION) || $_SESSION['status_usuario'] == 0){?>
     <script>
       document.location.href = '../authentication/login.php';
     </script>
@@ -195,7 +195,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         $date_picker = $_REQUEST['date-picker'];
                         //var_dump($date_picker);
                     ?>
-                    <form role="form" id="terceira-parte">
+                    <form role="form" action="../motor/control/controleDeAgendamentos.php" id="terceira-parte" method="Post">
                         <input type="hidden" class="form-control" id="id_usuario" name="id_usuario" value="<?php echo $_SESSION['id_usuario']?>"> 
                         <div class="form-group">
                             <label>Descrição</label>
@@ -218,7 +218,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <!-- Horários -->
                         <div class="form-group">
                         <label>Horários Disponíveís</label>
-                        <select class="form-control select2" multiple="multiple" data-placeholder="Selecione os Horários"
+                        <select id= "id_horarios" name="id_horarios" class="form-control select2" multiple="multiple" data-placeholder="Selecione os Horários">
                                         style="width: 100%;">
                             <?php 
                             $horarios= new Horario();
@@ -229,6 +229,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </select>
                         </div>
                     <div class="form-group">
+                        <input type="hidden" name="acao_formulario" value="criar-agendamento">
                         <a type="button" href="agendamento-agendar-parte1.php" class="btn btn-danger">Cancelar</a>
                         <button type="submit" class="btn btn-success pull-right" id="agendar-terceira-parte">Agendar</button>
                     </div>

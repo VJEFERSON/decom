@@ -5,7 +5,7 @@
     error_reporting(E_ALL ^ E_NOTICE ^ E_STRICT);
   }
   session_start();
-  if(empty($_SESSION)){?>
+  if(empty($_SESSION) || $_SESSION['status_usuario'] == 0){?>
     <script>
       document.location.href = '../authentication/login.php';
     </script>

@@ -27,6 +27,15 @@
         switch($acao_formulario) {
             case 'criar-agendamento':
                 
+                $agendamento->setarValoresDaInstancia($id_objeto, $id_usuario, $id_horarios,$datas_agendamento,$descricao,'0');
+                $resposta = $agendamento->inserirAgendamentoNoBanco();
+                if($resposta === NULL){
+                    $_SESSION['respostaDaRequisicao']='criar-erro';
+                }
+                else{
+                    $_SESSION['respostaDaRequisicao']='criar-sucesso';
+                }
+                header("location: ../../system-pages/agendamento.php");
                 break;	
     
             case 'editar-agendamento':
