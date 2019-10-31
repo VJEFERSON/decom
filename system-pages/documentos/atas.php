@@ -167,6 +167,86 @@
         <!-- Main content -->
         <section class="content container-fluid">
           <div class="row">
+
+          <div class="col-md-12">
+              <?php 
+                if($_SESSION['respostaDaRequisicao']=='vazio'){
+                  $_SESSION['respostaDaRequisicao']='vazio';
+                }
+                else if($_SESSION['respostaDaRequisicao']=='deletar-sucesso'){
+                  $alerta = '<div class="alert alert-success alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                  <h4><i class="icon fa fa-check"></i> Removido!</h4>
+                  Agendamento removido com sucesso! Clique no botão &times para fechar!
+                  </div>';
+                  $_SESSION['respostaDaRequisicao']='vazio';
+                }else if($_SESSION['respostaDaRequisicao']=='deletar-erro'){
+                  $alerta = '<div class="alert alert-danger alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                  <h4><i class="icon fa fa-ban"></i> Remover!</h4>
+                  Agendamento não foi deletado! Clique no botão &times para fechar!
+                  </div>';
+                  $_SESSION['respostaDaRequisicao']='vazio';
+                }
+                else if($_SESSION['respostaDaRequisicao']=='adicionar-sucesso'){
+                  $alerta = '<div class="alert alert-success alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                  <h4><i class="icon fa fa-check"></i> Adicionado!</h4>
+                  Documento adicionado com sucesso! Clique no botão &times para fechar!
+                </div>';
+                  $_SESSION['respostaDaRequisicao']='vazio';
+                }else if($_SESSION['respostaDaRequisicao']=='criar-erro'){
+                  $alerta = '<div class="alert alert-danger alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                  <h4><i class="icon fa fa-ban"></i> Adicionar!</h4>
+                  O agendamento não pode ser efetuado! Clique no botão &times para fechar!
+                  </div>';
+                  $_SESSION['respostaDaRequisicao']='vazio';
+                }
+                else if($_SESSION['respostaDaRequisicao']=='editar-sucesso'){
+                  $alerta = '<div class="alert alert-success alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                  <h4><i class="icon fa fa-check"></i> Editado!</h4>
+                  Agendamento editado com sucesso! Clique no botão &times para fechar!
+                  </div>';
+                  $_SESSION['respostaDaRequisicao']='vazio';
+                }else if($_SESSION['respostaDaRequisicao']=='editar-erro'){
+                  $alerta = '<div class="alert alert-danger alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                  <h4><i class="icon fa fa-ban"></i> Editar!</h4>
+                  Agendamento não foi editado! Clique no botão &times para fechar!
+                  </div>';
+                  $_SESSION['respostaDaRequisicao']='vazio';
+                }
+                else if($_SESSION['respostaDaRequisicao']=='usuario-ja-inserido'){
+                  $alerta = "<div id='alerta-preenchimento' class='alert alert-info alert-dismissible'>
+                  <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                  <h4><i class='icon fa fa-info'></i> Atenção!</h4>
+                  Usuário não adicionado porque Email informado já esta inserido na base de dados, escolha outro Email!</div>";
+                  $_SESSION['respostaDaRequisicao']='vazio';
+                }
+                else if($_SESSION['respostaDaRequisicao']=='editar-erro-desativacao'){
+                  $alerta = "<div id='alerta-preenchimento' class='alert alert-info alert-dismissible'>
+                  <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                  <h4><i class='icon fa fa-info'></i> Atenção!</h4>
+                  Usuário não doi editado, você não pode desativar seu próprio Usuário por está opção. Para desativar vá em Profile>Desativar Usuário!</div>";
+                  $_SESSION['respostaDaRequisicao']='vazio';
+                }
+                else{
+                  $alerta = '<div class="alert alert-danger alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                  <h4><i class="icon fa fa-ban"></i> Erro!</h4>
+                  Erro ao conectar com a base de dados, tente novamente mais tarde! Clique no botão &times para fechar!
+                  </div>';
+                  $_SESSION['respostaDaRequisicao']='vazio';
+                }
+                echo $alerta;
+              ?>
+            </div>
+            
+
+
+
             <div class="col-xs-12">
               <!-- /.box -->
               <div class="box">
@@ -174,11 +254,23 @@
                   <button type="button" class="btn btn-block bg-olive btn-sm" data-toggle="modal" data-target="#modal-adicionar-ata">Adicionar</button>
                 </div>
                 <!-- /.box-header -->
+
+                <?php  
+                $documentos= new Documento();
+                $yearSearch = date('Y');
+                $documentos=$documentos->buscarDocumentosRetornandoComVetor($yearSearch);
+                if(empty($documentos)) {
+              ?>
+                <h4 class="well"> Nenhum dado encontrado. </h4>
+              <?php
+                } else {
+              ?>
+
                 <div class="box-body">
                   <table id="example1" class="table table-bordered table-striped">
                     <thead>
                     <tr>
-                        <th>Numero</th>
+                        <th>Nome</th>
                         <th>Ano</th>
                         <th>Data de Emissão</th>
                         <th>Sobre</th>
@@ -187,12 +279,15 @@
                     </tr>
                     </thead>
                     <tbody>
+                    <?php
+                      foreach($documentos as $documentos){
+                    ?>
                     <tr>
-                      <td>01</td>
-                      <td>2018</td>
-                      <td>20/03/2018</td>
-                      <td>Pedagogica</td>
-                      <td>Teste de Hoje</td>
+                      <td><?php echo $documentos['nomedoc'];?></td>
+                      <td><?php echo $documentos['datadoc'];?></td>
+                      <td><?php echo $documentos['datadoc'];?></td>
+                      <td><?php echo $documentos['cod_sobredoc'];?></td>
+                      <td><?php echo $documentos['assuntodoc'];?></td>
                       <td>
                         <button type="button" class="btn btn-primary btn-xs">
                           <i class="glyphicon glyphicon-eye-open"></i> View
@@ -205,95 +300,10 @@
                         </button>
                       </td>
                     </tr>
-                    <tr>
-                      <td>03</td>
-                      <td>2018</td>
-                      <td>20/03/2018</td>
-                      <td>Pedagogica</td>
-                      <td>Teste de Hoje</td>
-                      <td>x</td>
-                    </tr>
-                    <tr>
-                      <td>02</td>
-                      <td>2018</td>
-                      <td>20/03/2018</td>
-                      <td>Pedagogica</td>
-                      <td>Teste de Hoje</td>
-                      <td>x</td>
-                    </tr>
-                    <tr>
-                      <td>04</td>
-                      <td>2018</td>
-                      <td>20/03/2018</td>
-                      <td>Assembleia</td>
-                      <td>Teste de Hoje</td>
-                      <td>x</td>
-                    </tr>
-                    <tr>
-                      <td>06</td>
-                      <td>2018</td>
-                      <td>20/03/2018</td>
-                      <td>Colegiado</td>
-                      <td>Teste de Estagio</td>
-                      <td>x</td>
-                    </tr>
-                    <tr>
-                      <td>05</td>
-                      <td>2018</td>
-                      <td>20/03/2018</td>
-                      <td>Pedagogica</td>
-                      <td>Teste de Hoje</td>
-                      <td>x</td>
-                    </tr>
-                    <tr>
-                      <td>07</td>
-                      <td>2018</td>
-                      <td>20/03/2018</td>
-                      <td>Colegiado</td>
-                      <td>Teste de Hoje</td>
-                      <td>x</td>
-                    </tr>
-                    <tr>
-                      <td>08</td>
-                      <td>2018</td>
-                      <td>20/03/2018</td>
-                      <td>Pedagogica</td>
-                      <td>Teste de Hoje</td>
-                      <td>x</td>
-                    </tr>
-                    <tr>
-                      <td>09</td>
-                      <td>2019</td>
-                      <td>20/03/2019</td>
-                      <td>Pedagogica</td>
-                      <td>Teste de Hoje</td>
-                      <td>x</td>
-                    </tr>
-                    <tr>
-                      <td>11</td>
-                      <td>2019</td>
-                      <td>20/03/2019</td>
-                      <td>NDE</td>
-                      <td>Teste de Hoje</td>
-                      <td>x</td>
-                    </tr>
-                    <tr>
-                      <td>10</td>
-                      <td>2019</td>
-                      <td>20/03/2019</td>
-                      <td>NDE</td>
-                      <td>Teste de Hoje</td>
-                      <td>x</td>
-                    </tr>
-                    <tr>
-                      <td>12</td>
-                      <td>2018</td>
-                      <td>20/03/2018</td>
-                      <td>Pedagogica</td>
-                      <td>Teste de Hoje</td>
-                      <td>x</td>
-                    </tr>
-                    </tbody>
+                    <?php
+                  }
+                ?>
+                </tbody>
                     <tfoot>
                     <tr>
                         <th>Numero</th>
@@ -305,6 +315,9 @@
                     </tr>
                     </tfoot>
                   </table>
+                  <?php
+                  }
+                ?>
                 </div>
                 <!-- /.box-body -->
               </div>
@@ -327,35 +340,38 @@
               <h4 class="modal-title">Adicionar Ata</h4>
             </div>
             <div class="modal-body">
-              <form role="form">
-                <div class="form-group">
+              <form role="form" action="../../motor/control/controleDeDocumentos.php" id="targetForm" method="Post" enctype="multipart/form-data">
+                <!-- <div class="form-group">
                   <label>Numero</label>
-                  <input type="number" class="form-control" value="1" disabled>
-                </div>
+                  <input type="number" class="form-control"  disabled>
+                </div> -->
                 <div class="form-group">
                   <label>Data de Emissão:</label>
-                  <input type="text" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
+                  <input type="text" class="form-control" name="datadoc" id="datadoc" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
                 </div>
                 <div class="form-group">                
                   <label>Sobre</label>
-                  <select class="form-control select2" style="width: 100%;">
-                    <option selected="selected">Assembleia</option>
-                    <option>Colegiado</option>
-                    <option>DECOM</option>
-                    <option>NDE</option>
-                    <option>Pedagógica</option>
+                  <select name="cod_sobredoc" id="cod_sobredoc" class="form-control select2" style="width: 100%;">
+                    <option selected="selected" value="1">Assembleia</option>
+                    <option value="2">Colegiado</option>
+                    <option value="3">DECOM</option>
+                    <option value="4">NDE</option>
+                    <option value="5">Pedagógica</option>
                   </select>
                 </div>
                 <div class="form-group">
                   <label>Assunto</label>
-                  <textarea class="form-control" rows="3" placeholder="Enter ..."></textarea>
+                  <textarea name="assuntodoc" id="assuntodoc" class="form-control" rows="3" placeholder="Enter ..."></textarea>
                 </div>
                 <div class="form-group">
-                  <label for="exampleInputFile">Documento</label>
-                  <input type="file" id="exampleInputFile">
+                  <label for="filedoc">Documento</label>
+                  <input type="file" id="filedoc" name="filedoc">
                   <p class="help-block">Insira o Arquivo (PDF) referente a Ata.</p>
                 </div>
                 <div class="form-group">
+                  <input type="hidden" id="cod_tipodoc" name="cod_tipodoc" value="1">
+                  <input type="hidden" id="caminhodoc" name="caminhodoc" value="../../uploads/atas/">
+                  <input type="hidden" name="acao_formulario" id="acao_formulario" value="adicionar-documento">
                   <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
                   <button type="submit" class="btn btn-success pull-right">Adicionar</button>
                 </div>
