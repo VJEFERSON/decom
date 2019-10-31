@@ -8,6 +8,7 @@
 		private $cod_tipodoc;
 		private $datadoc;
 		private $numerodoc;
+		private $nomedoc;
 
 		function __construct() { 
 			$this->assuntodoc;
@@ -18,12 +19,13 @@
             $this->numerodoc;
 		}
 		
-		public function setarValoresDaInstancia($assunto, $caminho, $codigo_sobre_documento, $codigo_tipo_documento, $data_documento){
+		public function setarValoresDaInstancia($assunto, $caminho, $codigo_sobre_documento, $codigo_tipo_documento, $data_documento, $nome_documento){
             $this->assuntodoc=$assunto;
             $this->caminhodoc=$caminho;
             $this->cod_sobredoc=$codigo_sobre_documento;
             $this->cod_tipodoc=$codigo_tipo_documento;
-            $this->datadoc=$data_documento;		
+			$this->datadoc=$data_documento;		
+			$this->nomedoc=$nome_documento;
 		}
 
 		public function atualizarValoresDoDocumento($codigo_sobre_documento, $codigo_tipo_documento, $numero_documento){
@@ -35,6 +37,7 @@
 			cod_sobredoc='$this->doc_sobredoc',
 			cod_tipodoc='$this->cod_tipodoc',
 			datadoc='$this->datadoc',
+			nomedoc='$this->nomedoc',
 			numerodoc='$this->numerodoc'
 			WHERE cod_sobredoc = '$codigo_sobre_documento' AND cod_tipodoc = '$codigo_tipo_documento'
 			AND numerodoc = '$numero_documento';
@@ -50,23 +53,23 @@
 		public function inserirDocumentoNoBanco() {
 			
 			
-			echo $datadoc;
 			
 			$sql = " 
 			INSERT INTO `tdocumento` (`numerodoc`, `datadoc`,
-			`cod_sobredoc`, `assuntodoc`, `caminhodoc`, `cod_tipodoc`) 
+			`cod_sobredoc`, `assuntodoc`, `caminhodoc`, `cod_tipodoc`, `nomedoc`) 
 			VALUES (
 			NULL, 
-			'$this->data_documento', 
+			'$this->datadoc', 
 			'$this->cod_sobredoc', 
 			'$this->assuntodoc',
 			'$this->caminhodoc', 
-			'$this->cod_tipodoc'
+			'$this->cod_tipodoc',
+			'$this->nomedoc'
 			);
 			";
 
-			echo $sql;
-			//'$this->numerodoc' (atributo serial, deve ser definido automaticamente. está aqui comentado caso dê merda)
+			
+			
 			$DB = new DataBaseConnection();
 			$DB->estabelerConexaoDataBase();
 			$resultadoConsulta = $DB->fetchData($sql);
