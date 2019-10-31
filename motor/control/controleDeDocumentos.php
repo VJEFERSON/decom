@@ -11,12 +11,21 @@
     if(empty($_SESSION)){
         header("location: ../../authentication/login.php");
     }
-    
-    $data_documento="2019-01-01";//$_REQUEST['datadoc'];
+    //recebe os dados do form
+    $data_documento=$_REQUEST['datadoc'];
     $cod_tipodocumento=$_REQUEST['cod_tipodoc'];
     $cod_sobredocumento=$_REQUEST['cod_sobredoc'];
     $assuntodocumento=$_REQUEST['assuntodoc'];
-    $caminhodocumento="teste"; //$_REQUEST['caminhodoc'];
+    //cria o caminho do documento
+    $caminhodocumento=$_REQUEST['caminhodoc'];
+    $endereco_arquivo = $caminhodocumento.basename($_FILES["filedoc"]["name"]);
+    //verifica a extensão de arquivo (.pdf, .txt)
+    $docFileType = strtolower(pathinfo($endereco_arquivo,PATHINFO_EXTENSION));
+    //armazena o nome do doc
+    $nome_documento = basename($_FILES["filedoc"]["name"]);
+
+
+
     
     $acao_formulario = $_REQUEST['acao_formulario'];
     $action = $_REQUEST['action'];
@@ -27,7 +36,7 @@
         $resposta = $agendamento->deletarAgendamento($codobj, $codhor, $datage);
         
         if ($resposta === NULL) {
-            $_SESSION['respostaDaRequisicao']='deletar-sucesso';	
+            $_SESSION['respostaDaRequisicao']='deletar-sucesso';
         } else {
          $_SESSION['respostaDaRequisicao']='deletar-erro';	
         }
@@ -35,21 +44,21 @@
         } else {
         switch($acao_formulario) {
             case 'adicionar-documento':
-                echo $data_documento;
-                echo $cod_tipodocumento;
-                echo $cod_sobredocumento;
-                echo $assuntodocumento;
-                echo $caminhodocumento;
+            $var = $data_documento;
+            $date = str_replace('/', '-', $var);
 
-                $documento->setarValoresDaInstancia($assuntodocumento,$caminhodocumento,$cod_sobredocumento, $cod_tipodocumento,$data_documento);
+                
+                $documento->setarValoresDaInstancia($assuntodocumento,$endereco_arquivo,$cod_sobredocumento, $cod_tipodocumento,date('Y-m-d', strtotime($date)), $nome_documento);
                 $resposta = $documento->inserirDocumentoNoBanco();
                 if($resposta === NULL){
                     $_SESSION['respostaDaRequisicao']='criar-erro';
                 }
                 else{
-                    $_SESSION['respostaDaRequisicao']='criar-sucesso';
+                    move_uploaded_file($_FILES["filedoc"]["tmp_name"], $endereco_arquivo);
+                    $_SESSION['respostaDaRequisicao']='adicionar-sucesso';
+                   
                 }
-               // header("location: ../../system-pages/documentos/atas.php");
+                header("location: ../../system-pages/documentos/atas.php");
                 break;	
     
             case 'editar-agendamento':
